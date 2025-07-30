@@ -27,7 +27,7 @@
 **Miguel Ángel**
  Contacto:
 **Leticia** 
- Contacto:
+ Contacto: leticia.c.morales@gmail.com
 **Sofia** 
  Contacto:
 **David** 
