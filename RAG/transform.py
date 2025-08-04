@@ -28,8 +28,7 @@ from typing import Any, List
 try:
     from pdfminer.high_level import extract_text  # type: ignore
 except ImportError as e:
-    raise SystemExit(
-        "pdfminer.six es necesario. Instálalo con `pip install pdfminer.six`.") from e
+    raise SystemExit() from e
 
 # -------------------------------- Path config -------------------------------
 BASE_DIR = pathlib.Path(__file__).resolve().parent
