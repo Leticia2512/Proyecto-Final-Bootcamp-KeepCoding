@@ -1,0 +1,8 @@
+---
+geometry: margin=0.5in
+header-includes: |
+  \usepackage{geometry}
+  \geometry{a4paper, margin=0.8in}
+  \usepackage{caption}
+  \captionsetup{labelformat=empty,textformat=empty}
+---
