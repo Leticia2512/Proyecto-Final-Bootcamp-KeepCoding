@@ -1,6 +1,6 @@
 ### Librerías usadas Python
 
-Se importan las principales librerías utilizadas en el análisis y preprocesamiento:
+Las librerías usadas para el análisis exploratorio de los metadatos y el preprocesamietno se muestrasn a continuación con una breve descripción de su utilidad.
 
 - `pandas`: para la manipulación de datos tabulares.
 - `numpy`: para operaciones numéricas.
@@ -23,7 +23,7 @@ from scipy.stats import chi2_contingency
 
 ## Visualizacion inicial datos
 
-Cargamos el dataset en excel utilizando `pandas` para hacer el EDA y hacemos una vista general.
+Se carga el conjunto de datos (formato excel) utilizando la librería `pandas` y se realiza una visualización general de los datos.
 
 
 ```python
@@ -58,8 +58,7 @@ print(df.head(3).T.to_markdown(index=True))
 - Observaciones clínicas: `Left-Diagnostic Keywords`, `Right-Diagnostic Keywords`  
 - Etiquetas binarias: `N`, `D`, `G`, `C`, `A`, `H`, `M`, `O` 
 
-
-Se comprueba no hay ningún valor NA en el conjunto de datos y el tipo de datos en cada columna.
+Como se muestra en la siguiente tabla no hay valores NA en los datos y las varaibles son del tipo `integer` o `string`.
 
 
 ```python
@@ -89,7 +88,7 @@ print(f"| {feature} |{sum(df[feature].isna())} | {type_data}|")
 | O |0 | numpy.int64|
 
 
-Se comprueba que no hay entradas duplicadas verificando el conjunto total de las entradas y que no hay términos repetidos en la columna ID.
+Se comprueba que no hay identificadores ID repetidos en los datos y que no hay entradas duplicadas.
 
 
 ```python
@@ -103,7 +102,7 @@ Se comprueba que no hay entradas duplicadas verificando el conjunto total de las
 
 ### Análisis de la variable 'Patient Age'
 
-Se analiza la distribución de los pacientes por edades y se observa que los valores presentan una distribución unimodal ligeramente sesgada a la izquierda.
+Se analiza la distribución de los pacientes por edades y se observa que los valores presentan una distribución unimodal ligeramente sesgada a la izquierda (edades inferiores)
 
 
 ```python
@@ -128,7 +127,7 @@ plt.show()
 | Mediana |  59 |
 | Moda | 56 |
 
-En los datos aparecen 16 pacientes con un año de edad, todas ellas niñas. Todos ellos presentan alguna patología que podría darse en niños.
+En el histograma se observan varios pacientes con edades muy bajas, cercanas a cero. Se revisan los datos y aparecen 16 niñas con un año de edad, todas con alguna patología a excepción de una que presenta estado normal. La patología más común que aparece en estas pacientes es 'phatological myopia'.
 
 
 ```python
@@ -160,7 +159,7 @@ print(counts_sorted.to_markdown(index=False))
 | tessellated fundus，peripapillary atrophy | pathological myopia                  | [0, 0, 0, 0, 0, 0, 1, 1] |        1 |
 
 
-El resto de pacientes presentan una edad superior o igual a 14 años.
+El resto de pacientes de mayor edad presentan edades que van desde los 14 a los 91 años.
 
 
 ```python
@@ -195,6 +194,23 @@ plt.show()
 
 
 
+La distribución de las edades según el sexo es similar con medianas de 60 y 57 para el sexo femenino y masculino respectivamente.
+
+
+```python
+#df.groupby('Patient Sex')['Patient Age'].median()
+```
+
+
+
+
+Patient Sex
+Female    60.0
+Male      57.0
+Name: Patient Age, dtype: float64
+
+
+
 
 ```python
 df['Sexo'] = df['Patient Sex'].apply(lambda x: 'M' if x == 'Male' else 'F')
@@ -208,7 +224,7 @@ plt.show()
 
 
 
-![png](EdaPDF_files/EdaPDF_19_0.png)
+![png](EdaPDF_files/EdaPDF_21_0.png)
 
 
 
@@ -228,7 +244,7 @@ En los datos aparecen ocho columnas en las que se anota las enfermedades detecta
 | **O**    | Otras anomalías / Other Abnormalities                                             | Cajón de sastre: cualquier hallazgo que no encaje en las categorías anteriores (p. ej. oclusión arterial, membrana epirretiniana).            |
 
 
-Se analiza la distribución de pacientes por enfermedades y se observa que la anotación más común es el estado normal (N), presente en un 33% de los pacientes. La enfermedad anotada más común es la retinopatía diabética (D), que aparece en un 32% de los pacientes. El resto de enfermedades anotadas se presentan de forma minoritaria con un porcentaje inferior al 7%. La anotación 'Other Abnormalities' aparece en el 28% de los pacientes.
+Se analiza la distribución de pacientes por enfermedades y se observa que la anotación más común es el estado normal (N), presente en un 33% de los pacientes. La enfermedad anotada más común es la retinopatía diabética (D), que aparece en un 32% de los pacientes. El resto de enfermedades anotadas con mucha menor frecuencia, con un porcentaje inferior al 7%. La anotación 'Other Abnormalities' aparece en el 28% de los pacientes.
 
 
 ```python
@@ -246,13 +262,13 @@ plt.show()
 
 
 
-![png](EdaPDF_files/EdaPDF_23_0.png)
+![png](EdaPDF_files/EdaPDF_25_0.png)
 
 
 
 ####  Distribución de pacientes por sexo y enfermedad
 
-Se observa la distribución que presentan los pacientes según el sexo en las diferentes enfermedades. Se divide el número de pacientes por sexo y enfermedad por el número de casos en cada enfermedad. En la representación de estas proporciones se observa que el género masculino tiene mayor representación en la condición normal y en la mayoría de las enfermedades. Sólo en las anotaciones de catarátas (C) y miopía patológica (M) tienen mayor representación las mujeres. A la hora de valorar estos resultados hay que tener en cuenta que de partida el número de pacientes de genero masculino es mayor.
+Se observa la distribución que presentan los pacientes según el sexo en las diferentes enfermedades. Se divide el número de pacientes por sexo y enfermedad por el número de casos en cada enfermedad. En la representación de estas proporciones se observa que para este conjunto de datos el género masculino tiene mayor representación en la condición normal y en la mayoría de las enfermedades. Sólo en las anotaciones de catarátas (C) y miopía patológica (M) tienen mayor representación las mujeres. A la hora de valorar estos resultados hay que tener en cuenta que de partida el número de pacientes de genero masculino es mayor.
 
 
 ```python
@@ -294,7 +310,7 @@ plt.show()
 
 
 
-![png](EdaPDF_files/EdaPDF_25_0.png)
+![png](EdaPDF_files/EdaPDF_27_0.png)
 
 
 
@@ -361,7 +377,7 @@ Estos resultados se han obtenido a partir de un conjunto de datos preparado para
 
 #### Distribución de edades de los pacientes para cada enfermedad
 
-Se analiza la distribución de las edades de los pacientes para cada enfermedad anotada. Para todas las enfermedades las edades siguen una distribución normal y se extienden dentro del mismo rango. Aquí también se observa como algunas enfermedades presentan casos a edades muy tempranos como vimos anteriormente. Las cataratas (C), la miopía patológica (M) y el glaucoma (G) tienden a aparecer a edades más tardías, mientras que los pacientes que aparecen anotadas como normales (N) y aquellos que sufren de retinopatía diabética (D) presentan distribuciones centradas en edades inferiores al resto de enfermedades.
+Se analiza la distribución de las edades de los pacientes para cada enfermedad anotada. Para todas las enfermedades las edades siguen una distribución normal y se extienden dentro del mismo rango. Aquí también se observa como algunas enfermedades presentan casos a edades muy tempranos como vimos anteriormente. Las cataratas (C), la miopía patológica (M) y el glaucoma (G) tienden a aparecer a edades más tardías, mientras que los pacientes que aparecen anotados como normales (N) y aquellos que sufren de retinopatía diabética (D) presentan distribuciones centradas en edades inferiores al resto de enfermedades.
 
 
 ```python
@@ -387,7 +403,7 @@ plt.show()
 
 
 
-![png](EdaPDF_files/EdaPDF_31_0.png)
+![png](EdaPDF_files/EdaPDF_33_0.png)
 
 
 
@@ -412,15 +428,15 @@ plt.show()
 
 
 
-![png](EdaPDF_files/EdaPDF_33_0.png)
+![png](EdaPDF_files/EdaPDF_35_0.png)
 
 
 
 ### Análisis de las variables 'Left-Diagnostic Keywords' y 'Right-Diagnostic Keywords'
 
-En los datos hay dos columnas en las que se describen los diagnósticos en cada ojo. Se trataría de una descripción más detallada de lo que posteriormente se refleja en las columnas de enfermedades. En algunos casos las anotaciones no tienen que ver con el diagnóstico sino con incidencias en las imágenes.
+En los datos hay dos columnas en las que se describen los diagnósticos en cada ojo mediante una serie de palabras clave. Se trataría de una descripción más detallada de lo que posteriormente se refleja en las columnas de enfermedades. En algunos casos las anotaciones no tienen que ver con el diagnóstico sino con incidencias en las imágenes.
 
-En las columnas aparecen un total de 102 diagnósticos únicos, siendo el más común 'normal fundus'. Entre los diagnósticos más comunes aparece también 'lens dust' que hace referencia a un artefacto un las imágenes.
+En las columnas aparecen un total de 102 diagnósticos únicos, siendo el más común 'normal fundus'. Entre los diagnósticos más comunes aparece también 'lens dust' que hace referencia a un artefacto en las imágenes.
 
 
 ```python
@@ -472,7 +488,7 @@ Top 5 diagnósticos más frequentes:
 | cataract                               |      313 |
 
 
-La mayor parte de los diagnósticos aparecen muy pocas veces, por ejemplo, el 80% de los diagnósticos aparece en menos de 40 imágenes de un total de 7000.
+La mayor parte de los diagnósticos aparecen muy pocas veces, por ejemplo, el 80% de las palabras claves menos frecuentes aparecen cada una de ellas en menos de 40 imágenes.
 
 
 ```python
@@ -489,13 +505,11 @@ plt.show()
 
 
 
-![png](EdaPDF_files/EdaPDF_37_0.png)
+![png](EdaPDF_files/EdaPDF_39_0.png)
 
 
 
-Se comprueba que la anotación de la columna 'N' y los diagnósticos concuerdan, de forma que no haya ningún diagnóstico de enfermedad en un paciente que esté anotado como normal ('N' con valor 1)
-
-Además del diagnóstico 'normal fundus' aparecen dos diagnósticos más relacionadas con artefactos en las imágenes, 'lens dust' y 'low image quality'.
+Se comprueba que la anotación de la columna 'N' y las palabras claves concuerdan, de forma que no haya ninguna palabra clave asociada con enfermedad en un paciente que esté anotado como normal ('N' con valor 1). En los pacientes con una anotación N igual 1, además de la palabra clave 'normal fundus', aparecen dos palabras claves más ('lens dust' y 'low image quality'). Estas nuevas palabras claves indican artefactos en las imágenes.
 
 
 ```python
@@ -512,7 +526,7 @@ print(conteo_diagn.to_markdown(index=True))
 | low image quality |        3 |
 
 
-Se buscan diagnósticos que tengan que ver con artefactos en las imágenes buscando las palabras claves 'image' y 'lens' en los diagnósticos. Se encuentran cinco términos que pudieran estar relacionados incidencias técnicas en las imágenes.
+Se buscan palabras claves que tengan que ver con artefactos en las imágenes buscando las palabras claves 'image' y 'lens'. Se encuentran cinco términos que pudieran estar relacionados incidencias técnicas en las imágenes.
 
 
 ```python
