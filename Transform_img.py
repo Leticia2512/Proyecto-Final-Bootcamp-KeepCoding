@@ -1,0 +1,50 @@
+import os
+import sys
+from PIL import Image
+from torchvision import transforms
+from tqdm import tqdm
+
+# --- Comprobar argumentos ---
+if len(sys.argv) != 2:
+    print("Uso: python transform_img.py <tamaño>")
+    sys.exit(1)
+
+try:
+    size = int(sys.argv[1])
+except ValueError:
+    print("Error: el tamaño debe ser un número entero.")
+    sys.exit(1)
+
+# --- Rutas ---
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+input_dir = os.path.join(BASE_DIR, "ODIR-5K", "ODIR-5K", "Training Images")
+output_dir = os.path.join(BASE_DIR, f"{size}x{size}")
+
+os.makedirs(output_dir, exist_ok=True)
+
+# --- Transformación ---
+transform_resize = transforms.Compose([
+    transforms.Resize(size),
+    transforms.CenterCrop(size),
+])
+
+# Extensiones válidas
+valid_ext = ".jpg"
+
+# Lista de imágenes
+images = [f for f in os.listdir(input_dir) if os.path.splitext(f)[
+    1].lower() in valid_ext]
+
+print(f"Total de imágenes encontradas: {len(images)}")
+print(f"Transformando a tamaño {size}x{size}...")
+
+# --- Proceso ---
+for fname in tqdm(images, desc="Procesando", unit="img"):
+    src = os.path.join(input_dir, fname)
+    dst = os.path.join(output_dir, fname)
+
+    img = Image.open(src).convert("RGB")
+    img = transform_resize(img)
+    img.save(dst, quality=95)
+
+print(f" Transformación completada.")
