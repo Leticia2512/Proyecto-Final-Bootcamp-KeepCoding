@@ -36,7 +36,7 @@ Reuniones/Ideas https://drive.google.com/drive/folders/1aAkVjN90mGIx2QxNUEF0Zobe
 **Miguel Ángel**
  Contacto:
 **Leticia** 
- Contacto:
+ Contacto: leticia.c.morales@gmail.com
 **Sofia** 
  Contacto:
 **David** 
@@ -44,7 +44,7 @@ Reuniones/Ideas https://drive.google.com/drive/folders/1aAkVjN90mGIx2QxNUEF0Zobe
 **Javier** 
  Contacto:
 **Sara** 
- Contacto:   
+ Contacto: sara.carcamo.r@gmail.com  
 ---
 
 >  ¡Gracias por pasarte por aquí! 
