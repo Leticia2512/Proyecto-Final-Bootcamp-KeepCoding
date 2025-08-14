@@ -1,0 +1,11 @@
+Using Git LFS pointers with MLflow is not recommended because MLflow expects proper YAML/JSON files for its metadata (like meta.yaml), not Git LFS pointers. However, if you must combine them (e.g., for versioning large artifacts), here’s how to do it safely:
+
+.gitattributes
+# Track large binaries with LFS
+*.pth filter=lfs diff=lfs merge=lfs -text
+*.onnx filter=lfs diff=lfs merge=lfs -text
+*.bin filter=lfs diff=lfs merge=lfs -text
+
+# Explicitly EXCLUDE MLflow metadata files
+meta.yaml !filter !diff !merge
+mlflow/**/meta.yaml !filter !diff !merge
