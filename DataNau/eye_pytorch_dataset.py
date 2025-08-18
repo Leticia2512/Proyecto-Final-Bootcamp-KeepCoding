@@ -22,19 +22,8 @@ class EyeDataset(Dataset):
         self.image_dir = image_dir
         self.feature_cols = list(feature_cols)
 
-        # sanity: no vacíos
-        assert self.df["idx_list"].map(len).min(
-        ) > 0, "Hay alguna fila con idx_list vacío."
-
-        # inferir num_classes si no viene dado
-        if num_classes is None:
-            all_idxs = [i for lst in self.df["idx_list"] for i in lst]
-            self.num_classes = int(max(all_idxs) + 1)
-        else:
-            self.num_classes = int(num_classes)
-
         # cache ligera
-        self.paths = self.df["image_name"].astype(str).tolist()
+        self.paths = self.df["filename"].astype(str).tolist()
         self.meta = self.df[self.feature_cols].to_numpy(dtype=np.float32)
         self.targets_idx = self.df["idx_list"].tolist()
 

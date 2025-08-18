@@ -2,15 +2,15 @@ from torch.utils.data import DataLoader, Subset
 from sklearn.model_selection import train_test_split
 from eye_pytorch_dataset import EyeDataset
 
-parquet_file = "EDA/prepared/dataset_eyes_long.parquet"
+parquet_file = "EDA\EDA2.0\dataset_meta_ojouni.parquet"
 image_dir = "224x224"
 feature_cols = ["Patient Age", "Patient_Sex_Binario"]
 
 ds = EyeDataset(parquet_path=parquet_file,
                 image_dir=image_dir, feature_cols=feature_cols)
 
-idx = list(range(len(ds)))
-tr, tmp = train_test_split(idx, test_size=0.2, random_state=42, shuffle=True)
+# idx = list(range(len(ds)))
+tr, tmp = train_test_split(test_size=0.2, random_state=42, shuffle=True)
 va, te = train_test_split(tmp, test_size=0.5, random_state=42, shuffle=True)
 
 train_loader = DataLoader(Subset(ds, tr), batch_size=32,
