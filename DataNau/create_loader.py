@@ -2,7 +2,7 @@ from torch.utils.data import DataLoader, Subset
 from sklearn.model_selection import train_test_split
 from eye_pytorch_dataset import EyeDataset
 
-parquet_file = "DataNau\dataset_eyes_long.parquet"
+parquet_file = "EDA/prepared/dataset_eyes_long.parquet"
 image_dir = "224x224"
 feature_cols = ["Patient Age", "Patient_Sex_Binario"]
 
