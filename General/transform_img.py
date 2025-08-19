@@ -3,6 +3,8 @@ import sys
 from PIL import Image
 from torchvision import transforms
 from tqdm import tqdm
+from fun_transform import square_image
+
 
 # --- Comprobar argumentos ---
 if len(sys.argv) != 2:
@@ -44,7 +46,9 @@ for fname in tqdm(images, desc="Procesando", unit="img"):
     dst = os.path.join(output_dir, fname)
 
     img = Image.open(src).convert("RGB")
-    img = transform_resize(img)
+    img = square_image(img)
+    mg = transform_resize(img)
+    # Asegurar que la imagen sea cuadrada
     img.save(dst, quality=95)
 
 print(f" Transformación completada.")
