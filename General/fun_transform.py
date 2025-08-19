@@ -1,3 +1,6 @@
+
+import numpy as np
+
 def get_nrow_init(img):
     """
     Find the first non-blank row in a 3-channel image.

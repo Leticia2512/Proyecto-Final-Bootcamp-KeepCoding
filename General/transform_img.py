@@ -4,6 +4,7 @@ from PIL import Image
 from torchvision import transforms
 from tqdm import tqdm
 from fun_transform import square_image
+import cv2
 
 
 # --- Comprobar argumentos ---
@@ -18,16 +19,21 @@ except ValueError:
     sys.exit(1)
 
 # --- Rutas ---
+#BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+#input_dir = os.path.join(BASE_DIR, "ODIR-5K", "ODIR-5K", "Training Images")
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-input_dir = os.path.join(BASE_DIR, "ODIR-5K", "ODIR-5K", "Training Images")
+parent_dir = os.path.abspath(os.path.join(BASE_DIR, os.pardir))
+input_dir = os.path.join(parent_dir, "ODIR-5K", "ODIR-5K", "Training Images")
+
 output_dir = os.path.join(BASE_DIR, f"{size}x{size}")
 
 os.makedirs(output_dir, exist_ok=True)
 
 # --- Transformación ---
 transform_resize = transforms.Compose([
-    transforms.Resize(size),
-    transforms.CenterCrop(size),
+    transforms.ToPILImage(),
+    transforms.Resize(size)
+    #transforms.CenterCrop(size), Comprobar si se necesita
 ])
 
 # Extensiones válidas
@@ -45,9 +51,10 @@ for fname in tqdm(images, desc="Procesando", unit="img"):
     src = os.path.join(input_dir, fname)
     dst = os.path.join(output_dir, fname)
 
-    img = Image.open(src).convert("RGB")
+   # img = Image.open(src).convert("RGB")
+    img = cv2.imread(src)
     img = square_image(img)
-    mg = transform_resize(img)
+    img = transform_resize(img)
     # Asegurar que la imagen sea cuadrada
     img.save(dst, quality=95)
 
