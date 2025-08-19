@@ -1,7 +1,7 @@
 from mlflow_setup import init_mlflow
 import mlflow
 
-init_mlflow("BasicExperiment")
+init_mlflow("BasicExperiment2")
 
 with mlflow.start_run(run_name="run1"):
     mlflow.log_param("batch_size", 32)
