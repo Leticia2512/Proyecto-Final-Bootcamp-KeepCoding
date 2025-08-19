@@ -1,0 +1,10 @@
+artifact_location: file:///C:/Users/Nauzet/Desktop/ProyectoFinalKC/ProyectoFinalKC/ProyectoFinalKC/MLFlow/mlruns/785108878644821138/models/m-1ccfae469bba4c17812b95928fa17a06/artifacts
+creation_timestamp: 1755599209298
+experiment_id: '785108878644821138'
+last_updated_timestamp: 1755599220408
+model_id: m-1ccfae469bba4c17812b95928fa17a06
+model_type: null
+name: model
+source_run_id: 045b2c278b3f46899a2240696f56c0b4
+status: 2
+status_message: null
