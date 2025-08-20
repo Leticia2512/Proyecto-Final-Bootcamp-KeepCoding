@@ -33,7 +33,6 @@ os.makedirs(output_dir, exist_ok=True)
 transform_resize = transforms.Compose([
     transforms.ToPILImage(),
     transforms.Resize(size)
-    #transforms.CenterCrop(size), Comprobar si se necesita
 ])
 
 # Extensiones válidas

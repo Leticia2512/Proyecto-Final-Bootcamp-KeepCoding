@@ -6,7 +6,7 @@ import numpy as np
 def create_split(
         parquet_file=r"Data\parquet\dataset_meta_ojouni.parquet",
         image_dir=r"224x224",
-        feature_cols=["Patient Age", "Patient_Sex_Binario", "ID"]):
+        feature_cols=["Patient Age", "Patient_Sex_Binario"]):
 
     ds = EyeDataset(parquet_path=parquet_file,
                     image_dir=image_dir, feature_cols=feature_cols)

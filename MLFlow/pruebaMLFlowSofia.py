@@ -2,7 +2,7 @@ from datetime import datetime
 import mlflow
 from mlflow_setup import init_mlflow
 
-init_mlflow("DataAvengers")
+init_mlflow("DataAvengersSofia")
 
 with mlflow.start_run(run_name=f"{datetime.now().strftime('%Y%m%d_%H%M%S')}"):
     # métricas
