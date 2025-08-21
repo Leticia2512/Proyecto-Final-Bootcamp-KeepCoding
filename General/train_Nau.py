@@ -99,27 +99,37 @@ def main():
     val_ds = torch.load(VAL_PT, weights_only=False)
     test_ds = torch.load(TEST_PT, weights_only=False)
 
+    """
     # Detectar nº de clases desde los targets
-    all_y = [y.item() for _, _, y in train_ds]
-    num_classes = len(set(all_y))
-    meta_dim = train_ds[0][1].shape[0]
-    print(f"num_classes={num_classes}, meta_dim={meta_dim}")
+        all_y = [y.item() for _, _, y in train_ds]
+        num_classes = len(set(all_y))
+        meta_dim = train_ds[0][1].shape[0]
+        print(f"num_classes={num_classes}, meta_dim={meta_dim}")
 
-    # Dataloaders
-    train_loader = DataLoader(train_ds, batch_size=BATCH_SIZE, shuffle=True,
-                              num_workers=NUM_WORKERS, pin_memory=True)
-    val_loader = DataLoader(val_ds, batch_size=BATCH_SIZE, shuffle=False,
-                            num_workers=NUM_WORKERS, pin_memory=True)
-    test_loader = DataLoader(test_ds, batch_size=BATCH_SIZE, shuffle=False,
-                             num_workers=NUM_WORKERS, pin_memory=True)
+        # Dataloaders
+        train_loader = DataLoader(train_ds, batch_size=BATCH_SIZE, shuffle=True,
+                                  num_workers=NUM_WORKERS, pin_memory=True)
+        val_loader = DataLoader(val_ds, batch_size=BATCH_SIZE, shuffle=False,
+                                num_workers=NUM_WORKERS, pin_memory=True)
+        test_loader = DataLoader(test_ds, batch_size=BATCH_SIZE, shuffle=False,
+                                 num_workers=NUM_WORKERS, pin_memory=True)
+
+    """
+    
+    meta_dim = train_ds[1]
+    all_y = set(train_ds[2])
+    num_classes = len(set(all_y))
 
     # Modelo
     model = ImageClassifier(
         meta_dim=meta_dim, num_classes=num_classes, pretrained=True).to(device)
+    
     optimizer = torch.optim.AdamW(
         model.parameters(), lr=LR, weight_decay=WEIGHT_DECAY)
+    
     scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(
         optimizer, T_max=EPOCHS)
+    
     criterion = nn.CrossEntropyLoss()
 
     # MLflow

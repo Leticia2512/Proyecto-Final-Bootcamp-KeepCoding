@@ -23,28 +23,22 @@ val_loader = DataLoader(Subset(ds, va_idx), batch_size=32,
 test_loader = DataLoader(Subset(ds, te_idx), batch_size=32,
                          shuffle=False, num_workers=0)
 
-"""
-
-# guardar DataLoaders
-subset1 = train_loader.dataset   # esto es un Subset(ds, indices)
-subset2 = val_loader.dataset
-subset3 = test_loader.dataset
-
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-parent_dir = os.path.abspath(os.path.join(BASE_DIR, os.pardir))
-input_dir = os.path.join(parent_dir, r"Data/dataloader/")
-
-torch.save(subset1, f"{input_dir}train_dataset.pt")
-torch.save(subset2, f"{input_dir}val_dataset.pt")
-torch.save(subset3, f"{input_dir}test_dataset.pt")
-
-"""
 
 torch.save({
     "dataset": ds,          # tu EyeDataset
     "indices": train_loader    # lista de índices
-}, "train_dataset2.pt")
+}, r"Data\dataloader\train_dataset.pt")
 
+
+torch.save({
+    "dataset": ds,          # tu EyeDataset
+    "indices": val_loader    # lista de índices
+}, r"Data\dataloader\val_dataset.pt")
+
+torch.save({
+    "dataset": ds,          # tu EyeDataset
+    "indices": test_loader    # lista de índices
+}, r"Data\dataloader\test_dataset.pt")
 
 
 
