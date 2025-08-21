@@ -1,6 +1,9 @@
 from sklearn.model_selection import train_test_split
 from eye_pytorch_dataset import EyeDataset
 import numpy as np
+from torchvision import transforms
+from torch.utils.data import Subset
+import torch
 
 
 def create_split(
@@ -33,4 +36,39 @@ def create_split(
         stratify=y[tmp_idx]
     )
 
-    return tr_idx, va_idx, te_idx, ds
+    train_imgs_transforms = transforms.Compose([
+                                                transforms.RandomHorizontalFlip(p= 0.2),
+                                                transforms.RandomRotation(15)
+                                                ])
+
+    dataset_train = Subset(ds, tr_idx)
+    dataset_train.transform = train_imgs_transforms
+
+    dataset_val = Subset(ds, va_idx)
+    dataset_test = Subset(ds, te_idx)
+
+
+    torch.save({
+    "dataset": ds,          # tu EyeDataset
+    "indices": dataset_train    # lista de índices
+}, r"Data\dataset\train_dataset.pt")
+
+    torch.save({
+        "dataset": ds,          # tu EyeDataset
+        "indices": dataset_val    # lista de índices
+    }, r"Data\dataset\val_dataset.pt")
+
+    torch.save({
+        "dataset": ds,          # tu EyeDataset
+        "indices": dataset_test    # lista de índices
+    }, r"Data\dataset\test_dataset.pt")
+
+
+def main():
+
+    create_split()
+
+
+if __name__ == "__main__":
+    
+    main()

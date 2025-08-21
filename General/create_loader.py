@@ -5,7 +5,9 @@ from fun_transform import square_image
 from torchvision import transforms
 import os
 
+
 tr_idx, va_idx, te_idx, ds = create_split()
+
 
 train_imgs_transforms = transforms.Compose([
     transforms.RandomHorizontalFlip(p= 0.2),
