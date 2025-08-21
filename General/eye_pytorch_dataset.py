@@ -18,7 +18,12 @@ class EyeDataset(Dataset):
     """
 
     def __init__(self, parquet_path: str, image_dir: str, feature_cols, transform=None, num_classes=None):
-        self.df = pd.read_parquet(parquet_path).reset_index(drop=True)
+        
+        BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+        parent_dir = os.path.abspath(os.path.join(BASE_DIR, os.pardir))
+        input_dir = os.path.join(parent_dir, parquet_path)
+        
+        self.df = pd.read_parquet(input_dir).reset_index(drop=True)
         self.image_dir = image_dir
         self.feature_cols = list(feature_cols)
 
