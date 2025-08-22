@@ -18,11 +18,11 @@ class EyeDataset(Dataset):
     """
 
     def __init__(self, parquet_path: str, image_dir: str, feature_cols, transform=None, num_classes=None):
-        
+
         BASE_DIR = os.path.dirname(os.path.abspath(__file__))
         parent_dir = os.path.abspath(os.path.join(BASE_DIR, os.pardir))
         input_dir = os.path.join(parent_dir, parquet_path)
-        
+
         self.df = pd.read_parquet(input_dir).reset_index(drop=True)
         self.image_dir = image_dir
         self.feature_cols = list(feature_cols)
@@ -30,7 +30,7 @@ class EyeDataset(Dataset):
         # cache ligera
         self.paths = self.df["filename"].astype(str).tolist()
         self.meta = self.df[self.feature_cols].to_numpy(dtype=np.float32)
-        self.targets = self.df["cod_target"].tolist()
+        self.targets = self.df["cod_target"].astype(int).to_numpy()
 
         # transformaciones
         self.transform = transform or T.Compose([
@@ -50,6 +50,6 @@ class EyeDataset(Dataset):
         # metadatos
         meta = torch.tensor(self.meta[idx], dtype=torch.float32)
 
-        y = torch.tensor(self.targets[idx], dtype=torch.float32)
+        y = torch.tensor(self.targets[idx], dtype=torch.long)
 
         return img, meta, y
