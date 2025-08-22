@@ -2,17 +2,20 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 from torch.utils.data import DataLoader
+from torchvision.models import resnet50, ResNet50_Weights
 from sklearn.metrics import accuracy_score
 import numpy as np
 import mlflow
 from pathlib import Path
 from datetime import datetime
-from torchvision.models import efficientnet_b0, EfficientNet_B0_Weights
+from torch.optim import SGD
+from torch.optim.lr_scheduler import StepLR
+import random
 
 # ---- CONFIG ----
 BATCH_SIZE = 32
 EPOCHS = 10
-LR = 1e-4
+LR = 1e-5 # LR más bajo para transfer learning
 WEIGHT_DECAY = 1e-4
 NUM_WORKERS = 4
 SEED = 42
@@ -30,7 +33,8 @@ def set_seed(seed: int):
     random.seed(seed)
     np.random.seed(seed)
     torch.manual_seed(seed)
-    torch.cuda.manual_seed_all(seed)
+    if torch.cuda.is_available():
+        torch.cuda.manual_seed_all(seed)
 
 
 def init_mlflow():
@@ -44,24 +48,25 @@ class ImageClassifier(nn.Module):
     def __init__(self, meta_dim: int, num_classes: int, pretrained: bool = True):
         super().__init__()
         
-        weights = EfficientNet_B0_Weights.IMAGENET1K_V1 if pretrained else None
-        self.backbone = efficientnet_b0(weights=weights)
+        weights = ResNet50_Weights.IMAGENET1K_V2 if pretrained else None
+        self.backbone = resnet50(weights=weights)
         
-        # EfficientNet usa `classifier` en lugar de `fc`
-        in_feats = self.backbone.classifier[1].in_features
-        self.backbone.classifier = nn.Identity()
+        # ResNet usa `fc` en lugar de `classifier`
+        in_feats = self.backbone.fc.in_features
+        self.backbone.fc = nn.Identity()
 
         # capa para metadatos
         self.meta = nn.Sequential(
             nn.Linear(meta_dim, 32),
             nn.ReLU(inplace=True),
-            nn.BatchNorm1d(32)
+            nn.LayerNorm(32), # Cambiado a LayerNorm
+            nn.Dropout(0.5) # Añadido dropout
         )
 
         self.head = nn.Sequential(
             nn.Linear(in_feats + 32, 256),
             nn.ReLU(inplace=True),
-            nn.Dropout(0.3),
+            nn.Dropout(0.5), # Aumentado a 0.5
             nn.Linear(256, num_classes)
         )
 
@@ -77,7 +82,7 @@ def evaluate(model, loader, criterion, device):
     model.eval()
     total_loss = 0.0
     all_y, all_p = [], []
-    for x, m, y in loader:   # el último es sample_id → no lo usamos
+    for x, m, y in loader:   
         x, m, y = x.to(device), m.to(device), y.to(device, dtype=torch.long)
         logits = model(x, m)
         loss = criterion(logits, y)
@@ -113,11 +118,11 @@ def main():
 
 
     train_loader = DataLoader(train_ds, batch_size=BATCH_SIZE, shuffle=True,
-                              num_workers=NUM_WORKERS, pin_memory=True)
+                              num_workers=NUM_WORKERS, pin_memory=True if torch.cuda.is_available() else False)
     val_loader = DataLoader(val_ds, batch_size=BATCH_SIZE, shuffle=False,
-                            num_workers=NUM_WORKERS, pin_memory=True)
+                            num_workers=NUM_WORKERS, pin_memory=True if torch.cuda.is_available() else False)
     test_loader = DataLoader(test_ds, batch_size=BATCH_SIZE, shuffle=False,
-                             num_workers=NUM_WORKERS, pin_memory=True)
+                             num_workers=NUM_WORKERS, pin_memory=True if torch.cuda.is_available() else False)
 
     num_classes = len(set(train_ds.dataset.targets))
     meta_dim = len(train_ds.dataset.feature_cols) 
@@ -127,17 +132,16 @@ def main():
     model = ImageClassifier(
         meta_dim=meta_dim, num_classes=num_classes, pretrained=True).to(device)
 
-    optimizer = torch.optim.AdamW(
-        model.parameters(), lr=LR, weight_decay=WEIGHT_DECAY)
+    optimizer = SGD(
+        model.parameters(), lr=LR, momentum=0.9, weight_decay=WEIGHT_DECAY) # Cambio el optimizador
 
-    scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(
-        optimizer, T_max=EPOCHS)
+    scheduler = StepLR(optimizer, step_size=3, gamma=0.5) # Reduce LR a la mitad cada 3 épocas
 
     criterion = nn.CrossEntropyLoss()
 
     # MLflow
     init_mlflow()
-    run_name = "EfficientNetB0_" + datetime.now().strftime("%Y%m%d_%H%M%S")
+    run_name = "ResNet50_" + datetime.now().strftime("%Y%m%d_%H%M%S")
     with mlflow.start_run(run_name=run_name):
         mlflow.log_params({
             "batch_size": BATCH_SIZE,
@@ -146,8 +150,10 @@ def main():
             "weight_decay": WEIGHT_DECAY,
             "num_workers": NUM_WORKERS,
             "num_classes": num_classes,
-            "backbone": "EfficientNetB0",
+            "backbone": "ResNet50",
             "meta_dim": meta_dim,
+            "optimizer": "SGD",
+            "scheduler": "StepLR"
         })
 
         best_acc = -1.0
