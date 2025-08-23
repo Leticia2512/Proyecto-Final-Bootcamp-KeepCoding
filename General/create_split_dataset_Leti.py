@@ -30,58 +30,22 @@ def create_split(
     out_dir = (repo_root / "Data" / "dataset").resolve()
     out_dir.mkdir(parents=True, exist_ok=True)
 
-    # Dataset temporal solo para obtener y/len con transform de eval
-    ds_eval_tmp = EyeDataset(
-        parquet_path=parquet_file,
-        image_dir=image_dir,
-        feature_cols=feature_cols,
-        transform=get_eval_transform(224),
-        num_classes=8  # si cambian las clases, ajustar este valor
-    )
 
-    # 1) Leer etiquetas para estratificar
+    # 1) y e índices desde parquet
     df = pd.read_parquet(parquet_file)
     y = df["cod_target"].astype(int).to_numpy()
     idxs = np.arange(len(y))
 
-    # 2) split train (80%) vs temp (20%) estratificado 
-    tr_idx, tmp_idx = train_test_split(
-        idxs,
-        test_size=0.2,
-        random_state=42,
-        shuffle=True,
-        stratify=y
-    )
+    # 2) splits 80/10/10 estratificados
+    tr_idx, tmp_idx = train_test_split(idxs, test_size=0.2, random_state=42, shuffle=True, stratify=y)
+    va_idx, te_idx  = train_test_split(tmp_idx, test_size=0.5, random_state=42, shuffle=True, stratify=y[tmp_idx]))
 
-    # 3) split temp en val (10%) vs test (10%) estratificado
-    va_idx, te_idx = train_test_split(
-        tmp_idx,
-        test_size=0.5,
-        random_state=42,
-        shuffle=True,
-        stratify=y[tmp_idx]
-    )
-
-    # Transforms 
-    train_transform = get_train_transform(224)
-    eval_transform  = get_eval_transform(224)
+    # 3) datasets con transforms separadas
+    ds_train = EyeDataset(parquet_path=parquet_file, image_dir=image_dir, feature_cols=feature_cols,
+                          transform=get_train_transform(224), num_classes=8)
     
-    # Aplicar transform
-    ds_train = EyeDataset(
-        parquet_path=parquet_file,
-        image_dir=image_dir,
-        feature_cols=feature_cols,
-        transform=train_transform,
-        num_classes=8
-    )
-
-    ds_eval = EyeDataset(
-        parquet_path=parquet_file,
-        image_dir=image_dir,
-        feature_cols=feature_cols,
-        transform=eval_transform,
-        num_classes=8
-    )
+    ds_eval  = EyeDataset(parquet_path=parquet_file, image_dir=image_dir, feature_cols=feature_cols,
+                          transform=get_eval_transform(224),  num_classes=8)
 
     # Subsets
     dataset_train = Subset(ds_train, tr_idx)
