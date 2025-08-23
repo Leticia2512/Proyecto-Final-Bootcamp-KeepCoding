@@ -15,7 +15,7 @@ def load_dataloaders(train_pt, val_pt, test_pt, batch_size=32, num_workers=4, pi
     g.manual_seed(seed)
 
     train_loader = DataLoader(train_ds, batch_size=batch_size, shuffle=True,
-                              num_workers=num_workers, pin_memory=pin_memory,generayor=g)
+                              num_workers=num_workers, pin_memory=pin_memory,generator=g)
     
     val_loader = DataLoader(val_ds, batch_size=batch_size, shuffle=False,
                             num_workers=num_workers, pin_memory=pin_memory)
