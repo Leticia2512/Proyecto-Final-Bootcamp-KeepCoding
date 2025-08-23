@@ -38,7 +38,7 @@ def create_split(
 
     # 2) splits 80/10/10 estratificados
     tr_idx, tmp_idx = train_test_split(idxs, test_size=0.2, random_state=42, shuffle=True, stratify=y)
-    va_idx, te_idx  = train_test_split(tmp_idx, test_size=0.5, random_state=42, shuffle=True, stratify=y[tmp_idx]))
+    va_idx, te_idx  = train_test_split(tmp_idx, test_size=0.5, random_state=42, shuffle=True, stratify=y[tmp_idx])
 
     # 3) datasets con transforms separadas
     ds_train = EyeDataset(parquet_path=parquet_file, image_dir=image_dir, feature_cols=feature_cols,
