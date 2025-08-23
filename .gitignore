@@ -1,3 +1,13 @@
-*checkpoints/
+# Archivos compilados de Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd*checkpoints/
 *.pt
 *.pth
+
+# Checkpoints de Jupyter
+.ipynb_checkpoints/
+
+# Archivos del sistema
+.DS_Store
