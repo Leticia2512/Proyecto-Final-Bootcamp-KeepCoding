@@ -1,4 +1,3 @@
-
 from pathlib import Path
 from datetime import datetime
 
@@ -6,6 +5,7 @@ import numpy as np
 import torch
 import torch.nn as nn
 import tempfile
+import shutil
 from torch.utils.data import DataLoader, Subset
 from torchvision.models import resnet18, ResNet18_Weights
 
@@ -15,35 +15,37 @@ from sklearn.metrics import (
 )
 
 import matplotlib.pyplot as plt
-from load_dataloaders_Leti import load_dataloaders
+from load_dataloaders_Sofia import load_dataloaders
 
 # ------- CONFIGURACIÓN -------
+# Carpeta raíz del proyecto 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-# Rutas a los Subsets preprocesados 
+# Rutas a los Subsets guardados
 TRAIN_PT = BASE_DIR / "Data" / "dataset" / "train_dataset.pt"
 VAL_PT   = BASE_DIR / "Data" / "dataset" / "val_dataset.pt"
 TEST_PT  = BASE_DIR / "Data" / "dataset" / "test_dataset.pt"
 
-# Hiperparámetros 
+# Hiperparámetros
 BATCH_SIZE   = 32
-EPOCHS       = 15
-LR           = 1e-4
-WEIGHT_DECAY = 2e-4
+EPOCHS       = 20
+LR           = 1e-5
+WEIGHT_DECAY = 5e-4
 NUM_WORKERS  = 0    
 SEED         = 42
 
-# Configuración de MLflow
+# MLflow
 EXPERIMENT_NAME = "Experimento_Leticia_ResNet18"
 RUN_NAME        = "resnet18_mm_" + datetime.now().strftime("%Y%m%d_%H%M%S")
+
+# Carpeta de salida para artefactos locales
+#OUT_DIR = BASE_DIR / "artifacts"
+#OUT_DIR.mkdir(parents=True, exist_ok=True)
 
 
 # ------ FUNCIONES AUXILIARES ------
 def set_seed(seed: int = 42):
-    """
-    Fija la semilla aleatoria para reproducibilidad
-    (NumPy, PyTorch y comportamiento determinista en CUDA).
-    """
+    """Fija la semilla aleatoria para reproducibilidad."""
     import random
     random.seed(seed)
     np.random.seed(seed)
@@ -54,24 +56,20 @@ def set_seed(seed: int = 42):
 
 
 def try_init_mlflow():
-    """
-    Inicializa MLflow en modo local, guardando los experimentos en ./mlruns.
-    Devuelve el módulo mlflow si está disponible, o None en caso de error.
-    """
+    """Intenta inicializar MLflow, devuelve el módulo o None si no está instalado."""
     try:
         import mlflow
-        tracking_path = (BASE_DIR / "mlruns").resolve()
-        mlflow.set_tracking_uri(f"file://{tracking_path}")
+        uri = "file:" + str(Path("mlruns").resolve())
+        mlflow.set_tracking_uri(uri)
         mlflow.set_experiment(EXPERIMENT_NAME)
         return mlflow
     except Exception as e:
         print(f"[WARN] MLflow no disponible: {e}")
         return None
 
-
 def load_subset(path: Path):
     """
-    Carga un archivo .pt que contiene un Subset de PyTorch.
+    Carga un archivo .pt que contiene un Subset de PyTorch (tal y como lo guardamos).
     """
     obj = torch.load(path)
     if isinstance(obj, Subset):
@@ -80,18 +78,16 @@ def load_subset(path: Path):
 
 
 def get_train_labels(subset: Subset):
-    """
-    Extrae las etiquetas del Subset sin necesidad de cargar imágenes en memoria.
-    """
-    base = subset.dataset
+    """Extrae las etiquetas y del Subset (sin necesidad de cargar imágenes)."""
+    base = subset.dataset   
     idxs = subset.indices
     return np.array([int(base.targets[i]) for i in idxs], dtype=int)
 
 
-def compute_class_weights(y: np.ndarray, num_classes: int) -> torch.Tensor:
+def compute_class_weights(y: np.ndarray, num_classes: int):
     """
-    Calcula pesos de clase inversos a su frecuencia.
-    Esto ayuda a que la pérdida dé más importancia a clases poco representadas.
+    Calcula pesos inversos a la frecuencia de cada clase.
+    Esto ayuda a que la pérdida dé más importancia a clases minoritarias.
     """
     counts = np.bincount(y, minlength=num_classes).astype(np.float64)
     eps = 1e-6
@@ -101,9 +97,7 @@ def compute_class_weights(y: np.ndarray, num_classes: int) -> torch.Tensor:
 
 
 def plot_confusion(cm: np.ndarray, class_names, out_path: Path):
-    """
-    Guarda en disco una figura de la matriz de confusión.
-    """
+    """Guarda una figura con la matriz de confusión."""
     fig = plt.figure()
     plt.imshow(cm, interpolation="nearest")
     plt.title("Matriz de confusión")
@@ -118,21 +112,21 @@ def plot_confusion(cm: np.ndarray, class_names, out_path: Path):
     plt.close(fig)
 
 
-# --------  MODELO --------
+
+# ---------------- MODELO ----------------
 class ImageClassifier(nn.Module):
     """
-    Clasificador multimodal:
+    Clasificador multimodal: 
     - Rama de imágenes → ResNet18 preentrenada en ImageNet.
-    - Rama de metadatos → un MLP sencillo.
-    - Fusión de ambas representaciones → capa final de clasificación.
+    - Rama de metadatos → MLP sencillo.
+    - Fusión de ambas → capa final de clasificación.
     """
-    def __init__(self, meta_dim: int, num_classes: int, pretrained: bool = True, dropout: float = 0.5):
+    def __init__(self, meta_dim: int, num_classes: int, pretrained: bool = True, dropout: float = 0.6):
         super().__init__()
-        # ResNet18 
         weights = ResNet18_Weights.IMAGENET1K_V1 if pretrained else None
         self.backbone = resnet18(weights=weights)
         in_feats = self.backbone.fc.in_features
-        self.backbone.fc = nn.Identity()  
+        self.backbone.fc = nn.Identity() 
 
         # Rama de metadatos
         self.meta = nn.Sequential(
@@ -141,7 +135,7 @@ class ImageClassifier(nn.Module):
             nn.BatchNorm1d(32),
         )
 
-        # Capa de fusión (imagen + metadatos)
+        # Fusión y Clasificación
         self.head = nn.Sequential(
             nn.Linear(in_feats + 32, 256),
             nn.ReLU(inplace=True),
@@ -156,14 +150,10 @@ class ImageClassifier(nn.Module):
         return self.head(f)           
 
 
+
 # -------- BUCLES DE ENTRENAMIENTO/EVALUACIÓN --------
 def train_one_epoch(model, loader, criterion, optimizer, device):
-    """
-    Entrena una época completa y devuelve:
-    - pérdida media
-    - accuracy
-    - F1-macro
-    """
+    """Entrena una época completa y devuelve pérdida, accuracy y F1-macro."""
     model.train()
     total_loss = 0.0
     y_true_all, y_pred_all = [], []
@@ -185,7 +175,6 @@ def train_one_epoch(model, loader, criterion, optimizer, device):
         y_true_all.append(ys.detach().cpu())
         y_pred_all.append(preds.detach().cpu())
 
-    # Métricas de la época
     epoch_loss = total_loss / len(loader.dataset)
     y_true = torch.cat(y_true_all).numpy()
     y_pred = torch.cat(y_pred_all).numpy()
@@ -195,11 +184,10 @@ def train_one_epoch(model, loader, criterion, optimizer, device):
 
 
 @torch.no_grad()
-def evaluate(model, loader, criterion, device, *, prefix: str, class_names, out_dir: Path):
+def evaluate(model, loader, criterion, device, prefix="val", class_names=None, out_dir=tmp_art_dir):
     """
-    Evalúa el modelo en un conjunto (validación o test).
-    - Calcula métricas (loss, acc, F1, precision, recall).
-    - Guarda el classification report y la matriz de confusión en out_dir.
+    Evalúa el modelo en un conjunto (val o test).
+    Guarda el classification report y la matriz de confusión.
     """
     model.eval()
     total_loss = 0.0
@@ -218,7 +206,6 @@ def evaluate(model, loader, criterion, device, *, prefix: str, class_names, out_
         y_true_all.append(ys.detach().cpu())
         y_pred_all.append(preds.detach().cpu())
 
-    # Métricas globales
     epoch_loss = total_loss / len(loader.dataset)
     y_true = torch.cat(y_true_all).numpy()
     y_pred = torch.cat(y_pred_all).numpy()
@@ -228,7 +215,11 @@ def evaluate(model, loader, criterion, device, *, prefix: str, class_names, out_
     precm = precision_score(y_true, y_pred, average="macro", zero_division=0)
     recm  = recall_score(y_true, y_pred, average="macro", zero_division=0)
 
-    # Guardar report y matriz de confusión en disco (para luego subir a MLflow)
+    # Guardar report y matriz de confusión
+    cm = confusion_matrix(y_true, y_pred)
+    if class_names is None:
+        class_names = [str(i) for i in range(int(cm.shape[0]))]
+
     rep_dir = out_dir / f"reports_{prefix}"
     rep_dir.mkdir(parents=True, exist_ok=True)
 
@@ -236,9 +227,6 @@ def evaluate(model, loader, criterion, device, *, prefix: str, class_names, out_
     with open(rep_path, "w", encoding="utf-8") as f:
         f.write(classification_report(y_true, y_pred, digits=3))
 
-    cm = confusion_matrix(y_true, y_pred)
-    if class_names is None:
-        class_names = [str(i) for i in range(int(cm.shape[0]))]
     cm_path = rep_dir / f"{prefix}_confusion_matrix.png"
     plot_confusion(cm, class_names, cm_path)
 
@@ -260,7 +248,7 @@ def main():
     pin_mem = device.type == "cuda" 
     print(f"Dispositivo: {device}")
 
-    # Cargar DataLoaders de train, val y test
+    # Cargar DataLoaders 
     train_loader, val_loader, test_loader = load_dataloaders(
         TRAIN_PT, VAL_PT, TEST_PT,
         batch_size=BATCH_SIZE,
@@ -269,7 +257,7 @@ def main():
         seed=SEED
     )
 
-    # Inferir dimensiones de los metadatos y número de clases
+    # Inferir dimensiones y clases 
     train_subset = train_loader.dataset
     sample = train_subset[0]
     meta_dim = int(sample[1].shape[0])     
@@ -278,7 +266,7 @@ def main():
     class_names = [str(i) for i in range(num_classes)]
     print(f"num_classes={num_classes}, meta_dim={meta_dim}")
 
-    # Definir modelo
+    # Modelo 
     model = ImageClassifier(
         meta_dim=meta_dim,
         num_classes=num_classes,
@@ -286,14 +274,14 @@ def main():
         dropout=0.5
     ).to(device)
 
-    # Definir función de pérdida con class weights y label smoothing
+    # Pérdida con class weights 
     class_weights = compute_class_weights(y_train, num_classes=num_classes).to(device)
     criterion = nn.CrossEntropyLoss(weight=class_weights, label_smoothing=0.05)
 
-    # Optimizador AdamW
+    # Optimizador 
     optimizer = torch.optim.AdamW(model.parameters(), lr=LR, weight_decay=WEIGHT_DECAY)
 
-    # Inicializar MLflow
+    #MLflow 
     mlflow = try_init_mlflow()
     if mlflow is not None:
         mlflow.start_run(run_name=RUN_NAME)
@@ -310,33 +298,25 @@ def main():
             "backbone": "resnet18_imagenet",
             "label_smoothing": 0.05,
         })
-        # Carpeta temporal para guardar artefactos antes de subirlos a MLflow
         tmp_art_dir = Path(tempfile.mkdtemp(prefix="mlflow_artifacts_"))
     else:
-        tmp_art_dir = Path(tempfile.mkdtemp(prefix="local_artifacts_"))
+        tmp_art_dir = None
 
-    # Entrenamiento con early stopping (según F1-macro de validación)
+    # Entrenamiento con early stopping (por val F1-macro)
     best_val_f1 = -1.0
     patience = 6
     bad_epochs = 0
     ckpt_path = tmp_art_dir / "best_model.pt"
-    torch.save(model.state_dict(), ckpt_path)  
+    torch.save(model.state_dict(), ckpt_path)
 
     for epoch in range(1, EPOCHS + 1):
-        # Entrenamiento en una época
         train_loss, train_acc, train_f1m = train_one_epoch(model, train_loader, criterion, optimizer, device)
-        
-        # Evaluación en validación
-        val_out = evaluate(
-            model, val_loader, criterion, device,
-            prefix="val", class_names=class_names, out_dir=tmp_art_dir
-        )
+        val_out = evaluate(model, val_loader, criterion, device, prefix="val", class_names=class_names, out_dir=tmp_art_dir)
 
         print(f"[Época {epoch:02d}/{EPOCHS}] "
               f"train_loss={train_loss:.4f} acc={train_acc:.4f} f1m={train_f1m:.4f} | "
               f"val_loss={val_out['loss']:.4f} acc={val_out['acc']:.4f} f1m={val_out['f1_macro']:.4f}")
 
-        # Log de métricas en MLflow
         if mlflow is not None:
             mlflow.log_metrics({
                 "train_loss": train_loss,
@@ -352,12 +332,10 @@ def main():
             best_val_f1 = val_out["f1_macro"]
             bad_epochs = 0
             torch.save(model.state_dict(), ckpt_path)
-
-            # Subir artefactos a MLflow
             if mlflow is not None:
-                mlflow.log_artifact(str(ckpt_path), artifact_path="checkpoints")
-                mlflow.log_artifact(val_out["rep_path"], artifact_path="validation")
-                mlflow.log_artifact(val_out["cm_path"],  artifact_path="validation")
+                mlflow.log_artifact(str(ckpt_path))
+                mlflow.log_artifact(val_out["rep_path"])
+                mlflow.log_artifact(val_out["cm_path"])
         else:
             bad_epochs += 1
             if bad_epochs >= patience:
@@ -371,13 +349,18 @@ def main():
 
     criterion_eval = nn.CrossEntropyLoss(weight=class_weights)
 
+    # Aseguramos un directorio de salida válido (por si tmp_art_dir no existe)
+    if 'tmp_art_dir' not in locals() or tmp_art_dir is None:
+        from pathlib import Path
+        tmp_art_dir = (BASE_DIR / "artifacts")  
+        tmp_art_dir.mkdir(parents=True, exist_ok=True)
+        
     test_out = evaluate(
         model, test_loader, criterion_eval, device,
         prefix="test", class_names=class_names, out_dir=tmp_art_dir
     )
     print(f"[TEST] loss={test_out['loss']:.4f} acc={test_out['acc']:.4f} f1m={test_out['f1_macro']:.4f}")
 
-    # Log de resultados de test en MLflow
     if mlflow is not None:
         mlflow.log_metrics({
             "test_loss":   test_out["loss"],
@@ -386,17 +369,14 @@ def main():
             "test_prec_m": test_out["precision_macro"],
             "test_rec_m":  test_out["recall_macro"],
         })
-        mlflow.log_artifact(test_out["rep_path"], artifact_path="test")
-        mlflow.log_artifact(test_out["cm_path"],  artifact_path="test")
+        mlflow.log_artifact(test_out["rep_path"])
+        mlflow.log_artifact(test_out["cm_path"])
 
-    # Limpieza: eliminar la carpeta temporal de artefactos
-    import shutil
-    shutil.rmtree(tmp_art_dir, ignore_errors=True)
+       # Limpieza: eliminamos la carpeta temporal de artefactos locales
+        if 'tmp_art_dir' in locals() and tmp_art_dir is not None:
+            import shutil
+            shutil.rmtree(tmp_art_dir, ignore_errors=True)
 
-    # Cerrar el run de MLflow
-    if mlflow is not None:
+        # Cerrar el run 
         mlflow.end_run()
 
-
-if __name__ == "__main__":
-    main()
