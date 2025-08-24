@@ -123,13 +123,23 @@ class ImageClassifier(nn.Module):
     """
     def __init__(self, meta_dim: int, num_classes: int, pretrained: bool = True, dropout: float = 0.5):
         super().__init__()
+
+        # ... [código de carga del backbone ConvNeXt-T o EfficientNet-B5] ...
         weights = ConvNeXt_Tiny_Weights.IMAGENET1K_V1 if pretrained else None
         self.backbone = convnext_tiny(weights=weights)
         
-        # La salida de ConvNeXt es self.backbone.classifier[2]
-        # El tamaño de la característica de entrada es el tamaño de la capa LayerNorm (antes del Linear)
-        in_feats = self.backbone.classifier[1].normalized_shape[0] # Esto será 768
-        self.backbone.classifier = nn.Identity()   
+        # Aquí obtienes in_feats, que es la dimensión final del vector de características
+        in_feats = self.backbone.classifier[2].in_features 
+        
+        # Reemplazamos la capa de clasificación (o head) por Identity
+        self.backbone.classifier = nn.Identity() 
+
+        # Agregar la capa que aplane el tensor de 4D a 2D
+        # ConvNeXt usa un norm layer antes del GAP, lo mejor es usar un nn.AdaptiveAvgPool2d y Flatten.
+        self.img_flatten = nn.Sequential(
+            nn.AdaptiveAvgPool2d((1, 1)),  # Convierte [B, C, H, W] a [B, C, 1, 1]
+            nn.Flatten()                   # Convierte [B, C, 1, 1] a [B, C] (o [B, in_feats])
+        ) 
 
         # Rama de metadatos
         self.meta = nn.Sequential(
@@ -148,9 +158,15 @@ class ImageClassifier(nn.Module):
 
     def forward(self, x_img, x_meta):
         f_img = self.backbone(x_img) 
-        f_meta = self.meta(x_meta)     
-        f = torch.cat([f_img, f_meta], dim=1)
-        return self.head(f)           
+
+        # **APLANAMIENTO DEL TENSOR DE IMAGEN (4D a 2D)**
+        f_img = self.img_flatten(f_img)
+
+        f_meta = self.meta(x_meta)      
+
+        # Ahora ambos tienen 2 dimensiones y la concatenación funciona
+        f = torch.cat([f_img, f_meta], dim=1) 
+        return self.head(f)         
 
 
 
