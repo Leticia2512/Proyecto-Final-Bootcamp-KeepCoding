@@ -7,7 +7,7 @@ import torch.nn as nn
 import tempfile
 import shutil
 from torch.utils.data import DataLoader, Subset
-from torchvision.models import convnext_tiny, ConvNeXt_Tiny_Weights, efficientnet_b0, efficientnet_b3 
+from torchvision.models import convnext_tiny, ConvNeXt_Tiny_Weights
 
 from sklearn.metrics import (
     accuracy_score, f1_score, precision_score, recall_score,
