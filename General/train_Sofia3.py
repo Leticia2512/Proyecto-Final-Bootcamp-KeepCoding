@@ -7,7 +7,7 @@ import torch.nn as nn
 import tempfile
 import shutil
 from torch.utils.data import DataLoader, Subset
-from torchvision.models import efficientnet_b3, EfficientNet_B3_Weights 
+from torchvision.models import efficientnet_b3, EfficientNet_B3_Weights
 
 from sklearn.metrics import (
     accuracy_score, f1_score, precision_score, recall_score,
