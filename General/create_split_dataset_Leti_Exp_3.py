@@ -1,24 +1,50 @@
+# create_split_dataset_Leti_Exp_3.py
+
+
 from pathlib import Path
+from sklearn.model_selection import train_test_split
 import numpy as np
 import pandas as pd
 import torch
-
-from sklearn.model_selection import StratifiedGroupKFold
-from eye_pytorch_dataset_Leti_Exp_3 import EyeDataset, get_train_transform, get_eval_transform
 from torch.utils.data import Subset
+
+# Importa el dataset SOLO-IMÁGENES y sus transforms
+from eye_pytorch_dataset_Leti_Exp_3 import EyeDatasetIMG, get_train_transform, get_eval_transform
+
+
+def _load_targets(parquet_or_csv_path: Path) -> np.ndarray:
+    """
+    Carga el fichero de anotaciones (parquet o csv) y devuelve el vector y (cod_target).
+    Se asume que existe la columna 'cod_target' con enteros 0..K-1.
+    """
+    if parquet_or_csv_path.suffix.lower() == ".parquet":
+        df = pd.read_parquet(parquet_or_csv_path)
+    else:
+        df = pd.read_csv(parquet_or_csv_path)
+
+    if "cod_target" not in df.columns:
+        raise ValueError("No se encuentra la columna 'cod_target' en el fichero de anotaciones.")
+
+    return df["cod_target"].astype(int).to_numpy()
 
 
 def create_split(
-    parquet_file=Path("Data/parquet/dataset_meta_ojouni_quality.parquet"),  
+    parquet_file=Path("Data/parquet/dataset_meta_ojouni.parquet"),
     image_dir=Path("224x224"),
-    feature_cols=("Patient Age", "Patient_Sex_Binario"),
-    seed: int = 42,
+    img_size: int = 224,
 ):
     """
-    Crea splits estratificados (80/10/10) por clase y AGRUPADOS por paciente.
-    Guarda Subsets en .pt (compatibles con tu pipeline actual).
+    Crea splits estratificados (80/10/10) y guarda Subsets en .pt.
+    - Usa EyeDatasetIMG (solo-imágenes), sin metadatos.
+    - Train: augmentations + normalización.
+    - Val/Test: preprocesado determinista (sin augmentations).
+
+    Args:
+        parquet_file: ruta al .parquet o .csv con columnas ['filename', 'cod_target']
+        image_dir: carpeta que contiene las imágenes físicas
+        img_size: tamaño al que se redimensionan las imágenes en los transforms
     """
-    # Rutas portables
+    # ----- Rutas portables relativas al repo -----
     base_dir = Path(__file__).resolve().parent
     repo_root = base_dir.parent
 
@@ -33,66 +59,59 @@ def create_split(
     out_dir = (repo_root / "Data" / "dataset").resolve()
     out_dir.mkdir(parents=True, exist_ok=True)
 
-    # Leer parquet y construir patient_id desde filename
-    df = pd.read_parquet(parquet_file).reset_index(drop=True)
-    df["filename"] = df["filename"].astype(str)
-    # Extrae el prefijo numérico antes del guion bajo (e.g., "123_right.jpg" -> "123")
-    pid = df["filename"].str.extract(r"^(\d+)_")[0]
-    if pid.isna().any():
-        # Fallback simple: quita sufijos típicos; ajusta a tu convención si difiere
-        pid = df["filename"].str.replace(r"_left\.jpg|_right\.jpg", "", regex=True)
-    df["patient_id"] = pid.astype(str)
+    y = _load_targets(parquet_file)
+    idxs = np.arange(len(y))
 
-    y = df["cod_target"].astype(int).to_numpy()
-    groups = df["patient_id"].to_numpy()
+    # Validación de etiquetas
+    if y.min() < 0 or (np.unique(y) != np.arange(y.max() + 1)).any():
+        raise ValueError(
+            "Las etiquetas 'cod_target' deben ser enteros consecutivos (0..K-1). "
+            "Mapéalas antes si es necesario."
+        )
 
-    # Split 80% train / 20% tmp (val+test), estratificado y agrupado por paciente
-    skf = StratifiedGroupKFold(n_splits=5, shuffle=True, random_state=seed)
-    tr_idx, tmp_idx = next(skf.split(df, y=y, groups=groups))
-
-    # Split 10% val / 10% test dentro de tmp, estratificado y agrupado
-    df_tmp = df.iloc[tmp_idx].reset_index(drop=True)
-    y_tmp  = df_tmp["cod_target"].to_numpy()
-    g_tmp  = df_tmp["patient_id"].to_numpy()
-
-    skf2 = StratifiedGroupKFold(n_splits=2, shuffle=True, random_state=seed)
-    va_part, te_part = next(skf2.split(df_tmp, y=y_tmp, groups=g_tmp))
-    va_idx = tmp_idx[va_part]
-    te_idx = tmp_idx[te_part]
-
-    # Info de tamaños
-    n = len(df)
-    print(f"[Split] train: {len(tr_idx)} ({len(tr_idx)/n:.1%}) | "
-          f"val: {len(va_idx)} ({len(va_idx)/n:.1%}) | "
-          f"test: {len(te_idx)} ({len(te_idx)/n:.1%})")
-
-    # Datasets con transforms 
-    ds_train = EyeDataset(
-        parquet_path=parquet_file,
-        image_dir=image_dir,
-        feature_cols=feature_cols,
-        transform=get_train_transform(224),
-        num_classes=8 
+    # ----- Splits 80/10/10 estratificados -----
+    tr_idx, tmp_idx = train_test_split(
+        idxs, test_size=0.2, random_state=42, shuffle=True, stratify=y
     )
-    ds_eval = EyeDataset(
-        parquet_path=parquet_file,
-        image_dir=image_dir,
-        feature_cols=feature_cols,
-        transform=get_eval_transform(224),
-        num_classes=8
+    va_idx, te_idx = train_test_split(
+        tmp_idx, test_size=0.5, random_state=42, shuffle=True, stratify=y[tmp_idx]
     )
 
-    # Subsets
+    # ----- Datasets (solo-imágenes) con transforms -----
+    # Dataset base para TRAIN con augmentations
+    ds_train = EyeDatasetIMG(
+        parquet_path=str(parquet_file),
+        image_dir=str(image_dir),
+        transform=get_train_transform(img_size),
+    )
+
+    # Dataset base para EVAL (VAL/TEST) con transform 
+    ds_eval = EyeDatasetIMG(
+        parquet_path=str(parquet_file),
+        image_dir=str(image_dir),
+        transform=get_eval_transform(img_size),
+    )
+
+    # ----- Subsets por índices -----
     dataset_train = Subset(ds_train, tr_idx)
     dataset_val   = Subset(ds_eval,  va_idx)
     dataset_test  = Subset(ds_eval,  te_idx)
 
-    # Guardado
+    # ----- Guardado de datasets e índices  -----
     torch.save(dataset_train, out_dir / "train_dataset.pt")
     torch.save(dataset_val,   out_dir / "val_dataset.pt")
     torch.save(dataset_test,  out_dir / "test_dataset.pt")
 
-    print("[OK] Guardados Subset en Data/dataset/: train_dataset.pt, val_dataset.pt, test_dataset.pt")
+    # Guardamos también los índices
+    np.save(out_dir / "train_idx.npy", tr_idx)
+    np.save(out_dir / "val_idx.npy",   va_idx)
+    np.save(out_dir / "test_idx.npy",  te_idx)
+
+    print(f"[OK] Guardados en: {out_dir}")
+    print(f"  - train_dataset.pt  ({len(tr_idx)} muestras)")
+    print(f"  - val_dataset.pt    ({len(va_idx)} muestras)")
+    print(f"  - test_dataset.pt   ({len(te_idx)} muestras)")
+    print(f"  - train_idx.npy / val_idx.npy / test_idx.npy")
 
 
 def main():
