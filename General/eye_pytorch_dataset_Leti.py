@@ -12,12 +12,23 @@ import torchvision.transforms as T
 # ----- Transforms modulares ------
 def get_train_transform(img_size: int = 224):
     return T.Compose([
-        T.RandomHorizontalFlip(p= 0.5),
-        T.RandomRotation(10),
-        T.ToTensor(),
-        T.Normalize(mean=[0.485, 0.456, 0.406],
-                    std =[0.229, 0.224, 0.225]),
-        T.RandomErasing(p=0.1) 
+        transforms.RandomAffine(
+            degrees=7,                 # rotación ±7°
+            translate=(0.02, 0.02),    # ±2% desplazamiento
+            scale=(0.95, 1.05),        # ±5% escala
+            shear=None
+        ),
+        transforms.ColorJitter(
+            brightness=0.10,
+            contrast=0.10,
+            saturation=0.10,
+            hue=0.02
+        ),
+        transforms.RandomHorizontalFlip(p=0.5),
+        transforms.ToTensor(),
+        transforms.Normalize(mean=[0.485, 0.456, 0.406],
+                             std =[0.229, 0.224, 0.225]),
+        transforms.RandomErasing(p=0.25, scale=(0.01, 0.03), ratio=(0.3, 3.3), value='random')
     ])
 
 
