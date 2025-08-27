@@ -1,3 +1,22 @@
+"""
+Hiperparámetros
+BATCH_SIZE = 32, 
+EPOCHS  = 15, 
+LR = 1e-4, 
+WEIGHT_DECAY = 5e-4
+
+
+patience = 4
+
+Modelo: efficientnet_b0
+
+Target: Todas las Clases
+
+Data Augmentation: Básico
+
+Tiempo: 1.1H
+"""
+
 from pathlib import Path
 from datetime import datetime
 
