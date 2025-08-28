@@ -1,13 +1,7 @@
-# Requisitos del sistema
-- Python 3.9+
-- Docker y Docker Compose
-- Git
-- Editor de código (VS Code recomendado)
-
-# Configuración inicial
-git clone [repository]
-cd proyecto-ojos
-python -m venv venv
-source venv/bin/activate  # Linux/Mac
-# venv\Scripts\activate   # Windows
-pip install -r requirements.txt
+fastapi==0.104.1
+uvicorn==0.24.0
+python-multipart==0.0.6
+tensorflow==2.13.0
+opencv-python==4.8.0.76
+Pillow==10.0.1
+numpy==1.24.3
