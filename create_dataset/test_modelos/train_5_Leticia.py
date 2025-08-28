@@ -18,7 +18,7 @@ from sklearn.metrics import (
 
 import matplotlib.pyplot as plt
 
-from load_dataloaders import load_dataloaders
+from load_dataloaders_Sofia import load_dataloaders
 
 
 # ===== CONFIGURACIÓN =====
@@ -27,41 +27,32 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # Subsets preprocesados en .pt
 TRAIN_PT = BASE_DIR / "Data" / "dataset" / "train_dataset.pt"
-VAL_PT = BASE_DIR / "Data" / "dataset" / "val_dataset.pt"
-TEST_PT = BASE_DIR / "Data" / "dataset" / "test_dataset.pt"
+VAL_PT   = BASE_DIR / "Data" / "dataset" / "val_dataset.pt"
+TEST_PT  = BASE_DIR / "Data" / "dataset" / "test_dataset.pt"
 
 # Hiperparámetros
-BATCH_SIZE = 32
-EPOCHS = 20
-LR = 1e-4
+BATCH_SIZE   = 32
+EPOCHS       = 20
+LR           = 1e-4
 WEIGHT_DECAY = 5e-4
-NUM_WORKERS = 0
-SEED = 42
+NUM_WORKERS  = 0
+SEED         = 42
 
 # Clases que mantenemos y su remapeo a 0..4
 KEEP_CLASSES = [0, 1, 2, 5, 6]
-OLD2NEW = {old: new for new, old in enumerate(
-    KEEP_CLASSES)}  # {0:0,1:1,2:2,5:3,6:4}
+OLD2NEW = {old: new for new, old in enumerate(KEEP_CLASSES)}  # {0:0,1:1,2:2,5:3,6:4}
 
 # MLflow
 EXPERIMENT_NAME = "Experimento_4_Leticia_ResNet18_Top5"
-RUN_NAME = "resnet18_mm_" + datetime.now().strftime("%Y%m%d_%H%M%S")
+RUN_NAME        = "resnet18_mm_" + datetime.now().strftime("%Y%m%d_%H%M%S")
 
-# Opciones adicionales
-USE_SCHEDULER = True
-SCHED_PATIENCE = 2
-SCHED_FACTOR = 0.5
-
-USE_FOCAL = False
-FOCAL_GAMMA = 1.5
-LABEL_SMOOTHING = 0.05
-
-USE_MIXUP = False
-MIXUP_ALPHA = 0.2
-
-USE_AMP = True
-
-EARLY_STOPPING_PATIENCE = 6
+# Configuración optimización entrenamiento
+USE_SCHEDULER = True                
+SCHED_PATIENCE = 2                 
+SCHED_FACTOR   = 0.5                 
+LABEL_SMOOTHING = 0.05               
+USE_AMP = True                     
+EARLY_STOPPING_PATIENCE = 6          
 
 
 # ===== UTILIDADES ML =====
@@ -148,7 +139,6 @@ class FilterMapDataset(Dataset):
       1) Filtrar sólo las clases KEEP_CLASSES
       2) Remapear etiquetas originales a [0..num_clases-1] con OLD2NEW
     """
-
     def __init__(self, base, keep_classes, old2new):
         self.keep = set(keep_classes)
         self.map = old2new
@@ -181,66 +171,8 @@ class FilterMapDataset(Dataset):
         return x_img, x_meta, y_new
 
 
-# ===== PÉRDIDAS EXTRA =====
 
-class FocalLoss(nn.Module):
-    """
-    Focal Loss multiclase basada en CrossEntropy con soporte de label smoothing.
-    Útil para desbalance (penaliza más los ejemplos mal clasificados).
-    """
-
-    def __init__(self, weight=None, gamma: float = 1.5, reduction: str = "mean", label_smoothing: float = 0.0):
-        super().__init__()
-        self.weight = weight
-        self.gamma = gamma
-        self.reduction = reduction
-        self.label_smoothing = label_smoothing
-
-    def forward(self, logits, target):
-        ce = nn.functional.cross_entropy(
-            logits, target,
-            weight=self.weight,
-            reduction="none",
-            label_smoothing=self.label_smoothing
-        )
-        pt = torch.exp(-ce)          # probabilidad del target
-        focal = (1 - pt) ** self.gamma * ce
-        if self.reduction == "mean":
-            return focal.mean()
-        elif self.reduction == "sum":
-            return focal.sum()
-        else:
-            return focal
-
-
-# ======== MIXUP ===========
-
-def mixup_data(x_img, x_meta, y, alpha=0.2):
-    """
-    Aplica mixup lineal a imágenes y metadatos. Devuelve tensores mezclados y etiquetas pareadas.
-    """
-    if alpha <= 0:
-        return x_img, x_meta, y, 1.0
-    lam = np.random.beta(alpha, alpha)
-    batch_size = x_img.size(0)
-    index = torch.randperm(batch_size, device=x_img.device)
-    mixed_img = lam * x_img + (1 - lam) * x_img[index, :]
-    mixed_meta = lam * x_meta + (1 - lam) * x_meta[index, :]
-    y_a, y_b = y, y[index]
-    return mixed_img, mixed_meta, (y_a, y_b), lam
-
-
-def mixup_ce_loss(logits, y_pair, lam, weight=None, label_smoothing=0.0):
-    """
-    Pérdida CE compatible con mixup (combinación convexa de dos objetivos).
-    """
-    y_a, y_b = y_pair
-    ce = nn.CrossEntropyLoss(
-        weight=weight, label_smoothing=label_smoothing, reduction="none")
-    return lam * ce(logits, y_a).mean() + (1 - lam) * ce(logits, y_b).mean()
-
-
-# ========= MODELO =========
+# ===== MODELO =====
 
 class ImageClassifier(nn.Module):
     """
@@ -249,7 +181,6 @@ class ImageClassifier(nn.Module):
       - Rama de metadatos: MLP sencillo (64 unidades)
       - Fusión: concatenación + MLP final → logits
     """
-
     def __init__(self, meta_dim: int, num_classes: int, pretrained: bool = True, dropout: float = 0.5):
         super().__init__()
         # ResNet18
@@ -258,7 +189,7 @@ class ImageClassifier(nn.Module):
         in_feats = self.backbone.fc.in_features
         self.backbone.fc = nn.Identity()
 
-        # Rama metadatos
+        # Rama metadatos 
         self.meta = nn.Sequential(
             nn.Linear(meta_dim, 64),
             nn.ReLU(inplace=True),
@@ -283,12 +214,11 @@ class ImageClassifier(nn.Module):
 
 # ===== ENTRENAMIENTO Y EVAL =======
 
-def train_one_epoch(model, loader, criterion, optimizer, device, *, scaler=None,
-                    use_mixup: bool = False, mixup_alpha: float = 0.2, label_smoothing: float = 0.0):
+def train_one_epoch(model, loader, criterion, optimizer, device, *, scaler=None):
     """
     Entrena una época completa.
     Devuelve pérdida media, accuracy y F1-macro.
-    - Soporta AMP (con 'scaler') y Mixup (si use_mixup=True).
+    - Supports AMP (with 'scaler').
     """
     model.train()
     total_loss = 0.0
@@ -301,30 +231,18 @@ def train_one_epoch(model, loader, criterion, optimizer, device, *, scaler=None,
 
         optimizer.zero_grad(set_to_none=True)
 
-        if use_mixup:
-            imgs_m, metas_m, (ya, yb), lam = mixup_data(
-                imgs, metas, ys, alpha=mixup_alpha)
-        else:
-            imgs_m, metas_m = imgs, metas
+        imgs_m, metas_m = imgs, metas
 
-        # Forward + pérdida
+        # Forward + pérdida 
         if scaler is not None:
             with torch.cuda.amp.autocast(dtype=torch.float16):
                 logits = model(imgs_m, metas_m)
-                if use_mixup:
-                    loss = mixup_ce_loss(
-                        logits, (ya, yb), lam, weight=None, label_smoothing=label_smoothing)
-                else:
-                    loss = criterion(logits, ys)
+                loss = criterion(logits, ys)
         else:
             logits = model(imgs_m, metas_m)
-            if use_mixup:
-                loss = mixup_ce_loss(
-                    logits, (ya, yb), lam, weight=None, label_smoothing=label_smoothing)
-            else:
-                loss = criterion(logits, ys)
+            loss = criterion(logits, ys)
 
-        # Backward + step
+        # Backward + step 
         if scaler is not None:
             scaler.scale(loss).backward()
             torch.nn.utils.clip_grad_norm_(model.parameters(), 5.0)
@@ -337,7 +255,7 @@ def train_one_epoch(model, loader, criterion, optimizer, device, *, scaler=None,
 
         total_loss += loss.item() * imgs.size(0)
 
-        # Métricas clásicas SIN mixup
+        # Metrics on hard labels
         preds = logits.argmax(1)
         y_true_all.append(ys.detach().cpu())
         y_pred_all.append(preds.detach().cpu())
@@ -384,13 +302,10 @@ def evaluate(model, loader, criterion, device, *, prefix: str, class_names, out_
     num_classes = len(class_names)
     labels_list = list(range(num_classes))
 
-    acc = accuracy_score(y_true, y_pred)
-    f1m = f1_score(y_true, y_pred, average="macro",
-                   labels=labels_list, zero_division=0)
-    precm = precision_score(y_true, y_pred, average="macro",
-                            labels=labels_list, zero_division=0)
-    recm = recall_score(y_true, y_pred, average="macro",
-                        labels=labels_list, zero_division=0)
+    acc   = accuracy_score(y_true, y_pred)
+    f1m   = f1_score(y_true, y_pred, average="macro", labels=labels_list, zero_division=0)
+    precm = precision_score(y_true, y_pred, average="macro", labels=labels_list, zero_division=0)
+    recm  = recall_score(y_true, y_pred, average="macro", labels=labels_list, zero_division=0)
 
     rep_dir = out_dir / f"reports_{prefix}"
     rep_dir.mkdir(parents=True, exist_ok=True)
@@ -406,7 +321,7 @@ def evaluate(model, loader, criterion, device, *, prefix: str, class_names, out_
 
     # Matrices de confusión (bruta y normalizada)
     cm = confusion_matrix(y_true, y_pred, labels=labels_list)
-    cm_path = rep_dir / f"{prefix}_confusion_matrix.png"
+    cm_path  = rep_dir / f"{prefix}_confusion_matrix.png"
     cmn_path = rep_dir / f"{prefix}_confusion_matrix_normalized.png"
     plot_confusion(cm, class_names, cm_path,  normalize=False)
     plot_confusion(cm, class_names, cmn_path, normalize=True)
@@ -435,6 +350,7 @@ def evaluate(model, loader, criterion, device, *, prefix: str, class_names, out_
     }
 
 
+
 # ========= MAIN ===========
 
 def main():
@@ -454,16 +370,16 @@ def main():
 
     # Filtrar y remapear datasets
     train_ds = FilterMapDataset(train_loader.dataset, KEEP_CLASSES, OLD2NEW)
-    val_ds = FilterMapDataset(val_loader.dataset,   KEEP_CLASSES, OLD2NEW)
-    test_ds = FilterMapDataset(test_loader.dataset,  KEEP_CLASSES, OLD2NEW)
+    val_ds   = FilterMapDataset(val_loader.dataset,   KEEP_CLASSES, OLD2NEW)
+    test_ds  = FilterMapDataset(test_loader.dataset,  KEEP_CLASSES, OLD2NEW)
 
     # Crear DataLoaders filtrados/remapeados (shuffle solo en train)
     train_loader = DataLoader(train_ds, batch_size=BATCH_SIZE, shuffle=True,
                               num_workers=NUM_WORKERS, pin_memory=pin_mem)
-    val_loader = DataLoader(val_ds,   batch_size=BATCH_SIZE, shuffle=False,
-                            num_workers=NUM_WORKERS, pin_memory=pin_mem)
-    test_loader = DataLoader(test_ds,  batch_size=BATCH_SIZE, shuffle=False,
-                             num_workers=NUM_WORKERS, pin_memory=pin_mem)
+    val_loader   = DataLoader(val_ds,   batch_size=BATCH_SIZE, shuffle=False,
+                              num_workers=NUM_WORKERS, pin_memory=pin_mem)
+    test_loader  = DataLoader(test_ds,  batch_size=BATCH_SIZE, shuffle=False,
+                              num_workers=NUM_WORKERS, pin_memory=pin_mem)
 
     # Meta-dimensión y nº de clases
     sample = train_ds[0]
@@ -483,27 +399,18 @@ def main():
     ).to(device)
 
     # Pesos de clase (calculados tras filtrar/remapear)
-    y_train = get_all_labels_from_dataset(
-        train_ds, batch_size=512, num_workers=NUM_WORKERS)
-    class_weights = compute_class_weights(
-        y_train, num_classes=num_classes).to(device)
+    y_train = get_all_labels_from_dataset(train_ds, batch_size=512, num_workers=NUM_WORKERS)
+    class_weights = compute_class_weights(y_train, num_classes=num_classes).to(device)
 
-    # Criterio (Focal opcional) para entrenamiento
-    if USE_FOCAL:
-        print(
-            f"[INFO] Usando Focal Loss (gamma={FOCAL_GAMMA}) con label_smoothing={LABEL_SMOOTHING}")
-        criterion = FocalLoss(
-            weight=class_weights, gamma=FOCAL_GAMMA, label_smoothing=LABEL_SMOOTHING)
+    # Criterio para entrenamiento
     else:
-        criterion = nn.CrossEntropyLoss(
-            weight=class_weights, label_smoothing=LABEL_SMOOTHING)
+        criterion = nn.CrossEntropyLoss(weight=class_weights, label_smoothing=LABEL_SMOOTHING)
 
-    # Criterio para evaluación (CE sin smoothing para métricas estables)
+    # Criterio para evaluación 
     criterion_eval = nn.CrossEntropyLoss(weight=class_weights)
 
     # Optimizador
-    optimizer = torch.optim.AdamW(
-        model.parameters(), lr=LR, weight_decay=WEIGHT_DECAY)
+    optimizer = torch.optim.AdamW(model.parameters(), lr=LR, weight_decay=WEIGHT_DECAY)
 
     # Scheduler opcional (ReduceLROnPlateau sobre F1 macro de validación)
     scheduler = None
@@ -533,24 +440,18 @@ def main():
             "use_scheduler": USE_SCHEDULER,
             "sched_patience": SCHED_PATIENCE,
             "sched_factor": SCHED_FACTOR,
-            "use_focal": USE_FOCAL,
-            "focal_gamma": FOCAL_GAMMA,
-            "use_mixup": USE_MIXUP,
-            "mixup_alpha": MIXUP_ALPHA,
             "use_amp": USE_AMP,
         })
         # Registrar frecuencias de clase en train
         unique, counts = np.unique(y_train, return_counts=True)
-        class_freq = {f"class_{int(k)}_count": int(v)
-                      for k, v in zip(unique, counts)}
+        class_freq = {f"class_{int(k)}_count": int(v) for k, v in zip(unique, counts)}
         mlflow.log_params(class_freq)
         tmp_art_dir = Path(tempfile.mkdtemp(prefix="mlflow_artifacts_"))
     else:
         tmp_art_dir = Path(tempfile.mkdtemp(prefix="local_artifacts_"))
 
     # AMP scaler
-    scaler = torch.cuda.amp.GradScaler(
-        enabled=(device.type == "cuda" and USE_AMP))
+    scaler = torch.cuda.amp.GradScaler(enabled=(device.type == "cuda" and USE_AMP))
 
     # Early stopping por F1 macro de validación
     best_val_f1 = -1.0
@@ -561,9 +462,7 @@ def main():
     # Bucle de entrenamiento
     for epoch in range(1, EPOCHS + 1):
         train_loss, train_acc, train_f1m = train_one_epoch(
-            model, train_loader, criterion, optimizer, device,
-            scaler=scaler, use_mixup=USE_MIXUP, mixup_alpha=MIXUP_ALPHA,
-            label_smoothing=LABEL_SMOOTHING
+            model, train_loader, criterion, optimizer, device
         )
 
         val_out = evaluate(model, val_loader, criterion_eval, device,
@@ -585,8 +484,7 @@ def main():
             }, step=epoch)
             # Log de LR por grupo
             for i, param_group in enumerate(optimizer.param_groups):
-                mlflow.log_metric(
-                    f"lr_group{i}", param_group["lr"], step=epoch)
+                mlflow.log_metric(f"lr_group{i}", param_group["lr"], step=epoch)
 
         # Scheduler (ReduceLROnPlateau) sobre F1 macro de validación
         if scheduler is not None:
@@ -598,8 +496,7 @@ def main():
             bad_epochs = 0
             torch.save(model.state_dict(), ckpt_path)
             if mlflow is not None:
-                mlflow.log_artifact(
-                    str(ckpt_path), artifact_path="checkpoints")
+                mlflow.log_artifact(str(ckpt_path), artifact_path="checkpoints")
         else:
             bad_epochs += 1
             if bad_epochs >= EARLY_STOPPING_PATIENCE:
@@ -613,8 +510,7 @@ def main():
 
     test_out = evaluate(model, test_loader, criterion_eval, device,
                         prefix="test", class_names=class_names, out_dir=tmp_art_dir, mlflow=mlflow)
-    print(
-        f"[TEST] loss={test_out['loss']:.4f} acc={test_out['acc']:.4f} f1m={test_out['f1_macro']:.4f}")
+    print(f"[TEST] loss={test_out['loss']:.4f} acc={test_out['acc']:.4f} f1m={test_out['f1_macro']:.4f}")
 
     if mlflow is not None:
         mlflow.log_metrics({
