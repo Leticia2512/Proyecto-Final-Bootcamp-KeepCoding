@@ -22,7 +22,7 @@ def configure_overview() -> None: # Descripción de la aplicación
         """
     )
 
-def configure_inputs() -> None: # Inputs de la aplicación
+def configure_inputs() -> tuple[str, int, Image.Image | None, bytes | None]: # Inputs de la aplicación
     sex = st.selectbox("Sexo del Paciente", options=["Masculino", "Femenino"])
     age = st.slider("Edad del Paciente", min_value=1, max_value=120, value=30, step=1)
     image_file = st.file_uploader("Suba la Imagen del Escáner Ocular", type=["jpg", "jpeg"])

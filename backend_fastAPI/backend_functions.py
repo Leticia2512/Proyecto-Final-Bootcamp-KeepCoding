@@ -1,6 +1,6 @@
 from pathlib import Path
 
-def validate_image_jpg(ruta_imagen: str) -> bool:
+def validate_image_jpg(ruta_imagen: str) -> tuple[bool,str]:
     """
     Valida si una ruta de archivo corresponde a una imagen JPG y si existe.
 
