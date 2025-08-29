@@ -1,0 +1,4 @@
+fastapi==0.116.1
+numpy==2.3.2
+Pillow==11.3.0
+tensorflow==2.20.0
