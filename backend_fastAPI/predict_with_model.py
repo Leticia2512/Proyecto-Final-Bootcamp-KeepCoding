@@ -66,8 +66,8 @@ def predict(image_path: str, meta_data: dict):
     Returns:
         El índice de la clase predicha.
     """
-    # 1. Preprocesar la imagen
-    transform = T.Compose([
+    # 1. Preprocesar la imagen   
+    transform = T.Compose([       
         T.ToTensor(),
         T.Normalize(mean=[0.485, 0.456, 0.406],
                     std =[0.229, 0.224, 0.225])
