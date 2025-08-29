@@ -8,6 +8,8 @@ from class_values import PatientData
 from backend_functions import validate_image_jpg
 import urllib.parse
 import torch
+from pathlib import Path
+from predict_with_model import predict
 
 app = FastAPI(
     title="Backend de modelo de Clasificación Ocular",         
@@ -23,6 +25,9 @@ async def get_ocular_prediction(patient: PatientData):
     gender = patient.gender
     image_url = patient.image_url
 
+    image_path = Path(image_url)
+    meta_data = {"age": age, "gender": gender}
+
     result = 5 #Normal
 
     if age < 1 or age > 120:
@@ -33,7 +38,9 @@ async def get_ocular_prediction(patient: PatientData):
     if correct_url == False:
         raise HTTPException(status_code=404, detail=status_url)
         
-    response = {"ocular_prediction": result}
+    predicted_class, probabilities = predict(str(image_path), meta_data)
+
+    response = {"predicted_class": predicted_class, "probabilities": probabilities}
    
     return response
 

@@ -1,7 +1,7 @@
 import torch
 import torch.nn as nn
 from torchvision.models import efficientnet_b0, EfficientNet_B0_Weights
-
+from pathlib import Path
 from PIL import Image
 import numpy as np
 from torchvision import transforms as T
@@ -42,7 +42,7 @@ class ImageClassifier(nn.Module):
 # Dimensiones del modelo (basadas en los hiperparámetros de entrenamiento)
 META_DIM = 2 
 NUM_CLASSES = len(KEEP_CLASSES)
-MODEL_PATH = "bestmodel/best_model.pt"
+MODEL_PATH = Path("backend_fastAPI/bestmodel/best_model.pt")
 
 # Cargar el modelo
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
@@ -52,7 +52,7 @@ model = ImageClassifier(
     pretrained=False # No se cargam cargar los pesos de imagenet porque usaremos los nuestros
 ).to(device)
 
-model.load_state_dict(torch.load(MODEL_PATH, map_location=device))
+model.load_state_dict(torch.load(str(MODEL_PATH), map_location=device))
 model.eval() # Poner el modelo en modo de evaluación
 
 def predict(image_path: str, meta_data: dict):
@@ -66,12 +66,20 @@ def predict(image_path: str, meta_data: dict):
     Returns:
         El índice de la clase predicha.
     """
+    # Convertir la cadena de texto a un objeto Path
+    image_path = Path(image_path)
+
     # 1. Preprocesar la imagen
     transform = T.Compose([
+        T.Resize(256),
+        T.CenterCrop(224),
         T.ToTensor(),
         T.Normalize(mean=[0.485, 0.456, 0.406],
                     std =[0.229, 0.224, 0.225])
     ])
+
+    if not image_path.is_file():
+        raise FileNotFoundError(f"El archivo de imagen no existe: {image_path}")
 
     image = Image.open(image_path).convert('RGB')
     image_tensor = transform(image).unsqueeze(0).to(device)
@@ -98,11 +106,11 @@ def predict(image_path: str, meta_data: dict):
 
 if __name__ == "__main__":
     # Asegúrate de que la ruta de la imagen sea correcta
-    image_path = "backend_fastAPI\19_right.jpg" 
+    image_path = Path("backend_fastAPI/19_right.jpg")
     meta_data = {"age": 45, "gender": "male"} # Ejemplo de datos de metadatos
 
     # Llamar a la función de predicción
-    predicted_class, probabilities = predict(image_path, meta_data)
+    predicted_class, probabilities = predict(str(image_path), meta_data)
 
     print(f"La clase original predicha es: {predicted_class}")
     print("Probabilidades para cada clase remapeada:")
