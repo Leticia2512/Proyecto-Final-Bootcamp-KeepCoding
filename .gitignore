@@ -11,3 +11,7 @@ __pycache__/
 
 # Archivos del sistema
 .DS_Store
+
+# API KEYS
+.openai_key
+.env 
