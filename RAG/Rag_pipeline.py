@@ -64,12 +64,15 @@ for i, d in enumerate(resp["source_documents"], 1):
     print(i, d.metadata.get("source", ""), d.page_content[:200], "...")
 '''
 #RAG FUSION 
+
+#1
+'''
 from langchain.vectorstores import FAISS
 from langchain_openai import ChatOpenAI
 from langchain.prompts import PromptTemplate
 import os
 
-# 1) Cargar vectorstore
+# 1) Cargar vectorstore ,indicar la ruta , hay que adaptar por los indices segun enfermedad ?
 embedding = ...
 db = FAISS.load_local("faiss_index", embedding, allow_dangerous_deserialization=True)
 
@@ -114,7 +117,7 @@ def reciprocal_rank_fusion(results_per_query, top_k=6):
 # 5) Ejemplo de simulación con salida del DL
 edad = 46
 sexo = "Mujer"
-diagnostico = "Retinopatía diabética" 
+diagnostico = "retinopatia" 
 base_query = (
     f"Paciente de {edad} años, sexo {sexo}, con diagnóstico de {diagnostico}. "
     f"¿Qué recomendaciones iniciales se deben dar según las guías clínicas?"
@@ -148,6 +151,147 @@ for i, d in enumerate(fused_docs, 1):
 
 #RAG FUSION CON Hybrid Retrieval
 #Garantiza una busqueda con keywords que puedan estar referidas a las dolencias
+'''
+#2
+
+#!/usr/bin/env python3
+"""
+RAG-Fusion adaptado a multi-índice por dolencia
+Usa índices FAISS creados con sentence-transformers
+"""
+
+import os
+import pathlib
+from typing import List
+from secrets_ApiKey import get_openai_api_key
+
+import faiss  # type: ignore
+from sentence_transformers import SentenceTransformer  # type: ignore
+from langchain.prompts import PromptTemplate
+from langchain_openai import ChatOpenAI
+
+# ------------------ Configuración ------------------
+
+BASE_DIR = pathlib.Path(__file__).resolve().parent
+
+INDEX_PATHS = {
+    "dmae": BASE_DIR / "vectorstores" / "david" / "dmae_index.faiss",
+    "catarata": BASE_DIR / "vectorstores" / "david" / "catarata_index.faiss",
+    "retinopatia": BASE_DIR / "vectorstores" / "david" / "retinopatia_index.faiss",
+    "miopia": BASE_DIR / "vectorstores" / "david" / "miopia_index.faiss",
+}
+
+# Modelo de embeddings que usaste al crear los índices
+EMB_MODEL_NAME = "sentence-transformers/all-MiniLM-L6-v2"
+
+# LLM de OpenAI
+openai_key = get_openai_api_key()
+llm = ChatOpenAI(model_name="gpt-4o-mini", openai_api_key=openai_key, temperature=0.0)
+
+# Prompt orientado a recomendaciones clínicas
+template = """
+Eres un asistente especializado en oftalmología. 
+Responde en español y usa exclusivamente el contexto dado.
+
+Contexto:
+{context}
+
+Pregunta:
+{question}
+
+Responde con:
+- Recomendaciones sobre nuevas pruebas diagnósticas.
+- Recomendaciones generales de tratamiento.
+- Aspectos importantes a considerar para esta dolencia.
+"""
+prompt = PromptTemplate(input_variables=["context", "question"], template=template)
+
+# ------------------ Funciones ------------------
+
+def load_faiss_index(index_path: pathlib.Path, model_name: str):
+    """Carga índice FAISS creado con sentence-transformers"""
+    model = SentenceTransformer(model_name)
+    index = faiss.read_index(str(index_path))
+    return model, index
+
+def retrieve_chunks(query: str, model: SentenceTransformer, index: faiss.Index, docs_jsonl: pathlib.Path, k: int = 6):
+    """Busca los chunks más relevantes para una query"""
+    import json
+    # cargar chunks en memoria
+    chunks = []
+    with docs_jsonl.open("r", encoding="utf-8") as f:
+        for line in f:
+            chunks.append(json.loads(line))
+
+    # emb query
+    q_emb = model.encode([query], normalize_embeddings=True)
+    D, I = index.search(q_emb, k)
+    results = [chunks[i] for i in I[0] if i < len(chunks)]
+    return results
+
+def generate_query_variants(base_query: str, n_variants: int = 3) -> List[str]:
+    """Genera variantes de la query base usando LLM"""
+    variant_prompt = f"Genera {n_variants} variantes semánticas de la siguiente consulta:\n\n{base_query}"
+    resp = llm.predict(variant_prompt)
+    return [base_query] + [q.strip("-• \n") for q in resp.split("\n") if q.strip()]
+
+def reciprocal_rank_fusion(results_per_query: List[List[dict]], top_k: int = 6):
+    """Fusiona resultados de varias queries (dedup + top_k)"""
+    seen = {}
+    fused = []
+    for docs in results_per_query:
+        for d in docs:
+            if d["text"] not in seen:
+                seen[d["text"]] = d
+                fused.append(d)
+    return fused[:top_k]
+
+# ------------------ Main ------------------
+
+def run_rag_fusion(disease: str, edad: int, sexo: str):
+    # 1. Selección del índice correcto
+    index_path = INDEX_PATHS.get(disease)
+    if not index_path or not index_path.exists():
+        raise SystemExit(f"❌ No existe índice para {disease}")
+
+    jsonl_path = index_path.with_name(index_path.stem.replace("_index", "_chunks.jsonl"))
+
+    model, index = load_faiss_index(index_path, EMB_MODEL_NAME)
+
+    # 2. Construir query base
+    base_query = (
+        f"Paciente de {edad} años, sexo {sexo}, con diagnóstico de {disease}. "
+        f"¿Qué recomendaciones clínicas debo considerar?"
+    )
+
+    # 3. Generar variantes de query
+    queries = generate_query_variants(base_query, n_variants=3)
+
+    # 4. Recuperar docs por cada query
+    results_per_query = [retrieve_chunks(q, model, index, jsonl_path, k=6) for q in queries]
+
+    # 5. Fusionar resultados
+    fused_docs = reciprocal_rank_fusion(results_per_query, top_k=6)
+
+    # 6. Construir contexto
+    context = "\n\n".join([d["text"] for d in fused_docs])
+
+    # 7. Prompt final + respuesta
+    final_prompt = prompt.format(context=context, question=base_query)
+    answer = llm.predict(final_prompt)
+
+    # 8. Mostrar resultados
+    print("Consulta base:", base_query)
+    print("\nRespuesta:\n", answer)
+    print("\nFuentes:")
+    for i, d in enumerate(fused_docs, 1):
+        print(i, d["text"][:200], "...")
+
+
+if __name__ == "__main__":
+    # Ejemplo de simulación con salida del modelo DL
+    run_rag_fusion("retinopatia", edad=46, sexo="Mujer")
+
 
 '''
 from langchain.vectorstores import FAISS
