@@ -1,0 +1,47 @@
+───────────────────────────────
+🔹 Diagnóstico diferencial
+- Nombre: Degeneración Macular Asociada a la Edad (DMAE) 
+- Probabilidad estimada: Alta, dado el diagnóstico ya establecido.
+- Razonamiento: La paciente tiene 46 años, lo que la coloca en un grupo de riesgo, aunque la DMAE es más prevalente en mayores de 50 años. Sin embargo, se debe considerar la posibilidad de formas hereditarias o de inicio temprano.
+- Nivel de evidencia: Muy baja (⊕⊝⊝⊝).
+- Confianza: Moderada.
+
+🔹 Pruebas diagnósticas recomendadas
+- Prueba: Tomografía de coherencia óptica (OCT).
+- Prioridad: Alta.
+- Hallazgos esperados: Evaluación de la estructura retiniana, identificación de neovascularización o fluidos intrarretinianos.
+- Contraindicaciones: Ninguna específica, salvo alergias a los medios de contraste si se requiere AFG.
+- Referencias: American Academy of Ophthalmology (AAO) y guías clínicas sobre DMAE.
+
+🔹 Opciones de tratamiento
+- Opción: Suplementos de luteína y zeaxantina.
+- Indicación: Para la protección retiniana y reducción del riesgo de progresión de la DMAE.
+- Dosis/Régimen: Según indicaciones del fabricante, generalmente 10 mg de luteína y 2 mg de zeaxantina al día.
+- Contraindicaciones: Hipersensibilidad a los componentes.
+- Evidencia: Moderada, basada en estudios sobre la eficacia de antioxidantes en la salud ocular.
+- Confianza: Moderada.
+
+🔹 Señales de alarma / Red Flags
+- Disminución aguda de la agudeza visual.
+- Presencia de escotomas centrales o metamorfopsia.
+- Cualquier cambio significativo en la visión que no se pueda explicar.
+
+🔹 Plan de seguimiento
+- Cuándo: Cada 3-6 meses, dependiendo de la evolución clínica y los hallazgos en OCT.
+- Qué monitorizar: Agudeza visual, cambios en la OCT, aparición de nuevos síntomas.
+- Próximos pasos: Reevaluar la necesidad de tratamiento intravítreo si se observan signos de neovascularización.
+
+🔹 Comunicación con el paciente
+"Es importante que realices un seguimiento regular de tu salud ocular, especialmente con pruebas como la OCT, que nos ayudarán a monitorear la progresión de la DMAE. Además, considera la incorporación de suplementos de luteína y zeaxantina en tu dieta para proteger tu visión."
+
+🔹 Información faltante
+- Historia clínica detallada (antecedentes familiares, otros problemas de salud).
+- Resultados de pruebas diagnósticas previas (OCT, fondo de ojo).
+- Evaluación de factores de riesgo adicionales (estilo de vida, dieta).
+
+🔹 Nivel de confianza global
+- Moderado, dado que la paciente es más joven que el grupo de mayor riesgo, pero ya tiene un diagnóstico de DMAE.
+
+🔹 Referencias
+- American Academy of Ophthalmology (AAO) - Guías sobre DMAE.
+- Estudios sobre la eficacia de antioxidantes en la salud ocular.

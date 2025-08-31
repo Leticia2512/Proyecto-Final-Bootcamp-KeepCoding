@@ -1,0 +1,47 @@
+───────────────────────────────
+🔹 Diagnóstico diferencial
+- Nombre: Catarata
+- Probabilidad estimada: Alta
+- Razonamiento: La paciente tiene un diagnóstico confirmado de catarata, lo que es consistente con su edad y síntomas.
+- Nivel de evidencia: Alta, dado que el diagnóstico de catarata es clínico y se basa en la evaluación oftalmológica.
+- Confianza: Alta.
+
+🔹 Pruebas diagnósticas recomendadas
+- Prueba: Evaluación de agudeza visual y examen de fondo de ojo.
+- Prioridad: Alta.
+- Hallazgos esperados: Disminución de la agudeza visual, opacificación del cristalino en el examen de fondo de ojo.
+- Contraindicaciones: Ninguna específica para estas pruebas.
+- Referencias: Guías de práctica clínica sobre manejo de cataratas.
+
+🔹 Opciones de tratamiento
+- Opción: Cirugía de catarata (facoemulsificación o extracción extracapsular).
+- Indicación: Cuando la catarata afecta la calidad de vida del paciente, como la visión y la capacidad para realizar actividades diarias.
+- Dosis/Régimen: No aplica, ya que se trata de un procedimiento quirúrgico.
+- Contraindicaciones: Enfermedades oculares no tratables, condiciones médicas que aumenten el riesgo quirúrgico.
+- Evidencia: Alta, basada en múltiples estudios que demuestran la eficacia de la cirugía de catarata.
+- Confianza: Alta.
+
+🔹 Señales de alarma / Red Flags
+- Pérdida rápida de visión.
+- Dolor ocular intenso.
+- Enrojecimiento ocular severo.
+- Síntomas de endoftalmitis (como secreción purulenta).
+
+🔹 Plan de seguimiento
+- Cuándo: 1 semana después de la cirugía y luego a los 1, 3 y 6 meses.
+- Qué monitorizar: Agudeza visual, signos de complicaciones postoperatorias (infección, inflamación).
+- Próximos pasos: Evaluar la necesidad de lentes intraoculares y ajustar el tratamiento según la evolución.
+
+🔹 Comunicación con el paciente
+"Usted tiene un diagnóstico de catarata, lo que puede afectar su visión. La cirugía es el tratamiento más efectivo y puede mejorar significativamente su calidad de vida. Es importante que sigamos un plan de seguimiento para asegurar que su recuperación sea óptima."
+
+🔹 Información faltante
+- Detalles sobre la severidad de la catarata (agudeza visual actual, impacto en la vida diaria).
+- Comorbilidades que puedan afectar la cirugía o el postoperatorio.
+- Preferencias del paciente respecto a la cirugía.
+
+🔹 Nivel de confianza global
+- Alta, basado en la evidencia disponible y la experiencia clínica.
+
+🔹 Referencias
+- Guías de práctica clínica sobre el manejo de cataratas de la American Academy of Ophthalmology y el National Institute for Health and Care Excellence (NICE).

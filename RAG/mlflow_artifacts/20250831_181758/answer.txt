@@ -1,0 +1,48 @@
+───────────────────────────────
+🔹 Diagnóstico diferencial
+- Nombre: Miopía patológica (MP)
+- Probabilidad estimada: Alta
+- Razonamiento: La paciente tiene 46 años y presenta un diagnóstico de miopía, lo que la coloca en un grupo de riesgo para desarrollar complicaciones asociadas a la miopía, como la maculopatía miópica o el desprendimiento de retina.
+- Nivel de evidencia: Alto
+- Confianza: Alta
+
+🔹 Pruebas diagnósticas recomendadas
+- Prueba: Tomografía de coherencia óptica (OCT)
+- Prioridad: Alta
+- Hallazgos esperados: Evaluación de la estructura de la retina, detección de membranas epirretinianas, neovascularización coroidea y cambios en la mácula.
+- Contraindicaciones: Ninguna específica, salvo alergias a los medios de contraste si se utilizan.
+- Referencias: Guías de práctica clínica sobre miopía patológica.
+
+🔹 Opciones de tratamiento
+- Opción: Tratamiento con antiangiogénicos (en caso de neovascularización)
+- Indicación: Neovascularización coroidea asociada a miopía patológica.
+- Dosis/Régimen: Según protocolo específico del fármaco utilizado (ej. Ranibizumab, Aflibercept).
+- Contraindicaciones: Hipersensibilidad a los componentes del fármaco, infecciones oculares activas.
+- Evidencia: Moderada, basada en estudios sobre el manejo de complicaciones de la miopía patológica.
+- Confianza: Media
+
+🔹 Señales de alarma / Red Flags
+- Pérdida súbita de visión.
+- Flashes o moscas volantes nuevas.
+- Cambios en la percepción de los colores.
+- Cualquier síntoma que sugiera un desprendimiento de retina.
+
+🔹 Plan de seguimiento
+- Cuándo: Cada 6-12 meses, dependiendo de la evolución y los hallazgos en la OCT.
+- Qué monitorizar: Cambios en la agudeza visual, evolución de la estructura retiniana en OCT.
+- Próximos pasos: Evaluación continua y ajuste del tratamiento según los hallazgos.
+
+🔹 Comunicación con el paciente
+"Es importante que realice un seguimiento regular de su miopía, ya que puede haber complicaciones que afecten su visión. Le recomendaré pruebas como la OCT para evaluar la salud de su retina y, si es necesario, discutiremos opciones de tratamiento."
+
+🔹 Información faltante
+- Grado de miopía actual (dioptrías).
+- Historia clínica completa (antecedentes familiares, tratamientos previos).
+- Resultados de exámenes oculares previos.
+
+🔹 Nivel de confianza global
+- Alta
+
+🔹 Referencias
+- Guías de práctica clínica de la Sociedad Española de Retina y Vítreo (SERV).
+- Estudios recientes sobre el manejo de la miopía patológica y sus complicaciones.

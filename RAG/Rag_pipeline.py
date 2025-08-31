@@ -290,7 +290,7 @@ def run_rag_fusion(disease: str, edad: int, sexo: str):
 
 if __name__ == "__main__":
     # Ejemplo de simulación con salida del modelo DL
-    run_rag_fusion("retinopatia", edad=46, sexo="Mujer")
+    run_rag_fusion("catarata", edad=25, sexo="Mujer")
 
 
 '''

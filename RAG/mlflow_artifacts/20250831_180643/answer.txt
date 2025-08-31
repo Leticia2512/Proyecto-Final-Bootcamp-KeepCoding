@@ -1,0 +1,48 @@
+───────────────────────────────
+🔹 Diagnóstico diferencial
+- Nombre: Retinopatía Diabética (RD)
+- Probabilidad estimada: Alta
+- Razonamiento: La paciente tiene un diagnóstico de retinopatía, lo que sugiere que es probable que esté relacionada con su condición de diabetes mellitus.
+- Nivel de evidencia: Alto, dado que la RD es una complicación bien documentada de la diabetes.
+- Confianza: Alta.
+
+🔹 Pruebas diagnósticas recomendadas
+- Prueba: Revisión de fondo de ojo con cámara no midriática.
+- Prioridad: Alta.
+- Hallazgos esperados: Evaluación de la gravedad de la retinopatía (no proliferativa leve, moderada, grave o proliferativa) y presencia de edema macular.
+- Contraindicaciones: No hay contraindicaciones específicas para esta prueba en pacientes diabéticos.
+- Referencias: Guía clínica de Retinopatía Diabética.
+
+🔹 Opciones de tratamiento
+- Opción: Fotocoagulación con láser.
+- Indicación: Para RD no proliferativa grave o proliferativa, y en caso de edema macular diabético.
+- Dosis/Régimen: Se realizan múltiples sesiones de láser, dependiendo de la extensión de la RD.
+- Contraindicaciones: No se recomienda en pacientes con hemorragia vítrea activa o desprendimiento de retina.
+- Evidencia: Alta, respaldada por estudios clínicos.
+- Confianza: Alta.
+
+🔹 Señales de alarma / Red Flags
+- Pérdida súbita de visión.
+- Hemorragia vítrea reciente.
+- Desprendimiento de retina.
+- Síntomas de glaucoma neovascular (dolor ocular, visión borrosa).
+
+🔹 Plan de seguimiento
+- Cuándo: Revisión cada 6 meses si la RD es no proliferativa moderada; cada 3-6 meses si es grave o proliferativa.
+- Qué monitorizar: Agudeza visual, grosor macular (OCT), y progresión de la RD.
+- Próximos pasos: Derivación a oftalmología de segundo nivel si se detectan cambios significativos.
+
+🔹 Comunicación con el paciente
+"Es importante que realice revisiones periódicas de su retina para monitorear la retinopatía diabética. Dependiendo de los hallazgos, podríamos considerar tratamientos como la fotocoagulación con láser para prevenir la pérdida de visión."
+
+🔹 Información faltante
+- Grado específico de la retinopatía diabética (leve, moderada, grave o proliferativa).
+- Control metabólico actual (niveles de glucosa, presión arterial, lípidos).
+- Historia de tratamientos previos para la retinopatía.
+
+🔹 Nivel de confianza global
+- Alta.
+
+🔹 Referencias
+- Guía clínica de Retinopatía Diabética para Latinoamérica.
+- Estudios sobre el tratamiento y manejo de la retinopatía diabética.
