@@ -42,7 +42,7 @@ class ImageClassifier(nn.Module):
 # Dimensiones del modelo (basadas en los hiperparámetros de entrenamiento)
 META_DIM = 2 
 NUM_CLASSES = len(KEEP_CLASSES)
-MODEL_PATH = Path("backend_fastAPI/bestmodel/best_model.pt")
+MODEL_PATH = Path("bestmodel/best_model.pt")
 
 # Cargar el modelo
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
@@ -113,7 +113,7 @@ if __name__ == "__main__":
     # Llamar a la función de predicción
     predicted_class, probabilities = predict(str(image_path), meta_data)
 
-    print(f"La clase original predicha es: {predicted_class}")
+    print(f"La índice de la clase predicha es: {predicted_class}")
     print("Probabilidades para cada clase remapeada:")
     print(f"Clases: {[f'clase_{c}' for c in KEEP_CLASSES]}")
     print(f"Probabilidades: {[f'{p:.4f}' for p in probabilities.tolist()]}")

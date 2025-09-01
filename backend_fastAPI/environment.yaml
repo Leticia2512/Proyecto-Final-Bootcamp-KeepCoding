@@ -1,0 +1,14 @@
+name: bd14-despliegue-algo
+channels: 
+  - defaults 
+  - conda-forge 
+dependencies: 
+  - ipykernel
+  - pip  
+  - python=3.11.0
+  - setuptools 
+  - wheel 
+  - poppler 
+  - pip: 
+    - fastapi==0.116.1
+    - mlflow==2.18.0

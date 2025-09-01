@@ -17,8 +17,12 @@ app = FastAPI(
     version="1.0.0"
 )
 
+@app.get("/")
+def read_root():
+    return {"message": "¡Bienvenido a la API de Clasificación Ocular!"}
+
 # Muestra toda la información sobre la predicción que arroja nuestro modelo en base a los datos que nos dio.
-@app.get("/prediction", summary="Predicción Ocular en base a los datos otorgados.")
+@app.post("/prediction", summary="Predicción Ocular en base a los datos otorgados.")
 async def get_ocular_prediction(patient: PatientData):
 
     age = patient.age
@@ -40,6 +44,12 @@ async def get_ocular_prediction(patient: PatientData):
         
     predicted_class, probabilities = predict(str(image_path), meta_data)
 
+    KEEP_CLASSES = [0, 1, 2, 5, 6]
+    print(f"La índice de la clase predicha es: {predicted_class}")
+    print("Probabilidades para cada clase remapeada:")
+    print(f"Clases: {[f'clase_{c}' for c in KEEP_CLASSES]}")
+    print(f"Probabilidades: {[f'{p:.4f}' for p in probabilities.tolist()]}")
+
     response = {"predicted_class": predicted_class, "probabilities": probabilities}
    
     return response
@@ -47,7 +57,7 @@ async def get_ocular_prediction(patient: PatientData):
 
 # Configuración de CORS 
 # =============================================
-
+"""
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],              # En producción, especifica dominios exactos
@@ -55,6 +65,8 @@ app.add_middleware(
     allow_methods=["*"],              # GET, POST, PUT, DELETE
     allow_headers=["*"],              # Todos los headers
 )
+"""
+
 # variables globales
 
 
