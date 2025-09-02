@@ -4,5 +4,5 @@ from pydantic import BaseModel
 class PatientData(BaseModel):
     image_url: str
     age: int
-    gender:str
+    gender: str
  
