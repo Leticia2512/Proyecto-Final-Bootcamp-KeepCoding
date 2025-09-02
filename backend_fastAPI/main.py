@@ -50,7 +50,7 @@ async def get_ocular_prediction(patient: PatientData):
     print(f"Clases: {[f'clase_{c}' for c in KEEP_CLASSES]}")
     print(f"Probabilidades: {[f'{p:.4f}' for p in probabilities.tolist()]}")
 
-    response = {"predicted_class": predicted_class, "probabilities": probabilities}
+    response = {"predicted_class": predicted_class, "probabilities": probabilities.tolist()}
    
     return response
 
