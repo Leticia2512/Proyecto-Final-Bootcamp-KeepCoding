@@ -55,11 +55,11 @@ if submitted:
                 
                 # Map class numbers to human-readable labels
                 class_mapping = {
-                    0: "DR",
-                    1: "GLAUCOMA",
-                    2: "CATARACT",
-                    5: "NORMAL",
-                    6: "OTHER"
+                    0: "Degeneración macular asociada a la edad",
+                    1: "Catarata",
+                    2: "Retinopatía diabética",
+                    5: "Miopía patológica",
+                    6: "Normal"
                 }
                 
                 predicted_class = result["predicted_class"]
