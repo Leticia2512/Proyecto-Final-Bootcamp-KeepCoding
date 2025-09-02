@@ -1,4 +1,4 @@
-# train_runC_top5.py
+
 # Entrenamiento con 5 clases (0,1,2,5,6) remapeadas a 0..4
 import matplotlib.pyplot as plt
 import mlflow
