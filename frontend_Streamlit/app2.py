@@ -15,10 +15,10 @@ with st.form("prediction_form"):
     st.header("Patient Information")
     
     age = st.number_input("Age", min_value=1, max_value=120, value=45)
-    gender = st.selectbox("Gender", ["male", "female", "other"])
+    gender = st.selectbox("Gender", ["male", "female"])
     
     st.header("Image Upload")
-    uploaded_file = st.file_uploader("Choose an eye image", type=["jpg", "jpeg", "png"])
+    uploaded_file = st.file_uploader("Choose an eye image", type=["jpg", "jpeg"])
     
     submitted = st.form_submit_button("Make Prediction")
 
@@ -27,7 +27,7 @@ if submitted:
         try:
             # Display the uploaded image
             image = Image.open(uploaded_file)
-            st.image(image, caption="Uploaded Eye Image", use_column_width=True)
+            st.image(image, caption="Uploaded Eye Image", use_container_width=False)
             
             # Save the image temporarily (or you can send it directly as bytes)
             image_path = f"temp_{uploaded_file.name}"
