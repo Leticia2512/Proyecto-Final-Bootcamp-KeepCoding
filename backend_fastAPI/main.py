@@ -1,15 +1,19 @@
 from fastapi import FastAPI, HTTPException
-from fastapi.middleware.cors import CORSMiddleware  # comunicación con Streamlit
 # imports necesarios para el modelo
 import numpy as np
 from PIL import Image
 
-from class_values import PatientData
+from class_values import PatientData, PredictionResult
 from backend_functions import validate_image_jpg
-import urllib.parse
-import torch
 from pathlib import Path
-from predict_with_model import predict
+#from predict_with_model import predict
+from predict_with_model2 import predictor
+import os
+import shutil
+
+# Rutas a las carpetas
+BASE_DIR = Path(__file__).resolve().parent
+TEMP_IMAGES_DIR = BASE_DIR / "temp_images"
 
 app = FastAPI(
     title="Backend de modelo de Clasificación Ocular",         
@@ -17,12 +21,17 @@ app = FastAPI(
     version="1.0.0"
 )
 
+def startup_event():
+    """Crea la carpeta de imágenes temporales al iniciar la aplicación."""
+    if not TEMP_IMAGES_DIR.exists():
+        os.makedirs(TEMP_IMAGES_DIR)
+
 @app.get("/")
 def read_root():
     return {"message": "¡Bienvenido a la API de Clasificación Ocular!"}
 
 # Muestra toda la información sobre la predicción que arroja nuestro modelo en base a los datos que nos dio.
-@app.post("/prediction", summary="Predicción Ocular en base a los datos otorgados.")
+@app.post("/prediction", response_model=PredictionResult, summary="Predicción Ocular en base a los datos otorgados.")
 async def get_ocular_prediction(patient: PatientData):
 
     age = patient.age
@@ -42,15 +51,19 @@ async def get_ocular_prediction(patient: PatientData):
     if correct_url == False:
         raise HTTPException(status_code=404, detail=status_url)
         
-    predicted_class, probabilities = predict(str(image_path), meta_data)
+    predicted_class, probabilities = predictor.predict(str(image_path), meta_data)
 
     KEEP_CLASSES = [0, 1, 2, 5, 6]
+    """
     print(f"La índice de la clase predicha es: {predicted_class}")
     print("Probabilidades para cada clase remapeada:")
     print(f"Clases: {[f'clase_{c}' for c in KEEP_CLASSES]}")
     print(f"Probabilidades: {[f'{p:.4f}' for p in probabilities.tolist()]}")
+    """
+     # Formatear las probabilidades a una lista
+    probabilities_list = probabilities
 
-    response = {"predicted_class": predicted_class, "probabilities": probabilities.tolist()}
+    response = {"predicted_class": predicted_class, "probabilities": probabilities_list}
    
     return response
 
