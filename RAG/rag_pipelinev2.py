@@ -109,7 +109,8 @@ Responde con:
 - Recomendaciones generales de tratamiento.
 - Aspectos importantes a considerar para esta dolencia.
 """
-prompt = PromptTemplate(input_variables=["context", "question"], template=template)
+prompt = PromptTemplate(
+    input_variables=["context", "question"], template=template)
 
 # ¿Está disponible la API de "Prompts" de MLflow?
 try:
@@ -149,7 +150,8 @@ def retrieve_chunks(query: str, model: SentenceTransformer, index: faiss.Index, 
 
 def generate_query_variants(base_query: str, n_variants: int = 3) -> List[str]:
     """Genera variantes de la query base usando LLM."""
-    llm = ChatOpenAI(model_name=OPENAI_MODEL, openai_api_key=get_openai_api_key(), temperature=0.0)
+    llm = ChatOpenAI(model_name=OPENAI_MODEL,
+                     openai_api_key=get_openai_api_key(), temperature=0.0)
     variant_prompt = f"Genera {n_variants} variantes semánticas de la siguiente consulta en español, una por línea:\n\n{base_query}"
     resp = llm.predict(variant_prompt)
     variants = [v.strip("-• \n") for v in resp.split("\n") if v.strip()]
@@ -196,14 +198,19 @@ def log_prompt_and_response_to_mlflow(
     })
 
     # ---- Artefactos útiles (trazabilidad) ----
-    out_dir = BASE_DIR / "mlflow_artifacts" / datetime.now().strftime("%Y%m%d_%H%M%S")
+    out_dir = BASE_DIR / "mlflow_artifacts" / \
+        datetime.now().strftime("%Y%m%d_%H%M%S")
     out_dir.mkdir(parents=True, exist_ok=True)
 
-    (out_dir / "queries.json").write_text(json.dumps(queries, ensure_ascii=False, indent=2), encoding="utf-8")
-    (out_dir / "fused_docs.json").write_text(json.dumps(fused_docs, ensure_ascii=False, indent=2), encoding="utf-8")
-    (out_dir / "prompt.txt").write_text(prompt.format(context=context, question=base_query), encoding="utf-8")
+    (out_dir / "queries.json").write_text(json.dumps(queries,
+                                                     ensure_ascii=False, indent=2), encoding="utf-8")
+    (out_dir / "fused_docs.json").write_text(json.dumps(fused_docs,
+                                                        ensure_ascii=False, indent=2), encoding="utf-8")
+    (out_dir / "prompt.txt").write_text(prompt.format(context=context,
+                                                      question=base_query), encoding="utf-8")
     (out_dir / "answer.txt").write_text(answer, encoding="utf-8")
-    (out_dir / "provider_meta.json").write_text(json.dumps(provider_meta, ensure_ascii=False, indent=2), encoding="utf-8")
+    (out_dir / "provider_meta.json").write_text(json.dumps(provider_meta,
+                                                           ensure_ascii=False, indent=2), encoding="utf-8")
 
     mlflow.log_artifacts(str(out_dir), artifact_path="rag")
 
@@ -243,7 +250,8 @@ def log_prompt_and_response_to_mlflow(
             )
         except Exception as e:
             # Fallback silencioso si la firma exacta difiere en tu versión
-            mlflow.log_text(json.dumps(record, ensure_ascii=False, indent=2), artifact_file="rag/prompt_record_fallback.json")
+            mlflow.log_text(json.dumps(record, ensure_ascii=False, indent=2),
+                            artifact_file="rag/prompt_record_fallback.json")
 
 
 def run_rag_fusion(disease: str, edad: int, sexo: str, k: int = 6):
@@ -252,7 +260,8 @@ def run_rag_fusion(disease: str, edad: int, sexo: str, k: int = 6):
     if not index_path or not index_path.exists():
         raise SystemExit(f"❌ No existe índice para {disease} en {index_path}")
 
-    jsonl_path = index_path.with_name(index_path.stem.replace("_index", "_chunks.jsonl"))
+    jsonl_path = index_path.with_name(
+        index_path.stem.replace("_index", "_chunks.jsonl"))
 
     # 2) Embeddings + FAISS
     model, index = load_faiss_index(index_path, EMB_MODEL_NAME)
@@ -267,7 +276,8 @@ def run_rag_fusion(disease: str, edad: int, sexo: str, k: int = 6):
     queries = generate_query_variants(base_query, n_variants=3)
 
     # 5) Recuperación
-    results_per_query = [retrieve_chunks(q, model, index, jsonl_path, k=k) for q in queries]
+    results_per_query = [retrieve_chunks(
+        q, model, index, jsonl_path, k=k) for q in queries]
 
     # 6) Fusión
     fused_docs = reciprocal_rank_fusion(results_per_query, top_k=k)
@@ -276,7 +286,8 @@ def run_rag_fusion(disease: str, edad: int, sexo: str, k: int = 6):
     context = "\n\n".join([d.get("text", "") for d in fused_docs])
 
     # 8) LLM respuesta
-    llm = ChatOpenAI(model_name=OPENAI_MODEL, openai_api_key=get_openai_api_key(), temperature=OPENAI_TEMPERATURE)
+    llm = ChatOpenAI(model_name=OPENAI_MODEL, openai_api_key=get_openai_api_key(
+    ), temperature=OPENAI_TEMPERATURE)
     final_prompt = prompt.format(context=context, question=base_query)
     answer = llm.predict(final_prompt)
 
@@ -305,13 +316,13 @@ def run_rag_fusion(disease: str, edad: int, sexo: str, k: int = 6):
 
 if __name__ == "__main__":
     # Inicializa MLflow y arranca un run
-    init_mlflow()
+    # init_mlflow()
     # Cierra cualquier run “huérfano” que pudiera estar abierto
-    if mlflow.active_run():
-        mlflow.end_run()
+    # if mlflow.active_run():
+    #    mlflow.end_run()
+    run_rag_fusion("catarata", edad=46, sexo="Mujer", k=6)
 
-    run_name = "RAG_retinopatia_" + datetime.now().strftime("%Y%m%d_%H%M%S")
-    with mlflow.start_run(run_name=run_name):
-        # Ejemplo
-        mlflow.log_params({"disease": "retinopatia", "edad": 46, "sexo": "Mujer"})
-        run_rag_fusion("miopia", edad=46, sexo="Mujer", k=6)
+    # run_name = "RAG_retinopatia_" + datetime.now().strftime("%Y%m%d_%H%M%S")
+    # with mlflow.start_run(run_name=run_name):
+    # Ejemplo
+    #    mlflow.log_params({"disease": "retinopatia", "edad": 46, "sexo": "Mujer"})
