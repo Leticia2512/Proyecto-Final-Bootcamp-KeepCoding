@@ -27,7 +27,7 @@ if submitted:
         try:
             # Display the uploaded image
             image = Image.open(uploaded_file)
-            st.image(image, caption="Uploaded Eye Image", use_container_width=False)
+            st.image(image, caption="Uploaded Eye Image", use_container_width='content')
             
             # Save the image temporarily (or you can send it directly as bytes)
             image_path = f"temp_{uploaded_file.name}"
@@ -51,27 +51,28 @@ if submitted:
                 st.success("✅ Prediction successful!")
                 
                 # Display results
-                st.subheader("Prediction Results")
+                st.subheader("Prediction Condition")
                 
                 # Map class numbers to human-readable labels
                 class_mapping = {
-                    0: "Degeneración macular asociada a la edad",
-                    1: "Catarata",
-                    2: "Retinopatía diabética",
-                    5: "Miopía patológica",
+                    0: "Age-related Macular Degeneration",
+                    1: "Catarat",
+                    2: "Diabetic Retinopathy",
+                    5: "Pathologic Myopia",
                     6: "Normal"
                 }
                 
                 predicted_class = result["predicted_class"]
                 probabilities = result["probabilities"]
                 
-                st.metric("Predicted Condition", class_mapping.get(predicted_class, "UNKNOWN"))
+                st.markdown(class_mapping.get(predicted_class, "UNKNOWN"))
                 
                 # Display probabilities
                 st.subheader("Probability Distribution")
                 
                 for i, prob in enumerate(probabilities):
-                    class_name = class_mapping.get(i, f"Class {i}")
+                    key = list(class_mapping.keys())[i]
+                    class_name = class_mapping.get(key, f"Class {i}")
                     st.progress(prob, text=f"{class_name}: {prob:.2%}")
                 
                 # Show raw JSON data
