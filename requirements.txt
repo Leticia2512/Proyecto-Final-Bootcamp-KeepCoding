@@ -1,7 +1,6 @@
 streamlit==1.49.0
 requests==2.32.3
-pillow==10.3.0
-faiss
+Pillow
 sentence-transformers
 langchain
 langchain-openai
