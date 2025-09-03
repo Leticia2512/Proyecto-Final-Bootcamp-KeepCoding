@@ -5,7 +5,8 @@ from PIL import Image
 import io
 
 # FastAPI backend URL
-FASTAPI_URL = "http://localhost:8080/prediction"
+#FASTAPI_URL = "http://localhost:8080/prediction"
+FASTAPI_URL = "http://fastapi:8080/prediction"
 
 st.title("👁️ Ocular Prediction System")
 st.write("Upload an eye image and provide patient information for prediction")
