@@ -255,11 +255,13 @@ def log_prompt_and_response_to_mlflow(
 
 
 def run_rag_fusion(disease: str, edad: int, sexo: str, k: int = 6):
+
     # 1) Selección del índice
     index_path = INDEX_PATHS.get(disease)
-    if not index_path or not index_path.exists():
-        raise SystemExit(f"❌ No existe índice para {disease} en {index_path}")
 
+    if not index_path or not index_path.exists() or index_path == None:
+        raise SystemExit(f"❌ No existe índice para {disease} en {index_path}")
+ 
     jsonl_path = index_path.with_name(
         index_path.stem.replace("_index", "_chunks.jsonl"))
 
@@ -271,10 +273,10 @@ def run_rag_fusion(disease: str, edad: int, sexo: str, k: int = 6):
         f"Paciente de {edad} años, sexo {sexo}, con diagnóstico de {disease}. "
         f"¿Qué recomendaciones clínicas debo considerar?"
     )
-
+ 
     # 4) Variantes de query
     queries = generate_query_variants(base_query, n_variants=3)
-
+  
     # 5) Recuperación
     results_per_query = [retrieve_chunks(
         q, model, index, jsonl_path, k=k) for q in queries]
@@ -284,7 +286,7 @@ def run_rag_fusion(disease: str, edad: int, sexo: str, k: int = 6):
 
     # 7) Contexto final
     context = "\n\n".join([d.get("text", "") for d in fused_docs])
-
+  
     # 8) LLM respuesta
     llm = ChatOpenAI(model_name=OPENAI_MODEL, openai_api_key=get_openai_api_key(
     ), temperature=OPENAI_TEMPERATURE)
@@ -297,6 +299,8 @@ def run_rag_fusion(disease: str, edad: int, sexo: str, k: int = 6):
         "model": OPENAI_MODEL,
         "temperature": OPENAI_TEMPERATURE,
     }
+
+    """
     log_prompt_and_response_to_mlflow(
         base_query=base_query,
         context=context,
@@ -307,11 +311,13 @@ def run_rag_fusion(disease: str, edad: int, sexo: str, k: int = 6):
         index_path=index_path,
         k=k,
     )
-
+    """
     # 10) Mostrar por consola (opcional)
     print("\n=== Consulta base ===")
     print(base_query)
     print("\n=== Respuesta ===\n", answer)
+
+    return answer
 
 
 if __name__ == "__main__":
