@@ -1,0 +1,9 @@
+fastapi==0.116.1
+numpy==2.3.2
+Pillow==11.3.0
+uvicorn==0.30.1
+torch
+torchvision
+pydantic
+streamlit==1.49.0
+requests==2.32.3

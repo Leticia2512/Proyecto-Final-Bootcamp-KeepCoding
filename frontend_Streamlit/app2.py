@@ -8,7 +8,7 @@ from datetime import datetime
 import os
 
 # FastAPI backend URL
-FASTAPI_URL = "http://localhost:8000/prediction"
+FASTAPI_URL = "http://localhost:8080/prediction"
 
 # Rutas a las carpetas y archivos
 BASE_DIR = os.path.join(os.getcwd(), 'backend_fastAPI')
