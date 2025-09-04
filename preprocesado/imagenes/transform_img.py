@@ -19,11 +19,10 @@ except ValueError:
 
 # --- Rutas ---
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-parent_dir = os.path.abspath(os.path.join(BASE_DIR, os.pardir))
-input_dir = os.path.join(parent_dir, "ODIR-5K", "ODIR-5K", "Training Images")
+root_dir = os.path.abspath(os.path.join(BASE_DIR, os.pardir, os.pardir))
 
-output_dir = os.path.join(parent_dir, f"{size}x{size}")
-
+input_dir = os.path.join(root_dir, "ODIR-5K", "ODIR-5K", "Training Images")
+output_dir = os.path.join(root_dir, f"{size}x{size}")
 os.makedirs(output_dir, exist_ok=True)
 
 # --- Transformación ---
@@ -49,7 +48,7 @@ for fname in tqdm(images, desc="Procesando", unit="img"):
 
     img = cv2.imread(src)
     img = square_image(img)
-    img = transform_resize(img[:,:,::-1])
+    img = transform_resize(img[:, :, ::-1])
 
     # Asegurar que la imagen sea cuadrada
     img.save(dst, quality=95)
