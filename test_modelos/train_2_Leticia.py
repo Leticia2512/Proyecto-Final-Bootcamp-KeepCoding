@@ -15,27 +15,27 @@ from sklearn.metrics import (
 )
 
 import matplotlib.pyplot as plt
-from load_dataloaders_Sofia import load_dataloaders
+from create_dataset.load_dataloaders import load_dataloaders
 
 # ------- CONFIGURACIÓN -------
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-# Rutas a los Subsets preprocesados 
+# Rutas a los Subsets preprocesados
 TRAIN_PT = BASE_DIR / "Data" / "dataset" / "train_dataset.pt"
-VAL_PT   = BASE_DIR / "Data" / "dataset" / "val_dataset.pt"
-TEST_PT  = BASE_DIR / "Data" / "dataset" / "test_dataset.pt"
+VAL_PT = BASE_DIR / "Data" / "dataset" / "val_dataset.pt"
+TEST_PT = BASE_DIR / "Data" / "dataset" / "test_dataset.pt"
 
-# Hiperparámetros 
-BATCH_SIZE   = 64
-EPOCHS       = 20
-LR           = 1e-4
+# Hiperparámetros
+BATCH_SIZE = 64
+EPOCHS = 20
+LR = 1e-4
 WEIGHT_DECAY = 5e-4
-NUM_WORKERS  = 2    
-SEED         = 42
+NUM_WORKERS = 2
+SEED = 42
 
 # Configuración de MLflow
 EXPERIMENT_NAME = "Experimento_Leticia_ResNet18"
-RUN_NAME        = "resnet18_mm_" + datetime.now().strftime("%Y%m%d_%H%M%S")
+RUN_NAME = "resnet18_mm_" + datetime.now().strftime("%Y%m%d_%H%M%S")
 
 
 # ------ FUNCIONES AUXILIARES ------
@@ -76,7 +76,8 @@ def load_subset(path: Path):
     obj = torch.load(path)
     if isinstance(obj, Subset):
         return obj
-    raise TypeError(f"Se esperaba un Subset en {path}, pero se encontró: {type(obj)}")
+    raise TypeError(
+        f"Se esperaba un Subset en {path}, pero se encontró: {type(obj)}")
 
 
 def get_train_labels(subset: Subset):
@@ -126,13 +127,14 @@ class ImageClassifier(nn.Module):
     - Rama de metadatos → un MLP sencillo.
     - Fusión de ambas representaciones → capa final de clasificación.
     """
+
     def __init__(self, meta_dim: int, num_classes: int, pretrained: bool = True, dropout: float = 0.5):
         super().__init__()
-        # ResNet18 
+        # ResNet18
         weights = ResNet18_Weights.IMAGENET1K_V1 if pretrained else None
         self.backbone = resnet18(weights=weights)
         in_feats = self.backbone.fc.in_features
-        self.backbone.fc = nn.Identity()  
+        self.backbone.fc = nn.Identity()
 
         # Rama de metadatos
         self.meta = nn.Sequential(
@@ -150,10 +152,10 @@ class ImageClassifier(nn.Module):
         )
 
     def forward(self, x_img, x_meta):
-        f_img = self.backbone(x_img) 
-        f_meta = self.meta(x_meta)     
+        f_img = self.backbone(x_img)
+        f_meta = self.meta(x_meta)
         f = torch.cat([f_img, f_meta], dim=1)
-        return self.head(f)           
+        return self.head(f)
 
 
 # -------- BUCLES DE ENTRENAMIENTO/EVALUACIÓN --------
@@ -223,10 +225,10 @@ def evaluate(model, loader, criterion, device, *, prefix: str, class_names, out_
     y_true = torch.cat(y_true_all).numpy()
     y_pred = torch.cat(y_pred_all).numpy()
 
-    acc   = accuracy_score(y_true, y_pred)
-    f1m   = f1_score(y_true, y_pred, average="macro")
+    acc = accuracy_score(y_true, y_pred)
+    f1m = f1_score(y_true, y_pred, average="macro")
     precm = precision_score(y_true, y_pred, average="macro", zero_division=0)
-    recm  = recall_score(y_true, y_pred, average="macro", zero_division=0)
+    recm = recall_score(y_true, y_pred, average="macro", zero_division=0)
 
     # Guardar report y matriz de confusión en disco (para luego subir a MLflow)
     rep_dir = out_dir / f"reports_{prefix}"
@@ -257,23 +259,23 @@ def evaluate(model, loader, criterion, device, *, prefix: str, class_names, out_
 def main():
     set_seed(SEED)
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-    pin_mem = device.type == "cuda" 
+    pin_mem = device.type == "cuda"
     print(f"Dispositivo: {device}")
 
     # Cargar DataLoaders de train, val y test
     train_loader, val_loader, test_loader = load_dataloaders(
         TRAIN_PT, VAL_PT, TEST_PT,
         batch_size=BATCH_SIZE,
-        num_workers=NUM_WORKERS,             
-        pin_memory=pin_mem,                
+        num_workers=NUM_WORKERS,
+        pin_memory=pin_mem,
         seed=SEED
     )
 
     # Inferir dimensiones de los metadatos y número de clases
     train_subset = train_loader.dataset
     sample = train_subset[0]
-    meta_dim = int(sample[1].shape[0])     
-    y_train = get_train_labels(train_subset) 
+    meta_dim = int(sample[1].shape[0])
+    y_train = get_train_labels(train_subset)
     num_classes = int(y_train.max() + 1)
     class_names = [str(i) for i in range(num_classes)]
     print(f"num_classes={num_classes}, meta_dim={meta_dim}")
@@ -287,11 +289,13 @@ def main():
     ).to(device)
 
     # Definir función de pérdida con class weights y label smoothing
-    class_weights = compute_class_weights(y_train, num_classes=num_classes).to(device)
+    class_weights = compute_class_weights(
+        y_train, num_classes=num_classes).to(device)
     criterion = nn.CrossEntropyLoss(weight=class_weights, label_smoothing=0.05)
 
     # Optimizador AdamW
-    optimizer = torch.optim.AdamW(model.parameters(), lr=LR, weight_decay=WEIGHT_DECAY)
+    optimizer = torch.optim.AdamW(
+        model.parameters(), lr=LR, weight_decay=WEIGHT_DECAY)
 
     # Inicializar MLflow
     mlflow = try_init_mlflow()
@@ -320,12 +324,13 @@ def main():
     patience = 6
     bad_epochs = 0
     ckpt_path = tmp_art_dir / "best_model.pt"
-    torch.save(model.state_dict(), ckpt_path)  
+    torch.save(model.state_dict(), ckpt_path)
 
     for epoch in range(1, EPOCHS + 1):
         # Entrenamiento en una época
-        train_loss, train_acc, train_f1m = train_one_epoch(model, train_loader, criterion, optimizer, device)
-        
+        train_loss, train_acc, train_f1m = train_one_epoch(
+            model, train_loader, criterion, optimizer, device)
+
         # Evaluación en validación
         val_out = evaluate(
             model, val_loader, criterion, device,
@@ -355,9 +360,12 @@ def main():
 
             # Subir artefactos a MLflow
             if mlflow is not None:
-                mlflow.log_artifact(str(ckpt_path), artifact_path="checkpoints")
-                mlflow.log_artifact(val_out["rep_path"], artifact_path="validation")
-                mlflow.log_artifact(val_out["cm_path"],  artifact_path="validation")
+                mlflow.log_artifact(
+                    str(ckpt_path), artifact_path="checkpoints")
+                mlflow.log_artifact(
+                    val_out["rep_path"], artifact_path="validation")
+                mlflow.log_artifact(
+                    val_out["cm_path"],  artifact_path="validation")
         else:
             bad_epochs += 1
             if bad_epochs >= patience:
@@ -375,7 +383,8 @@ def main():
         model, test_loader, criterion_eval, device,
         prefix="test", class_names=class_names, out_dir=tmp_art_dir
     )
-    print(f"[TEST] loss={test_out['loss']:.4f} acc={test_out['acc']:.4f} f1m={test_out['f1_macro']:.4f}")
+    print(
+        f"[TEST] loss={test_out['loss']:.4f} acc={test_out['acc']:.4f} f1m={test_out['f1_macro']:.4f}")
 
     # Log de resultados de test en MLflow
     if mlflow is not None:

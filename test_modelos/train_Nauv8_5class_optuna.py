@@ -37,9 +37,9 @@ LABEL_SMOOTH = 0.08482800776785757
 DROPOUT = 0.43798768012346134
 
 # Rutas a tus Subsets .pt
-TRAIN_PT = r"Data\dataloader\train_dataset.pt"
-VAL_PT = r"Data\dataloader\val_dataset.pt"
-TEST_PT = r"Data\dataloader\test_dataset.pt"
+TRAIN_PT = r"Data\dataset\train_dataset.pt"
+VAL_PT = r"Data\dataset\val_dataset.pt"
+TEST_PT = r"Data\dataset\test_dataset.pt"
 
 # Clases que mantenemos y mapeo -> 0..4
 KEEP_CLASSES = [0, 1, 2, 5, 6]
