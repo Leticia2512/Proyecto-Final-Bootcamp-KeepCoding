@@ -16,7 +16,7 @@ from sklearn.metrics import (
 )
 
 import matplotlib.pyplot as plt
-from load_dataloaders_Sofia import load_dataloaders
+from create_dataset.load_dataloaders import load_dataloaders
 
 
 # ==== CONFIGURACIÓN ======
@@ -25,25 +25,25 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # Subsets preprocesados en .pt
 TRAIN_PT = BASE_DIR / "Data" / "dataset" / "train_dataset.pt"
-VAL_PT   = BASE_DIR / "Data" / "dataset" / "val_dataset.pt"
-TEST_PT  = BASE_DIR / "Data" / "dataset" / "test_dataset.pt"
+VAL_PT = BASE_DIR / "Data" / "dataset" / "val_dataset.pt"
+TEST_PT = BASE_DIR / "Data" / "dataset" / "test_dataset.pt"
 
 # Hiperparámetros
-BATCH_SIZE   = 32
-EPOCHS       = 20
-LR           = 1e-4
+BATCH_SIZE = 32
+EPOCHS = 20
+LR = 1e-4
 WEIGHT_DECAY = 5e-4
-NUM_WORKERS  = 0
-SEED         = 42
+NUM_WORKERS = 0
+SEED = 42
 
 # Clases que mantenemos y su remapeo a 0..4
 KEEP_CLASSES = [0, 1, 2, 5, 6]
-OLD2NEW = {old: new for new, old in enumerate(KEEP_CLASSES)}  # {0:0,1:1,2:2,5:3,6:4}
+OLD2NEW = {old: new for new, old in enumerate(
+    KEEP_CLASSES)}  # {0:0,1:1,2:2,5:3,6:4}
 
 # Configuración de MLflow
 EXPERIMENT_NAME = "Experimento_4_Leticia_ResNet18_Top5"
-RUN_NAME        = "resnet18_mm_" + datetime.now().strftime("%Y%m%d_%H%M%S")
-
+RUN_NAME = "resnet18_mm_" + datetime.now().strftime("%Y%m%d_%H%M%S")
 
 
 # ==== FUNCIONES UTILES ===
@@ -112,6 +112,7 @@ class FilterMapDataset(Dataset):
       1) Filtrar sólo las clases KEEP_CLASSES
       2) Remapear etiquetas originales a [0..num_clases-1] con OLD2NEW
     """
+
     def __init__(self, base, keep_classes, old2new):
         self.keep = set(keep_classes)
         self.map = old2new
@@ -165,6 +166,7 @@ class ImageClassifier(nn.Module):
       - Rama de metadatos: MLP sencillo
       - Fusión: concatenación + MLP final → logits
     """
+
     def __init__(self, meta_dim: int, num_classes: int, pretrained: bool = True, dropout: float = 0.5):
         super().__init__()
         # ResNet18
@@ -263,10 +265,13 @@ def evaluate(model, loader, criterion, device, *, prefix: str, class_names, out_
     num_classes = len(class_names)
     labels_list = list(range(num_classes))
 
-    acc   = accuracy_score(y_true, y_pred)
-    f1m   = f1_score(y_true, y_pred, average="macro", labels=labels_list, zero_division=0)
-    precm = precision_score(y_true, y_pred, average="macro", labels=labels_list, zero_division=0)
-    recm  = recall_score(y_true, y_pred, average="macro", labels=labels_list, zero_division=0)
+    acc = accuracy_score(y_true, y_pred)
+    f1m = f1_score(y_true, y_pred, average="macro",
+                   labels=labels_list, zero_division=0)
+    precm = precision_score(y_true, y_pred, average="macro",
+                            labels=labels_list, zero_division=0)
+    recm = recall_score(y_true, y_pred, average="macro",
+                        labels=labels_list, zero_division=0)
 
     rep_dir = out_dir / f"reports_{prefix}"
     rep_dir.mkdir(parents=True, exist_ok=True)
@@ -312,16 +317,16 @@ def main():
 
     # Filtrar y remapear datasets
     train_ds = FilterMapDataset(train_loader.dataset, KEEP_CLASSES, OLD2NEW)
-    val_ds   = FilterMapDataset(val_loader.dataset,   KEEP_CLASSES, OLD2NEW)
-    test_ds  = FilterMapDataset(test_loader.dataset,  KEEP_CLASSES, OLD2NEW)
+    val_ds = FilterMapDataset(val_loader.dataset,   KEEP_CLASSES, OLD2NEW)
+    test_ds = FilterMapDataset(test_loader.dataset,  KEEP_CLASSES, OLD2NEW)
 
     # Crear DataLoaders filtrados
     train_loader = DataLoader(train_ds, batch_size=BATCH_SIZE, shuffle=True,
                               num_workers=NUM_WORKERS, pin_memory=pin_mem)
-    val_loader   = DataLoader(val_ds,   batch_size=BATCH_SIZE, shuffle=False,
-                              num_workers=NUM_WORKERS, pin_memory=pin_mem)
-    test_loader  = DataLoader(test_ds,  batch_size=BATCH_SIZE, shuffle=False,
-                              num_workers=NUM_WORKERS, pin_memory=pin_mem)
+    val_loader = DataLoader(val_ds,   batch_size=BATCH_SIZE, shuffle=False,
+                            num_workers=NUM_WORKERS, pin_memory=pin_mem)
+    test_loader = DataLoader(test_ds,  batch_size=BATCH_SIZE, shuffle=False,
+                             num_workers=NUM_WORKERS, pin_memory=pin_mem)
 
     # Meta-dimensión y nº de clases
     sample = train_ds[0]
@@ -341,11 +346,14 @@ def main():
     ).to(device)
 
     # Pesos de clase
-    y_train = get_all_labels_from_dataset(train_ds, batch_size=512, num_workers=NUM_WORKERS)
-    class_weights = compute_class_weights(y_train, num_classes=num_classes).to(device)
+    y_train = get_all_labels_from_dataset(
+        train_ds, batch_size=512, num_workers=NUM_WORKERS)
+    class_weights = compute_class_weights(
+        y_train, num_classes=num_classes).to(device)
     criterion = nn.CrossEntropyLoss(weight=class_weights, label_smoothing=0.05)
 
-    optimizer = torch.optim.AdamW(model.parameters(), lr=LR, weight_decay=WEIGHT_DECAY)
+    optimizer = torch.optim.AdamW(
+        model.parameters(), lr=LR, weight_decay=WEIGHT_DECAY)
 
     # MLflow
     mlflow = try_init_mlflow()
@@ -378,7 +386,8 @@ def main():
     torch.save(model.state_dict(), ckpt_path)
 
     for epoch in range(1, EPOCHS + 1):
-        train_loss, train_acc, train_f1m = train_one_epoch(model, train_loader, criterion, optimizer, device)
+        train_loss, train_acc, train_f1m = train_one_epoch(
+            model, train_loader, criterion, optimizer, device)
         val_out = evaluate(model, val_loader, criterion, device,
                            prefix="val", class_names=class_names, out_dir=tmp_art_dir)
 
@@ -401,9 +410,12 @@ def main():
             bad_epochs = 0
             torch.save(model.state_dict(), ckpt_path)
             if mlflow is not None:
-                mlflow.log_artifact(str(ckpt_path), artifact_path="checkpoints")
-                mlflow.log_artifact(val_out["rep_path"], artifact_path="validation")
-                mlflow.log_artifact(val_out["cm_path"],  artifact_path="validation")
+                mlflow.log_artifact(
+                    str(ckpt_path), artifact_path="checkpoints")
+                mlflow.log_artifact(
+                    val_out["rep_path"], artifact_path="validation")
+                mlflow.log_artifact(
+                    val_out["cm_path"],  artifact_path="validation")
         else:
             bad_epochs += 1
             if bad_epochs >= patience:
@@ -418,7 +430,8 @@ def main():
     criterion_eval = nn.CrossEntropyLoss(weight=class_weights)
     test_out = evaluate(model, test_loader, criterion_eval, device,
                         prefix="test", class_names=class_names, out_dir=tmp_art_dir)
-    print(f"[TEST] loss={test_out['loss']:.4f} acc={test_out['acc']:.4f} f1m={test_out['f1_macro']:.4f}")
+    print(
+        f"[TEST] loss={test_out['loss']:.4f} acc={test_out['acc']:.4f} f1m={test_out['f1_macro']:.4f}")
 
     if mlflow is not None:
         mlflow.log_metrics({

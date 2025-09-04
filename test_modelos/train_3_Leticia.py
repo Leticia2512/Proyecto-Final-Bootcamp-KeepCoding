@@ -28,7 +28,7 @@ from sklearn.metrics import (
 )
 
 
-from load_dataloaders_Leti_Exp_3 import load_dataloaders
+from create_dataset.load_dataloaders import load_dataloaders
 
 
 # ------------------ CONFIGURACIÓN ------------------
@@ -36,21 +36,21 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # Rutas de los Subsets preprocesados (.pt) generados por create_split_dataset_Leti_IMG.py
 TRAIN_PT = BASE_DIR / "Data" / "dataset" / "train_dataset.pt"
-VAL_PT   = BASE_DIR / "Data" / "dataset" / "val_dataset.pt"
-TEST_PT  = BASE_DIR / "Data" / "dataset" / "test_dataset.pt"
+VAL_PT = BASE_DIR / "Data" / "dataset" / "val_dataset.pt"
+TEST_PT = BASE_DIR / "Data" / "dataset" / "test_dataset.pt"
 
 # Hiperparámetros
-BATCH_SIZE   = 32
-EPOCHS       = 25
-LR           = 1e-4
+BATCH_SIZE = 32
+EPOCHS = 25
+LR = 1e-4
 WEIGHT_DECAY = 5e-4
-NUM_WORKERS  = 2
-SEED         = 42
-IMG_SIZE     = 224  
+NUM_WORKERS = 2
+SEED = 42
+IMG_SIZE = 224
 
 # Configuración de MLflow
 EXPERIMENT_NAME = "Experimento_3_Leticia_ResNet18"
-RUN_NAME        = "resnet18_imgonly_" + datetime.now().strftime("%Y%m%d_%H%M%S")
+RUN_NAME = "resnet18_imgonly_" + datetime.now().strftime("%Y%m%d_%H%M%S")
 
 
 # ------------------ FUNCIONES AUXILIARES ------------------
@@ -91,7 +91,8 @@ def load_subset(path: Path):
     obj = torch.load(path, weights_only=False)
     if isinstance(obj, Subset):
         return obj
-    raise TypeError(f"Se esperaba un Subset en {path}, pero se encontró: {type(obj)}")
+    raise TypeError(
+        f"Se esperaba un Subset en {path}, pero se encontró: {type(obj)}")
 
 
 def get_train_labels(subset: Subset) -> np.ndarray:
@@ -112,7 +113,7 @@ def compute_class_weights(y: np.ndarray, num_classes: int) -> torch.Tensor:
     counts = np.bincount(y, minlength=num_classes).astype(np.float64)
     eps = 1e-6
     w = 1.0 / (counts + eps)
-    w = w * (num_classes / w.sum()) 
+    w = w * (num_classes / w.sum())
     return torch.tensor(w, dtype=torch.float32)
 
 
@@ -140,6 +141,7 @@ class ImageOnlyClassifier(nn.Module):
     Clasificador de imágenes basado en ResNet18 preentrenada (sin metadatos).
     Reemplaza la capa final para ajustar al nº de clases.
     """
+
     def __init__(self, num_classes: int, pretrained: bool = True, dropout: float = 0.5):
         super().__init__()
         if pretrained and _HAS_WEIGHTS:
@@ -161,8 +163,8 @@ class ImageOnlyClassifier(nn.Module):
         )
 
     def forward(self, x_img):
-        f_img = self.backbone(x_img)      
-        logits = self.head(f_img)         
+        f_img = self.backbone(x_img)
+        logits = self.head(f_img)
         return logits
 
 
@@ -180,7 +182,7 @@ def train_one_epoch(model, loader, criterion, optimizer, device):
 
     for imgs, ys in loader:  # <<< SOLO (imgs, ys)
         imgs = imgs.to(device, non_blocking=True)
-        ys   = ys.to(device, non_blocking=True, dtype=torch.long)
+        ys = ys.to(device, non_blocking=True, dtype=torch.long)
 
         optimizer.zero_grad(set_to_none=True)
         logits = model(imgs)
@@ -213,9 +215,9 @@ def evaluate(model, loader, criterion, device, *, prefix: str, class_names, out_
     total_loss = 0.0
     y_true_all, y_pred_all = [], []
 
-    for imgs, ys in loader: 
+    for imgs, ys in loader:
         imgs = imgs.to(device, non_blocking=True)
-        ys   = ys.to(device, non_blocking=True, dtype=torch.long)
+        ys = ys.to(device, non_blocking=True, dtype=torch.long)
 
         logits = model(imgs)
         loss = criterion(logits, ys)
@@ -230,10 +232,10 @@ def evaluate(model, loader, criterion, device, *, prefix: str, class_names, out_
     y_true = torch.cat(y_true_all).numpy()
     y_pred = torch.cat(y_pred_all).numpy()
 
-    acc   = accuracy_score(y_true, y_pred)
-    f1m   = f1_score(y_true, y_pred, average="macro")
+    acc = accuracy_score(y_true, y_pred)
+    f1m = f1_score(y_true, y_pred, average="macro")
     precm = precision_score(y_true, y_pred, average="macro", zero_division=0)
-    recm  = recall_score(y_true, y_pred, average="macro", zero_division=0)
+    recm = recall_score(y_true, y_pred, average="macro", zero_division=0)
 
     # Guardar report y matriz de confusión
     rep_dir = out_dir / f"reports_{prefix}"
@@ -281,7 +283,7 @@ def main():
     )
 
     # Inferir nº de clases a partir de las etiquetas de train
-    train_subset = train_loader.dataset  
+    train_subset = train_loader.dataset
     y_train = get_train_labels(train_subset)
     num_classes = int(y_train.max() + 1)
     class_names = [str(i) for i in range(num_classes)]
@@ -295,11 +297,13 @@ def main():
     ).to(device)
 
     # Pérdida con class weights + label smoothing
-    class_weights = compute_class_weights(y_train, num_classes=num_classes).to(device)
+    class_weights = compute_class_weights(
+        y_train, num_classes=num_classes).to(device)
     criterion = nn.CrossEntropyLoss(weight=class_weights, label_smoothing=0.05)
 
     # Optimizador
-    optimizer = torch.optim.AdamW(model.parameters(), lr=LR, weight_decay=WEIGHT_DECAY)
+    optimizer = torch.optim.AdamW(
+        model.parameters(), lr=LR, weight_decay=WEIGHT_DECAY)
 
     # Inicializar MLflow (si está disponible)
     mlflow = try_init_mlflow()
@@ -328,11 +332,12 @@ def main():
     patience = 6
     bad_epochs = 0
     ckpt_path = tmp_art_dir / "best_model.pt"
-    torch.save(model.state_dict(), ckpt_path) 
+    torch.save(model.state_dict(), ckpt_path)
 
     for epoch in range(1, EPOCHS + 1):
         # ---- Entrenamiento ----
-        train_loss, train_acc, train_f1m = train_one_epoch(model, train_loader, criterion, optimizer, device)
+        train_loss, train_acc, train_f1m = train_one_epoch(
+            model, train_loader, criterion, optimizer, device)
 
         # ---- Validación ----
         val_out = evaluate(
@@ -365,9 +370,12 @@ def main():
 
             # Subir artefactos a MLflow
             if mlflow is not None:
-                mlflow.log_artifact(str(ckpt_path), artifact_path="checkpoints")
-                mlflow.log_artifact(val_out["rep_path"], artifact_path="validation")
-                mlflow.log_artifact(val_out["cm_path"],  artifact_path="validation")
+                mlflow.log_artifact(
+                    str(ckpt_path), artifact_path="checkpoints")
+                mlflow.log_artifact(
+                    val_out["rep_path"], artifact_path="validation")
+                mlflow.log_artifact(
+                    val_out["cm_path"],  artifact_path="validation")
         else:
             bad_epochs += 1
             if bad_epochs >= patience:
@@ -384,7 +392,8 @@ def main():
         model, test_loader, criterion_eval, device,
         prefix="test", class_names=class_names, out_dir=tmp_art_dir
     )
-    print(f"[TEST] loss={test_out['loss']:.4f} acc={test_out['acc']:.4f} f1m={test_out['f1_macro']:.4f}")
+    print(
+        f"[TEST] loss={test_out['loss']:.4f} acc={test_out['acc']:.4f} f1m={test_out['f1_macro']:.4f}")
 
     # Log de resultados de test en MLflow
     if mlflow is not None:

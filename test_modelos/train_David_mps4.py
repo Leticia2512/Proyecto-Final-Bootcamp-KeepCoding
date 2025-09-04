@@ -1,4 +1,4 @@
-#No le sienta bien ni el class_weights ni la ampliacion del clasificador 
+# No le sienta bien ni el class_weights ni la ampliacion del clasificador
 
 import torch
 import torch.nn as nn
@@ -11,7 +11,7 @@ from datetime import datetime
 
 # --- Fix para datasets guardados con eye_pytorch_dataset ---
 import sys
-import General.eye_pytorch_dataset as eye_pytorch_dataset
+import create_dataset.eye_pytorch_dataset as eye_pytorch_dataset
 sys.modules["eye_pytorch_dataset"] = eye_pytorch_dataset
 
 
@@ -27,8 +27,8 @@ SEED = 42
 EXPERIMENT_NAME = "Experimento_David_CustomNet_MPS_v5"
 
 TRAIN_PT = "Data/dataset/train_dataset.pt"
-VAL_PT   = "Data/dataset/val_dataset.pt"
-TEST_PT  = "Data/dataset/test_dataset.pt"
+VAL_PT = "Data/dataset/val_dataset.pt"
+TEST_PT = "Data/dataset/test_dataset.pt"
 
 
 # ========================
@@ -42,7 +42,8 @@ def set_seed(seed: int):
 
 
 def init_mlflow():
-    uri = "file:" + str((Path(__file__).resolve().parent.parent / "mlruns_david").resolve())
+    uri = "file:" + \
+        str((Path(__file__).resolve().parent.parent / "mlruns_david").resolve())
     mlflow.set_tracking_uri(uri)
     mlflow.set_experiment(EXPERIMENT_NAME)
 
@@ -132,7 +133,8 @@ def evaluate(model, loader, criterion, device):
     all_y, all_p = [], []
 
     for imgs, feats, y in loader:
-        imgs, feats, y = imgs.to(device), feats.to(device), y.to(device, dtype=torch.long)
+        imgs, feats, y = imgs.to(device), feats.to(
+            device), y.to(device, dtype=torch.long)
         logits = model(feats, imgs)
         loss = criterion(logits, y)
         total_loss += loss.item() * y.size(0)
@@ -162,19 +164,19 @@ def main():
 
     # === Cargar datasets ===
     train_data = torch.load(TRAIN_PT, weights_only=False)
-    val_data   = torch.load(VAL_PT, weights_only=False)
-    test_data  = torch.load(TEST_PT, weights_only=False)
+    val_data = torch.load(VAL_PT, weights_only=False)
+    test_data = torch.load(TEST_PT, weights_only=False)
 
     train_ds = train_data["indices"]
-    val_ds   = val_data["indices"]
-    test_ds  = test_data["indices"]
+    val_ds = val_data["indices"]
+    test_ds = test_data["indices"]
 
     train_loader = DataLoader(train_ds, batch_size=BATCH_SIZE, shuffle=True,
                               num_workers=NUM_WORKERS, pin_memory=False)
-    val_loader   = DataLoader(val_ds, batch_size=BATCH_SIZE, shuffle=False,
-                              num_workers=NUM_WORKERS, pin_memory=False)
-    test_loader  = DataLoader(test_ds, batch_size=BATCH_SIZE, shuffle=False,
-                              num_workers=NUM_WORKERS, pin_memory=False)
+    val_loader = DataLoader(val_ds, batch_size=BATCH_SIZE, shuffle=False,
+                            num_workers=NUM_WORKERS, pin_memory=False)
+    test_loader = DataLoader(test_ds, batch_size=BATCH_SIZE, shuffle=False,
+                             num_workers=NUM_WORKERS, pin_memory=False)
 
     # Detectar dimensiones
     sample_batch = next(iter(train_loader))
@@ -196,7 +198,8 @@ def main():
     out = model(feats.to(device), imgs.to(device))
     print("🔎 Test forward OK → salida:", out.shape)
 
-    optimizer = torch.optim.AdamW(model.parameters(), lr=LR, weight_decay=WEIGHT_DECAY)
+    optimizer = torch.optim.AdamW(
+        model.parameters(), lr=LR, weight_decay=WEIGHT_DECAY)
 
     # OneCycleLR con warmup
     scheduler = torch.optim.lr_scheduler.OneCycleLR(
@@ -212,7 +215,8 @@ def main():
 
     # === MLflow ===
     init_mlflow()
-    run_name = "custom_multimodalnet_mps_v5_" + datetime.now().strftime("%Y%m%d_%H%M%S")
+    run_name = "custom_multimodalnet_mps_v5_" + \
+        datetime.now().strftime("%Y%m%d_%H%M%S")
 
     with mlflow.start_run(run_name=run_name):
         mlflow.log_params({
@@ -237,7 +241,8 @@ def main():
             model.train()
             total_loss = 0.0
             for imgs, feats, y in train_loader:
-                imgs, feats, y = imgs.to(device), feats.to(device), y.to(device, dtype=torch.long)
+                imgs, feats, y = imgs.to(device), feats.to(
+                    device), y.to(device, dtype=torch.long)
                 logits = model(feats, imgs)
                 loss = criterion(logits, y)
 
@@ -274,7 +279,8 @@ def main():
 
         # Test final
         test_metrics = evaluate(model, test_loader, criterion, device)
-        print(f"[TEST] loss={test_metrics['loss']:.4f} | acc={test_metrics['acc']:.4f}")
+        print(
+            f"[TEST] loss={test_metrics['loss']:.4f} | acc={test_metrics['acc']:.4f}")
         mlflow.log_metrics({
             "test_loss": test_metrics["loss"],
             "test_acc": test_metrics["acc"],
