@@ -33,7 +33,7 @@ from sklearn.metrics import (
 )
 
 import matplotlib.pyplot as plt
-from load_dataloaders_Sofia import load_dataloaders
+from create_dataset.load_dataloaders import load_dataloaders
 
 # ------- CONFIGURACIÓN -------
 # Carpeta raíz del proyecto 
