@@ -1,0 +1,15 @@
+artifact_uri: file:///Users/davidsoteloseguin/Library/Mobile Documents/com~apple~CloudDocs/Personal/Formacion
+  /Bootcamp/Bootcamp KC/Deep_Learning/DeepLearning/DeepLearning/ProyectoFinal-KC/ProyectoFinalKC/mlruns_david/328617027444340384/ed95a846d81a43f98ceaa4d849e365f2/artifacts
+end_time: 1755848765089
+entry_point_name: ''
+experiment_id: '328617027444340384'
+lifecycle_stage: active
+run_id: ed95a846d81a43f98ceaa4d849e365f2
+run_name: custom_multimodalnet_mps_20250822_094205
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1755848525503
+status: 3
+tags: []
+user_id: davidsoteloseguin

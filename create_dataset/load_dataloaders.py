@@ -1,11 +1,15 @@
+import sys
+from pathlib import Path
+
 import torch
 from torch.utils.data import DataLoader, Subset
 from pathlib import Path
 
-try:
+try: 
     from eye_pytorch_dataset import get_train_transform, get_eval_transform
+
 except ImportError:
-    print("WARNING: No se pudo importar get_train_transform/get_eval_transform. Asegúrate de que eye_pytorch_dataset_Leti.py esté accesible.")
+    print("WARNING: No se pudo importar get_train_transform/get_eval_transform. Asegúrate de que eye_pytorch_dataset esté accesible.")
     # Funciones dummy si falla la importación
     def get_train_transform(size=224): return None
     def get_eval_transform(size=224): return None
@@ -16,6 +20,7 @@ def load_dataloaders(train_pt, val_pt, test_pt, batch_size=32, num_workers=4, pi
     Carga Subsets guardados directamente (.pt), recrea los Subsets 
     para reasignar la transformación de entrenamiento, y devuelve dataloaders.
     """
+    
     # 1. Cargar el objeto Subset (usando str() y weights_only=False para robustez)
     # Aquí train_ds, val_ds y test_ds son directamente objetos Subset.
     try:

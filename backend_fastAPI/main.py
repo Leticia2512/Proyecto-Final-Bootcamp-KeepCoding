@@ -6,8 +6,8 @@ from PIL import Image
 from class_values import PatientData, PredictionResult
 from backend_functions import validate_image_jpg
 from pathlib import Path
-#from predict_with_model import predict
-from predict_with_model2 import predictor
+from predict_with_model import predictor
+#from backend_fastAPI.predict_with_model import predictor
 import os
 import shutil
 
@@ -27,7 +27,7 @@ def startup_event():
         os.makedirs(TEMP_IMAGES_DIR)
 
 @app.get("/")
-def read_root():
+def read_root(): 
     return {"message": "¡Bienvenido a la API de Clasificación Ocular!"}
 
 # Muestra toda la información sobre la predicción que arroja nuestro modelo en base a los datos que nos dio.
@@ -38,7 +38,10 @@ async def get_ocular_prediction(patient: PatientData):
     gender = patient.gender
     image_url = patient.image_url
 
+    print(image_url)
+
     image_path = Path(image_url)
+    print(image_path)
     meta_data = {"age": age, "gender": gender}
 
     result = 5 #Normal
@@ -54,12 +57,7 @@ async def get_ocular_prediction(patient: PatientData):
     predicted_class, probabilities = predictor.predict(str(image_path), meta_data)
 
     KEEP_CLASSES = [0, 1, 2, 5, 6]
-    """
-    print(f"La índice de la clase predicha es: {predicted_class}")
-    print("Probabilidades para cada clase remapeada:")
-    print(f"Clases: {[f'clase_{c}' for c in KEEP_CLASSES]}")
-    print(f"Probabilidades: {[f'{p:.4f}' for p in probabilities.tolist()]}")
-    """
+
      # Formatear las probabilidades a una lista
     probabilities_list = probabilities
 
@@ -68,24 +66,4 @@ async def get_ocular_prediction(patient: PatientData):
     return response
 
 
-# Configuración de CORS 
-# =============================================
-"""
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=["*"],              # En producción, especifica dominios exactos
-    allow_credentials=True,
-    allow_methods=["*"],              # GET, POST, PUT, DELETE
-    allow_headers=["*"],              # Todos los headers
-)
-"""
 
-# variables globales
-
-
-# Funciones auxiliares
-
-# Endpoint
-
-#creo que para que funcione con streamlit debe ser:
-#@app.post(datos_input)
