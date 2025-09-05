@@ -15,3 +15,5 @@ __pycache__/
 # API KEYS
 .openai_key
 .env 
+.DS_Store
+mlruns/**/.DS_Store
