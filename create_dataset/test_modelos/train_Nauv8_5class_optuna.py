@@ -1,5 +1,6 @@
-# train_top5_best.py
-# Entrenamiento TOP-5 (clases 0,1,2,5,6 -> 0..4) con hiperparámetros óptimos de Optuna
+# isort: skip_file
+# ruff: isort: skip_file
+
 
 import matplotlib.pyplot as plt
 import mlflow
@@ -11,8 +12,13 @@ import torch
 import numpy as np
 import json
 from datetime import datetime
-from pathlib import Path
 import warnings
+import sys
+from pathlib import Path
+
+# puente para compatibilidad con modelos guardados
+from create_dataset.eye_pytorch_dataset import *  # reexporta todo
+
 warnings.filterwarnings("ignore")
 
 # ================== CONFIG (Best from Optuna) ==================
@@ -37,9 +43,9 @@ LABEL_SMOOTH = 0.08482800776785757
 DROPOUT = 0.43798768012346134
 
 # Rutas a tus Subsets .pt
-TRAIN_PT = r"Data\dataset\train_dataset.pt"
-VAL_PT = r"Data\dataset\val_dataset.pt"
-TEST_PT = r"Data\dataset\test_dataset.pt"
+TRAIN_PT = r"Data\dataset\train_datasetv2.pt"
+VAL_PT = r"Data\dataset\val_datasetv2.pt"
+TEST_PT = r"Data\dataset\test_datasetv2.pt"
 
 # Clases que mantenemos y mapeo -> 0..4
 KEEP_CLASSES = [0, 1, 2, 5, 6]
@@ -230,6 +236,11 @@ def main():
     torch.backends.cudnn.benchmark = True
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     pin_mem = device.type == "cuda"
+
+    import sys
+    import importlib
+    sys.modules["eye_pytorch_datasetv2"] = importlib.import_module(
+        "create_dataset.eye_pytorch_datasetv2")
 
     # Carga objetos .pt
     tr_raw = torch.load(TRAIN_PT, weights_only=False)
