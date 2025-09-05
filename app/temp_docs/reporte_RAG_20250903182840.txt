@@ -1,0 +1,54 @@
+───────────────────────────────
+🔹 Recomendaciones sobre nuevas pruebas diagnósticas
+- **Prueba: Tomografía de coherencia óptica (OCT)**
+  - **Prioridad:** ALTA
+  - **Hallazgos esperados:** Evaluación de la estructura retiniana, identificación de neovascularización, fluidos intrarretinales o subretinales.
+  - **Contraindicaciones:** Ninguna específica, salvo en casos de intolerancia a la dilatación pupilar.
+  - **Referencias:** Recomendación fuerte a favor de la OCT para la evaluación de la DMRE.
+
+- **Prueba: Angiografía fluoresceínica (AFG)**
+  - **Prioridad:** MEDIA
+  - **Hallazgos esperados:** Identificación de neovascularización coroidea y evaluación de la perfusión retiniana.
+  - **Contraindicaciones:** Alergia al medio de contraste utilizado.
+  - **Referencias:** Indicada en casos donde la OCT no sea concluyente.
+
+🔹 Recomendaciones generales de tratamiento
+- **Opción: Suplementos de antioxidantes (luteína y zeaxantina)**
+  - **Indicación:** Para la prevención de la progresión de la DMRE.
+  - **Dosis/Régimen:** Según indicaciones del producto específico, generalmente se recomienda una dosis diaria.
+  - **Contraindicaciones:** Hipersensibilidad a los componentes.
+  - **Evidencia:** Basada en estudios que sugieren beneficios en la salud retiniana.
+  - **Confianza:** Moderada.
+
+- **Opción: Dieta rica en omega-3 y antioxidantes**
+  - **Indicación:** Mejora de la salud ocular y reducción del riesgo de progresión.
+  - **Dosis/Régimen:** Incluir pescado azul y frutos secos en la dieta diaria.
+  - **Contraindicaciones:** Alergias alimentarias.
+  - **Evidencia:** Apoyada por estudios epidemiológicos sobre la dieta y la DMRE.
+  - **Confianza:** Moderada.
+
+🔹 Aspectos importantes a considerar para esta dolencia
+- La DMRE es más prevalente en personas mayores de 50 años, pero puede presentarse en pacientes más jóvenes, especialmente si hay factores de riesgo como antecedentes familiares o hábitos de vida poco saludables (p. ej., tabaquismo).
+- La autoevaluación con la rejilla de Amsler es útil para el monitoreo de cambios en la visión, y se debe instruir al paciente sobre su uso.
+- Es fundamental realizar un seguimiento regular con un oftalmólogo para evaluar la progresión de la enfermedad y ajustar el tratamiento según sea necesario.
+
+🔹 Plan de seguimiento
+- **Cuándo:** Cada 6 meses, o antes si hay cambios en la visión.
+- **Qué monitorizar:** Agudeza visual, cambios en la percepción visual (metamorfopsias, escotomas), y resultados de OCT y AFG.
+- **Próximos pasos:** Ajustar el tratamiento según la evolución clínica y los hallazgos diagnósticos.
+
+🔹 Comunicación con el paciente
+"Es importante que realices un seguimiento regular con tu oftalmólogo para monitorear la DMRE. Te recomendaré realizar pruebas como la OCT y la angiografía si es necesario. Además, una dieta rica en antioxidantes y omega-3 puede ayudar a proteger tu visión."
+
+🔹 Información faltante
+- Detalles sobre el estado actual de la DMRE (si es exudativa o no exudativa).
+- Resultados de pruebas diagnósticas previas.
+- Historia clínica completa, incluyendo factores de riesgo.
+
+🔹 Nivel de confianza global
+- Moderado, debido a la falta de información específica sobre el estado de la DMRE en este paciente.
+
+🔹 Referencias
+- American Academy of Ophthalmology (AAO) (2015).
+- Estudios sobre la eficacia de la OCT y AFG en la DMRE.
+- Guías de tratamiento de la DMAE.
