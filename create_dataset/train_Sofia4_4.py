@@ -59,7 +59,7 @@ OLD2NEW = {old: new for new, old in enumerate(
     KEEP_CLASSES)}  # {0:0,1:1,2:2,5:3,6:4}
 
 # MLflow
-EXPERIMENT_NAME = "DataAvengersSofia"
+EXPERIMENT_NAME = "ExperimentoNau_singlelabel_top5_best"
 RUN_NAME = "efficientnetb0_mm_subclases" + \
     datetime.now().strftime("%Y%m%d_%H%M%S")
 
