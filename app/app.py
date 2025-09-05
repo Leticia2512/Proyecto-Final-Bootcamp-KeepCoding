@@ -141,7 +141,7 @@ st.write("Bienvenido a tu **aliado digital en salud visual**. Nuestra aplicació
 " e información adicional de apoyo. ")
 st.write("---")
 
-st.header("Predicciones Detalladas para Tu Salud Visual")
+st.header("Predicciones detalladas para la Salud Visual")
 st.write("Nuestro sistema ha sido entrenado para identificar con precisión una variedad de **afecciones oculares comunes** a partir de una imagen. " \
 "Actualmente, somos capaces de predecir las siguientes enfermedades:")
 st.markdown("""
@@ -151,7 +151,7 @@ st.markdown("""
 * **Miopía Patológica:** Un tipo severo de miopía que puede llevar a complicaciones y pérdida de visión.
 * **Ojo Normal:** Para confirmar que la imagen no muestra signos de las condiciones anteriores.
 """)
-st.subheader("Más Allá de la Predicción")
+st.subheader("Más allá de la Predicción")
 st.write("Entendemos que un diagnóstico es solo el primer paso. Por ello, nuestra aplicación va más allá de una simple predicción. Nuestro avanzado sistema " \
 "de **Inteligencia Artificial (RAG)** busca y recupera **información adicional relevante** sobre la condición predicha, proporcionándote más detalles.")
 
@@ -177,7 +177,7 @@ if submitted:
         try:
             # Display the uploaded image
             image = Image.open(uploaded_file)
-            st.image(image, caption="Image cargada", use_container_width='content')
+            # st.image(image, caption="Image cargada", use_container_width='content')
             
             # Crear el directorio para las imágenes temporales si no existe
             os.makedirs(TEMP_IMAGES_DIR, exist_ok=True)

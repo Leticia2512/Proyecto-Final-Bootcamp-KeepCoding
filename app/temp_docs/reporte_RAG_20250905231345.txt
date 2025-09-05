@@ -1,0 +1,48 @@
+───────────────────────────────
+🔹 Diagnóstico diferencial
+- Nombre: Catarata
+- Probabilidad estimada: Alta
+- Razonamiento: La paciente tiene 55 años y presenta un diagnóstico de catarata, lo cual es común en esta franja etaria.
+- Nivel de evidencia: Moderado
+- Confianza: Alta
+
+🔹 Pruebas diagnósticas recomendadas
+- Prueba: Examen oftalmológico completo
+- Prioridad: Alta
+- Hallazgos esperados: Evaluación de agudeza visual, examen de biomicroscopía, medición de presión intraocular, y exploración del fondo de ojo.
+- Contraindicaciones: Ninguna relevante para esta prueba.
+- Referencias: Guías de Práctica Clínica de la American Academy of Ophthalmology y NICE.
+
+🔹 Opciones de tratamiento
+- Opción: Cirugía de catarata (facoemulsificación o extracción extracapsular)
+- Indicación: Cuando la catarata afecta significativamente la calidad de vida o la agudeza visual.
+- Dosis/Régimen: No aplica, ya que se trata de un procedimiento quirúrgico.
+- Contraindicaciones: Comorbilidades que impidan la cirugía, como enfermedades sistémicas no controladas.
+- Evidencia: Alta, basada en múltiples estudios y guías de práctica clínica.
+- Confianza: Alta
+
+🔹 Señales de alarma / Red Flags
+- Pérdida rápida de visión
+- Dolor ocular intenso
+- Enrojecimiento ocular significativo
+- Síntomas de endoftalmitis (como secreción purulenta)
+
+🔹 Plan de seguimiento
+- Cuándo: Evaluación preoperatoria y seguimiento postoperatorio a las 1-2 semanas después de la cirugía.
+- Qué monitorizar: Agudeza visual, signos de complicaciones postoperatorias, y adaptación a lentes intraoculares.
+- Próximos pasos: Programar cirugía si se determina que es necesaria.
+
+🔹 Comunicación con el paciente
+"Usted tiene un diagnóstico de catarata, que puede afectar su visión. La cirugía es una opción efectiva para mejorar su calidad de vida. Es importante que realicemos un examen completo para determinar el mejor enfoque para su tratamiento."
+
+🔹 Información faltante
+- Grado de afectación de la agudeza visual actual.
+- Comorbilidades o condiciones médicas que puedan influir en la cirugía.
+- Preferencias del paciente respecto a la cirugía.
+
+🔹 Nivel de confianza global
+- Alta
+
+🔹 Referencias
+- Guías de Práctica Clínica de la American Academy of Ophthalmology.
+- National Institute for Health and Care Excellence (NICE) sobre manejo de cataratas.
