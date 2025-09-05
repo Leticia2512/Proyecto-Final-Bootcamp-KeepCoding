@@ -1,0 +1,48 @@
+───────────────────────────────
+🔹 Diagnóstico diferencial
+- Nombre: Catarata
+- Probabilidad estimada: Alta
+- Razonamiento: El paciente tiene 45 años y presenta un diagnóstico de catarata, lo que es común en esta franja etaria, aunque no es lo más frecuente.
+- Nivel de evidencia: Moderado
+- Confianza: Alta
+
+🔹 Pruebas diagnósticas recomendadas
+- Prueba: Examen oftalmológico completo
+- Prioridad: Alta
+- Hallazgos esperados: Evaluación de agudeza visual, examen de biomicroscopía para determinar la opacidad del cristalino, medición de presión intraocular y exploración del fondo de ojo.
+- Contraindicaciones: Ninguna específica para el examen oftalmológico completo.
+- Referencias: Guías de Práctica Clínica de la American Academy of Ophthalmology.
+
+🔹 Opciones de tratamiento
+- Opción: Cirugía de catarata (facultativa según la severidad de la catarata y la afectación visual)
+- Indicación: Cuando la catarata afecta significativamente la calidad de vida o la agudeza visual.
+- Dosis/Régimen: No aplica, ya que se trata de un procedimiento quirúrgico.
+- Contraindicaciones: Comorbilidades que impidan la cirugía, como enfermedades sistémicas no controladas.
+- Evidencia: Moderada, basada en revisiones sistemáticas y guías clínicas.
+- Confianza: Alta.
+
+🔹 Señales de alarma / Red Flags
+- Pérdida rápida de visión.
+- Dolor ocular intenso.
+- Cambios en la percepción de colores.
+- Síntomas de inflamación ocular (enrojecimiento, secreción).
+
+🔹 Plan de seguimiento
+- Cuándo: Evaluación inicial y seguimiento a los 6-12 meses post-cirugía.
+- Qué monitorizar: Agudeza visual, complicaciones postoperatorias, y salud ocular general.
+- Próximos pasos: Considerar cirugía si la catarata afecta la calidad de vida del paciente.
+
+🔹 Comunicación con el paciente
+"Usted tiene un diagnóstico de catarata, que es una opacificación del cristalino que puede afectar su visión. Es importante realizar un examen oftalmológico completo para evaluar la gravedad de la catarata y determinar si es necesaria una cirugía. Si tiene alguna señal de alarma, como dolor intenso o pérdida rápida de visión, debe acudir de inmediato."
+
+🔹 Información faltante
+- Grado de afectación visual actual del paciente.
+- Comorbilidades o condiciones médicas que puedan influir en el tratamiento.
+- Preferencias del paciente respecto a la cirugía.
+
+🔹 Nivel de confianza global
+- Alta.
+
+🔹 Referencias
+- Guías de Práctica Clínica de la American Academy of Ophthalmology.
+- National Institute for Health and Care Excellence (NICE) sobre el manejo de cataratas.

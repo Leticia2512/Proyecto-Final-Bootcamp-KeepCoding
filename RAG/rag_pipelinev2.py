@@ -313,9 +313,9 @@ def run_rag_fusion(disease: str, edad: int, sexo: str, k: int = 6):
     )
     """
     # 10) Mostrar por consola (opcional)
-    print("\n=== Consulta base ===")
-    print(base_query)
-    print("\n=== Respuesta ===\n", answer)
+    #print("\n=== Consulta base ===")
+    #print(base_query)
+    #print("\n=== Respuesta ===\n", answer)
 
     return answer
 

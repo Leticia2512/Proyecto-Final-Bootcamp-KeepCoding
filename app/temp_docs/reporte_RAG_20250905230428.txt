@@ -1,0 +1,48 @@
+───────────────────────────────
+🔹 Diagnóstico diferencial
+- Nombre: Catarata
+- Probabilidad estimada: Alta
+- Razonamiento: La catarata es la opacificación del cristalino que causa disminución de la agudeza visual, y el paciente presenta un diagnóstico confirmado.
+- Nivel de evidencia: Alta
+- Confianza: Alta
+
+🔹 Pruebas diagnósticas recomendadas
+- Prueba: Examen oftalmológico completo
+- Prioridad: Alta
+- Hallazgos esperados: Evaluación de agudeza visual, examen de segmento anterior, medición de presión intraocular, y exploración del fondo de ojo.
+- Contraindicaciones: Ninguna específica para el examen oftalmológico.
+- Referencias: Guías de Práctica Clínica de la American Academy of Ophthalmology y NICE.
+
+🔹 Opciones de tratamiento
+- Opción: Cirugía de catarata (facoemulsificación)
+- Indicación: Catarata que afecta la calidad de vida del paciente.
+- Dosis/Régimen: Procedimiento quirúrgico, no se aplica dosis.
+- Contraindicaciones: Comorbilidades que impidan la cirugía, como enfermedades sistémicas no controladas.
+- Evidencia: Alta, basada en múltiples estudios y guías de práctica clínica.
+- Confianza: Alta
+
+🔹 Señales de alarma / Red Flags
+- Disminución rápida de la agudeza visual.
+- Dolor ocular intenso.
+- Signos de inflamación o infección (enrojecimiento, secreción).
+- Cambios en la percepción de colores o halos alrededor de luces.
+
+🔹 Plan de seguimiento
+- Cuándo: 1 semana postoperatorio y luego a los 1, 3 y 6 meses.
+- Qué monitorizar: Agudeza visual, signos de complicaciones postoperatorias (como endoftalmitis o opacificación de la cápsula posterior).
+- Próximos pasos: Evaluar la necesidad de lentes intraoculares y ajustar el tratamiento según la evolución.
+
+🔹 Comunicación con el paciente
+"La catarata es una opacificación del cristalino que puede afectar su visión. La cirugía es el tratamiento más efectivo y se realiza de manera ambulatoria. Es importante que esté atento a cualquier cambio en su visión y que asista a las citas de seguimiento."
+
+🔹 Información faltante
+- Detalles sobre la severidad de la catarata (agudeza visual actual, tipo de catarata).
+- Comorbilidades del paciente que puedan afectar la cirugía.
+- Preferencias del paciente respecto a la cirugía y el tipo de anestesia.
+
+🔹 Nivel de confianza global
+- Alta
+
+🔹 Referencias
+- Guías de Práctica Clínica de la American Academy of Ophthalmology.
+- National Institute for Health and Care Excellence (NICE) sobre manejo de cataratas.
