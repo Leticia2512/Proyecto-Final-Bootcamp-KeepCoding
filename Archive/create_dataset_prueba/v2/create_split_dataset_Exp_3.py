@@ -9,7 +9,7 @@ import torch
 from torch.utils.data import Subset
 
 # Importa el dataset SOLO-IMÁGENES y sus transforms
-from eye_pytorch_dataset_Leti_Exp_3 import EyeDatasetIMG, get_train_transform, get_eval_transform
+from Archive.create_dataset_prueba.v2.eye_pytorch_dataset_Exp_3 import EyeDatasetIMG, get_train_transform, get_eval_transform
 
 
 def _load_targets(parquet_or_csv_path: Path) -> np.ndarray:

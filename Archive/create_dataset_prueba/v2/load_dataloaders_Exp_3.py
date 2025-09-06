@@ -6,10 +6,10 @@ from pathlib import Path
 
 # Usar los transforms del dataset SOLO-IMÁGENES.
 try:
-    from eye_pytorch_dataset_Leti_Exp_3 import get_train_transform, get_eval_transform
+    from Archive.create_dataset_prueba.v2.eye_pytorch_dataset_Exp_3 import get_train_transform, get_eval_transform
 except Exception:
     try:
-        from eye_pytorch_dataset_Leti_Exp_3 import get_train_transform, get_eval_transform
+        from Archive.create_dataset_prueba.v2.eye_pytorch_dataset_Exp_3 import get_train_transform, get_eval_transform
     except Exception:
         import torchvision.transforms as T
         def get_train_transform(size=224):
