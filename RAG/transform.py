@@ -1,6 +1,6 @@
-#!/usr/bin/env python3
+
 """
-transform.py – versión 0.3
+
 
 Uso:
     python transform.py documento.pdf
@@ -32,7 +32,7 @@ except ImportError as e:
 
 # -------------------------------- Path config -------------------------------
 BASE_DIR = pathlib.Path(__file__).resolve().parent
-FIXED_DIR = BASE_DIR / "Fixed"
+FIXED_DIR = BASE_DIR / "fixed"
 FIXED_DIR.mkdir(parents=True, exist_ok=True)
 
 # ---------------------------------------------------------------------------
@@ -154,11 +154,11 @@ def main() -> None:
     pdf_path = args.pdf_file
 
     if not pdf_path.exists():
-        raise SystemExit(f"❌ Archivo '{pdf_path}' no encontrado")
+        raise SystemExit(f"Archivo '{pdf_path}' no encontrado")
 
     if is_scanned_pdf(pdf_path):
         print(
-            "⚠️  PDF parece escaneado; se copia tal cual (añadir OCR en futuras versiones).")
+            "PDF parece escaneado; se copia tal cual (añadir OCR en futuras versiones).")
         shutil.copy2(pdf_path, FIXED_DIR / pdf_path.name)
         return
 
@@ -170,7 +170,7 @@ def main() -> None:
     txt_path = FIXED_DIR / f"{pdf_path.stem}.txt"
     txt_path.write_text(cleaned, encoding="utf-8")
 
-    print("✅ Procesado: texto limpio en", txt_path)
+    print("Procesado: texto limpio en", txt_path)
 
 
 if __name__ == "__main__":

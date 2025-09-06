@@ -1,22 +1,15 @@
-#!/usr/bin/env python3
-
-
 from __future__ import annotations
-
-import argparse
-import json
 import pathlib
-from typing import List
+import json
+from typing import List, Dict
 
 import faiss  # type: ignore
 from sentence_transformers import SentenceTransformer  # type: ignore
-from tqdm import tqdm  # type: ignore
 
-# --------------------------------- utils ------------------------------------
+# ------------------ utils ------------------
 
 
 def split_into_chunks(text: str, chunk_size: int = 1000, overlap: int = 150) -> List[str]:
-    """Divide `text` en bloques de ~`chunk_size` tokens (palabras) con `overlap`."""
     tokens = text.split()
     chunks: List[str] = []
     start = 0
@@ -26,12 +19,11 @@ def split_into_chunks(text: str, chunk_size: int = 1000, overlap: int = 150) -> 
         chunks.append(chunk)
         if end == len(tokens):
             break
-        start = end - overlap  # retrocede para solapamiento
+        start = end - overlap
     return chunks
 
 
 def embed_chunks(chunks: List[str], model_name: str):
-    """Genera embeddings con Sentence‑Transformers y devuelve (faiss_index, dim)."""
     model = SentenceTransformer(model_name)
     emb = model.encode(chunks, batch_size=32,
                        show_progress_bar=True, normalize_embeddings=True)
@@ -47,45 +39,72 @@ def save_chunks_jsonl(chunks: List[str], path: pathlib.Path):
             f.write(json.dumps({"id": i, "text": ch},
                     ensure_ascii=False) + "\n")
 
-# --------------------------------- main -------------------------------------
+# ------------------ main ------------------
 
 
 def main():
-    parser = argparse.ArgumentParser(
-        description="Genera chunks y embeddings de un .txt limpio")
-    parser.add_argument("txt_file", type=pathlib.Path,
-                        help="Ruta al archivo .txt limpio")
-    parser.add_argument("--chunk_size", type=int,
-                        default=1000, help="Tokens aprox. por chunk")
-    parser.add_argument("--overlap", type=int, default=150,
-                        help="Solapamiento entre chunks")
-    parser.add_argument("--model", default="sentence-transformers/all-MiniLM-L6-v2",
-                        help="Modelo SBERT para embeddings")
-    args = parser.parse_args()
+    base_dir = pathlib.Path(__file__).resolve().parent
+    fixed_dir = base_dir / "fixed"
+    out_dir = base_dir / "vectorstores"
+    out_dir.mkdir(parents=True, exist_ok=True)
 
-    txt_path: pathlib.Path = args.txt_file
-    if not txt_path.exists():
-        raise SystemExit(f"❌ Archivo '{txt_path}' no encontrado")
+    # Agrupación de documentos por dolencia (usa los nombres de tus .txt en Fixed_david)
+    groups: Dict[str, List[str]] = {
+        "dmae": [
+            "Guia_SERV_01_segundaRevision.txt",
+            "consenso_DMAE.txt",
+            "GPC_DMRE_Version_extensa.txt",
+            "Guia_consensuada_DMAE.txt",
+        ],
+        "catarata": [
+            "GPC-Catarata-en-adulto-y-adulto-mayor_Version-extensa-y-Anexos.txt",
+            "GPC_523_Catarata_Adulto_actualiz_2013.txt",
+            "192GER.txt",
+        ],
+        "retinopatia": [
+            "Guia_de_EMD_y_RD_SAO_2022.txt",
+            "guiaclinicaretinopatiadiabetica2016.txt",
+            "16-pai-retinopatia-diabetica.txt",
+        ],
+        "miopia": [
+            "Guia_SERV_18.txt",
+            "IMI-2021_Resumen-Clinico-Del-IMI_Miopia-Patologica.txt",
+        ],
+    }
 
-    text = txt_path.read_text(encoding="utf-8")
-    print("→ Dividiendo en chunks …")
-    chunks = split_into_chunks(text, args.chunk_size, args.overlap)
-    print(f"   {len(chunks)} chunks generados")
+    model_name = "sentence-transformers/all-MiniLM-L6-v2"
 
-    print("→ Generando embeddings con", args.model)
-    index, dim = embed_chunks(chunks, args.model)
+    for disease, files in groups.items():
+        print(f"\n Procesando grupo: {disease.upper()}")
+        all_chunks = []
+        for fname in files:
+            txt_path = fixed_dir / fname
+            if not txt_path.exists():
+                print(f"No encontrado: {fname}")
+                continue
+            text = txt_path.read_text(encoding="utf-8")
+            chunks = split_into_chunks(text, 1000, 150)
+            print(f"   {fname}: {len(chunks)} chunks")
+            all_chunks.extend(chunks)
 
-    # Guardado
-    out_dir = txt_path.parent
-    stem = txt_path.stem
-    idx_path = out_dir / f"{stem}_index.faiss"
-    jsonl_path = out_dir / f"{stem}_chunks.jsonl"
+        if not all_chunks:
+            print(f"Ningún chunk generado para {disease}")
+            continue
 
-    faiss.write_index(index, str(idx_path))
-    save_chunks_jsonl(chunks, jsonl_path)
+        # Embeddings e índice
+        index, dim = embed_chunks(all_chunks, model_name)
 
-    print("✅ Índice FAISS guardado en", idx_path)
-    print("✅ Chunks JSONL guardado en", jsonl_path)
+        # Guardado
+        idx_path = out_dir / f"{disease}_index.faiss"
+        jsonl_path = out_dir / f"{disease}_chunks.jsonl"
+
+        faiss.write_index(index, str(idx_path))
+        save_chunks_jsonl(all_chunks, jsonl_path)
+
+        print(f"Guardado índice en {idx_path}")
+        print(f"Guardado chunks en {jsonl_path}")
+
+    print("\nProceso completado. Vectorstores en", out_dir)
 
 
 if __name__ == "__main__":
