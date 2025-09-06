@@ -18,6 +18,7 @@ class ImageClassifier(nn.Module):
         self.backbone = efficientnet_b0(weights=weights)
         in_feats = self.backbone.classifier[1].in_features
         self.backbone.classifier = nn.Identity()
+        
         self.meta = nn.Sequential(
             nn.Linear(meta_dim, 32),
             nn.ReLU(inplace=True),
@@ -58,6 +59,8 @@ class OcularPredictor:
     def _get_transforms(self):
         """Devuelve las transformaciones para la imagen."""
         return T.Compose([
+            T.ToPILImage(),
+            T.Resize((224, 224)),
             T.ToTensor(),
             T.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225])
         ])
