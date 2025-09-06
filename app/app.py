@@ -12,12 +12,14 @@ import sys
 import os
 
 # Agregar la carpeta padre al path
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "RAG")))
+#sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "RAG")))
+sys.path.append(os.path.join(os.getcwd(),'..','RAG'))
 
 from rag_pipelinev2 import run_rag_fusion
 
 # FastAPI backend URL
-FASTAPI_URL = "http://localhost:8000/prediction"
+#FASTAPI_URL = "http://localhost:8080/prediction"
+FASTAPI_URL = "http://fastapi:8080/prediction"
 
 # Rutas a las carpetas y archivos
 BASE_DIR = os.path.join(os.getcwd(), 'app')
@@ -315,6 +317,6 @@ if "prediction_results" in st.session_state and st.session_state.prediction_resu
     st.download_button(
         label="📥 Exportar Reporte",
         data=report_content,
-        file_name=f"reporte_{results["predicted_class"]}_{results["gender"]}_{results["age"]}_{datetime.now().strftime('%Y%m%d%H%M%S')}.md",
+        file_name=f'reporte_{results["predicted_class"]}_{results["gender"]}_{results["age"]}_{datetime.now().strftime("%Y%m%d%H%M%S")}.md',
         mime="text/markdown"
     )
