@@ -154,6 +154,13 @@ def reciprocal_rank_fusion(results_per_query: List[List[dict]], top_k: int = 6):
 
 def run_rag_fusion(disease: str, edad: int, sexo: str, k: int = 6):
 
+    # Caso de ojo normal
+    if disease.lower() == "normal":
+        return (
+            "El análisis indica que se trata de un ojo con características normales, "
+            "sin evidencia de enfermedades o alteraciones oftalmológicas relevantes."
+        )
+
     # 1) Selección del índice
     index_path = INDEX_PATHS.get(disease)
 

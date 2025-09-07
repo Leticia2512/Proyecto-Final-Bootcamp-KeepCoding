@@ -48,7 +48,7 @@ def main():
     out_dir = base_dir / "vectorstores"
     out_dir.mkdir(parents=True, exist_ok=True)
 
-    # Agrupación de documentos por dolencia (usa los nombres de tus .txt en Fixed_david)
+    # Agrupación de documentos por dolencia (usa los nombres de tus .txt en Fixed)
     groups: Dict[str, List[str]] = {
         "dmae": [
             "Guia_SERV_01_segundaRevision.txt",
