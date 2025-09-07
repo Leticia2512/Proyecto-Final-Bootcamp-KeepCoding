@@ -32,7 +32,7 @@ except ImportError as e:
 
 # -------------------------------- Path config -------------------------------
 BASE_DIR = pathlib.Path(__file__).resolve().parent
-FIXED_DIR = BASE_DIR / "Fixed"
+FIXED_DIR = BASE_DIR / "fixed"
 FIXED_DIR.mkdir(parents=True, exist_ok=True)
 
 # ---------------------------------------------------------------------------
@@ -40,17 +40,43 @@ FIXED_DIR.mkdir(parents=True, exist_ok=True)
 # ---------------------------------------------------------------------------
 
 
-def is_scanned_pdf(pdf_path: pathlib.Path) -> bool:
-    """Heurística muy simple: si pdfminer devuelve <30 caracteres en 2 páginas ➜ escaneado."""
+def is_scanned_pdf(pdf_path: pathlib.Path,
+                   lookahead_pages: int = 10,
+                   min_letters_threshold: int = 120,
+                   blank_page_letters: int = 10,
+                   consider_pages_after_blanks: int = 5) -> bool:
+    """
+    Heurística robusta:
+    - Mira hasta `lookahead_pages`.
+    - Ignora portadas en blanco (páginas con < `blank_page_letters` letras).
+    - Suma letras de las siguientes `consider_pages_after_blanks` páginas.
+    - Si la suma < `min_letters_threshold` => parece escaneado.
+    """
     try:
-        sample = extract_text(str(pdf_path), maxpages=2)
-        return len(sample.strip()) < 30
+        sample = extract_text(str(pdf_path), maxpages=lookahead_pages) or ""
+        # pdfminer separa páginas con \f (form feed)
+        pages = sample.split("\f")
+
+        # cuenta letras por página (más robusto que len total)
+        letters_per_page = [sum(ch.isalpha() for ch in pg) for pg in pages]
+
+        # salta portadas/páginas iniciales prácticamente vacías
+        i = 0
+        while i < len(letters_per_page) and letters_per_page[i] < blank_page_letters:
+            i += 1
+
+        # suma de las siguientes N páginas "reales"
+        window = letters_per_page[i:i + consider_pages_after_blanks]
+        total_letters = sum(window)
+
+        # DEBUG opcional:
+        # print("DEBUG letters_per_page:", letters_per_page)
+        # print("DEBUG skipped:", i, "window:", window, "total_letters:", total_letters)
+
+        return total_letters < min_letters_threshold
     except Exception:
+        # Si pdfminer peta, mantenemos el comportamiento conservador
         return True
-
-
-def extract_text_pdf(pdf_path: pathlib.Path) -> str:
-    return extract_text(str(pdf_path))
 
 # ---------------------------------------------------------------------------
 # LIMPIEZA
@@ -162,7 +188,7 @@ def main() -> None:
         shutil.copy2(pdf_path, FIXED_DIR / pdf_path.name)
         return
 
-    raw = extract_text_pdf(pdf_path)
+    raw = extract_text(pdf_path)
     cleaned = clean_text(raw)
 
     # Copia original + txt limpio

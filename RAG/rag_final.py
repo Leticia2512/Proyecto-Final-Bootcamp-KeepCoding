@@ -197,7 +197,7 @@ def run_rag_fusion(disease: str, edad: int, sexo: str, k: int = 6):
     ), temperature=OPENAI_TEMPERATURE)
     final_prompt = prompt.format(context=context, question=base_query)
     answer = llm.predict(final_prompt)
-
+    print(answer)
     return answer
 
 
