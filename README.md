@@ -43,54 +43,53 @@ Con este enfoque, no solo **identificamos la afección**, sino que también **ap
 ├── meeting                       #Reuniónes de equipo
 └── README.md                     #Este archivo
 ```
-## Puesta en marcha.
-Comandos a ejecutar desde consola:
-    -activamos el API
-```bash    
-    fastapi dev app/main.py --reload
-```    
-    http://localhost:8501
+## Puesta en marcha
 
-    -activamos Streamlit
- ```bash     
-    streamlit run app/app.py
-```    
-    http://127.0.0.1:8000/docs 
-
-Una vez tengamos los servicios ejecutandose en el navegador interactuamos con la aplicación.
-
-## Funciones para configuraciones extras.
-
--Transformacion de imagenes
+### 1) Activar la API (FastAPI)
+Ejecuta el servidor de desarrollo:
 ```bash
-   python preprocesado\imagenes\transform_img.py 224
+fastapi dev app/main.py --reload
 ```
-    transformamos las imagenes a resolución 224x224
+Documentación disponible en: [http://127.0.0.1:8000/docs](http://127.0.0.1:8000/docs)
 
--Creación de dataset
+### 2) Activar la interfaz (Streamlit)
 ```bash
-    python arquitectura_entrenamientos\create_split_dataset.py
+streamlit run app/app.py
 ```
-    creamos los dataset con las imagenes y los metadatos.
+Aplicación disponible en: [http://localhost:8501](http://localhost:8501)
 
--Entrenamiento del modelo.
+> Una vez ambos servicios estén corriendo, puedes interactuar con la aplicación desde el navegador.
+
+---
+
+## 🛠️ Funciones para configuraciones extra
+
+### Transformar imágenes a 224×224
 ```bash
-     python arquitectura_entrenamientos\red_neuronal_final.py
-```    
+python preprocesado\imagenes\transform_img.py 224
+```
 
--Tranformacion/limpieza pdf a txt.
-```bash    
-    python app\RAG\transform.py app\RAG\documentos\consenso_DMAE.pdf
-```    
-
-se nos guarta el documento en app\RAG\Fixed
-
--Vectorizar.
+### Crear el dataset (imágenes + metadatos)
 ```bash
-    python app\RAG\chunks.py
-``` 
+python arquitectura_entrenamientos\create_split_dataset.py
+```
 
-se nos generan dos archivos con extension JSon y Faiss(usado para el RAG)
+### Entrenar el modelo
+```bash
+python arquitectura_entrenamientos\red_neuronal_final.py
+```
+
+### Transformación / limpieza de PDF a TXT (RAG)
+```bash
+python app\RAG\transform.py app\RAG\documentos\consenso_DMAE.pdf
+```
+El TXT resultante se guarda en: `app\RAG\Fixed`
+
+### Vectorizar (generar índices para RAG)
+```bash
+python app\RAG\chunks.py
+```
+Se generan dos archivos: uno **JSON** y otro **FAISS** (usado por el RAG).
 
 ## Autores
 
