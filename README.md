@@ -28,20 +28,20 @@ Con este enfoque, no solo **identificamos la afección**, sino que también **ap
 ## Estructura del repositorio
 ```
 .
-├── 224x224      #Galeria Imágenes preprocesadas y formatos 224
-├── 384x384      #Galeria Imágenes preprocesadas y formatos 384
-├── app          #Aplicación final (API/Interfaz/RAG) 
-├── archive      #Histórico de Scripts
-├── arquitectura_entrenamientos #Creación de dataset final, Experimentos de aquitecturas y/o modelos y optimización de modelo neuronal final.
-├── Data         #Fuentes de información(Csv,Dataset,Parqutes...)
-├── EDA          #Análisis exploratorio del dataset(metadatos) e imagenes 
-├── info_inicial #Fuentes de información (Recolección de Datasets para el proyecto)
-├── MLFLow       #Inicialización MlFlow
-├── mlruns       #Datos experimentos en MlFlow
-├── ODIR-5K      #Imágenes dataset originales
-├── requirements.txt #Librerias necesarias para el proyecto
-├── meeting      #Reuniónes de equipo
-└── README.md    # Este archivo
+├── 224x224                       #Galeria Imágenes preprocesadas y formatos 224
+├── 384x384                       #Galeria Imágenes preprocesadas y formatos 384
+├── app                           #Aplicación final (API/Interfaz/RAG) 
+├── archive                       #Histórico de Scripts
+├── arquitectura_entrenamientos   #Creación de dataset final, Experimentos de aquitecturas y/o modelos y optimización de modelo neuronal final.
+├── Data                          #Fuentes de información(Csv,Dataset,Parqutes...)
+├── EDA                           #Análisis exploratorio del dataset(metadatos) e imagenes 
+├── info_inicial                  #Fuentes de información (Recolección de Datasets para el proyecto)
+├── MLFLow                        #Inicialización MlFlow
+├── mlruns                        #Datos experimentos en MlFlow
+├── ODIR-5K                       #Imágenes dataset originales
+├── requirements.txt              #Librerias necesarias para el proyecto
+├── meeting                       #Reuniónes de equipo
+└── README.md                     #Este archivo
 ```
 ## Puesta en marcha.
 Comandos a ejecutar desde consola:
@@ -82,13 +82,15 @@ Una vez tengamos los servicios ejecutandose en el navegador interactuamos con la
 ```bash    
     python app\RAG\transform.py app\RAG\documentos\consenso_DMAE.pdf
 ```    
-    se nos guarta el documento en app\RAG\Fixed
+
+se nos guarta el documento en app\RAG\Fixed
 
 -Vectorizar.
 ```bash
     python app\RAG\chunks.py
 ``` 
-    se nos generan dos archivos con extension JSon y Faiss(usado para el RAG)
+
+se nos generan dos archivos con extension JSon y Faiss(usado para el RAG)
 
 ## Autores
 
