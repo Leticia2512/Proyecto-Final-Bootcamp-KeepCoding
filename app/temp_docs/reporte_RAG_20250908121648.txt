@@ -1,0 +1,47 @@
+───────────────────────────────
+🔹 Diagnóstico diferencial
+- Nombre: Catarata
+- Probabilidad estimada: Alta
+- Razonamiento: La paciente tiene 48 años y presenta un diagnóstico de catarata, lo que es común en esta franja etaria, aunque no es lo más frecuente. Sin embargo, la presencia de cataratas en una paciente de esta edad sugiere la necesidad de evaluar otros factores como comorbilidades o antecedentes familiares.
+- Nivel de evidencia: Moderado
+- Confianza: Alta
+
+🔹 Pruebas diagnósticas recomendadas
+- Prueba: Examen oftalmológico completo (incluyendo evaluación de agudeza visual, biomicroscopía y fondo de ojo).
+- Prioridad: Alta
+- Hallazgos esperados: Determinación del grado de opacidad del cristalino, evaluación de la salud de la retina y otras estructuras oculares.
+- Contraindicaciones: Ninguna específica para el examen oftalmológico.
+- Referencias: Guías de práctica clínica sobre manejo de cataratas.
+
+🔹 Opciones de tratamiento
+- Opción: Cirugía de catarata (facoemulsificación).
+- Indicación: Cuando la catarata afecta la calidad de vida de la paciente, dificultando actividades diarias.
+- Dosis/Régimen: No aplica, ya que se trata de un procedimiento quirúrgico.
+- Contraindicaciones: Contraindicaciones generales para cirugía (infecciones oculares activas, problemas de salud que impidan la cirugía).
+- Evidencia: La cirugía de catarata es el tratamiento estándar y tiene un alto nivel de evidencia en cuanto a mejora de la calidad de vida.
+- Confianza: Alta
+
+🔹 Señales de alarma / Red Flags
+- Cambios súbitos en la visión (pérdida de visión, destellos de luz, manchas).
+- Dolor ocular intenso o enrojecimiento significativo.
+- Historia de diabetes o hipertensión no controlada que pueda complicar la cirugía.
+
+🔹 Plan de seguimiento
+- Cuándo: Evaluación inicial y seguimiento a los 1-3 meses post-cirugía.
+- Qué monitorizar: Agudeza visual, salud ocular general, y posibles complicaciones postoperatorias.
+- Próximos pasos: Considerar cirugía si la catarata afecta significativamente la calidad de vida.
+
+🔹 Comunicación con el paciente
+"Usted tiene un diagnóstico de catarata, lo que puede afectar su visión. La cirugía es una opción efectiva que puede mejorar su calidad de vida. Es importante que realicemos un examen completo para evaluar el grado de la catarata y determinar el mejor tratamiento."
+
+🔹 Información faltante
+- Historia clínica detallada (antecedentes médicos, comorbilidades, medicamentos actuales).
+- Evaluación de la agudeza visual actual.
+- Resultados de exámenes previos, si los hay.
+
+🔹 Nivel de confianza global
+- Alta
+
+🔹 Referencias
+- Guías de práctica clínica sobre manejo de cataratas.
+- Estudios recientes sobre la eficacia de la cirugía de catarata en la mejora de la calidad de vida.

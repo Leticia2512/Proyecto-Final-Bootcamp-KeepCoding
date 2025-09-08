@@ -1,0 +1,48 @@
+───────────────────────────────
+🔹 Diagnóstico diferencial
+- Nombre: Catarata
+- Probabilidad estimada: Alta
+- Razonamiento: La paciente tiene 48 años y presenta un diagnóstico de catarata, lo que es común en esta franja etaria, aunque no es lo más frecuente. Es importante considerar otros factores como la historia clínica y comorbilidades.
+- Nivel de evidencia: Moderado
+- Confianza: Alta
+
+🔹 Pruebas diagnósticas recomendadas
+- Prueba: Examen oftalmológico completo (incluyendo agudeza visual, biomicroscopía y evaluación del fondo de ojo).
+- Prioridad: Alta
+- Hallazgos esperados: Determinación del grado de opacidad del cristalino y evaluación de la salud de la retina.
+- Contraindicaciones: Ninguna específica para el examen oftalmológico.
+- Referencias: Guías de práctica clínica sobre manejo de cataratas.
+
+🔹 Opciones de tratamiento
+- Opción: Cirugía de catarata (facoemulsificación).
+- Indicación: Cuando la catarata afecta la calidad de vida de la paciente o dificulta la realización de actividades diarias.
+- Dosis/Régimen: No aplica, ya que se trata de un procedimiento quirúrgico.
+- Contraindicaciones: Infecciones oculares activas, enfermedades sistémicas no controladas que puedan aumentar el riesgo quirúrgico.
+- Evidencia: Alta, basada en múltiples estudios que demuestran la eficacia de la cirugía en la mejora de la calidad de vida.
+- Confianza: Alta
+
+🔹 Señales de alarma / Red Flags
+- Pérdida rápida de visión.
+- Dolor ocular intenso.
+- Cambios en la percepción de colores.
+- Flashes o moscas volantes repentinas.
+
+🔹 Plan de seguimiento
+- Cuándo: 1-2 semanas después de la cirugía, y luego a los 1, 3 y 6 meses.
+- Qué monitorizar: Agudeza visual, signos de complicaciones postoperatorias (como edema macular o endoftalmitis).
+- Próximos pasos: Evaluar la necesidad de cirugía en el otro ojo si la catarata es bilateral.
+
+🔹 Comunicación con el paciente
+"La cirugía de catarata es un procedimiento seguro y efectivo que puede mejorar significativamente su visión y calidad de vida. Es importante que estemos atentos a cualquier cambio en su visión o síntomas inusuales antes y después de la cirugía."
+
+🔹 Información faltante
+- Historia clínica detallada (comorbilidades, medicamentos, antecedentes familiares).
+- Grado de opacidad de la catarata.
+- Evaluación de la salud de la retina.
+
+🔹 Nivel de confianza global
+- Alta
+
+🔹 Referencias
+- Guías de práctica clínica sobre manejo de cataratas.
+- Estudios recientes sobre la eficacia de la cirugía de catarata.

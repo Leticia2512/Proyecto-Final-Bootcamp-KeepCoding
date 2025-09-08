@@ -12,14 +12,15 @@ import sys
 import os
 
 # Agregar la carpeta padre al path
-#sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "RAG")))
-sys.path.append(os.path.join(os.getcwd(),'..','RAG'))
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "RAG")))
+#sys.path.append(os.path.join(os.getcwd(),'RAG'))
 
-from rag_pipelinev2 import run_rag_fusion
+from rag_final import run_rag_fusion
+
 
 # FastAPI backend URL
-#FASTAPI_URL = "http://localhost:8080/prediction"
-FASTAPI_URL = "http://fastapi:8080/prediction"
+FASTAPI_URL = "http://localhost:8000/prediction"
+#FASTAPI_URL = "http://fastapi:8080/prediction"
 
 # Rutas a las carpetas y archivos
 BASE_DIR = os.path.join(os.getcwd(), 'app')

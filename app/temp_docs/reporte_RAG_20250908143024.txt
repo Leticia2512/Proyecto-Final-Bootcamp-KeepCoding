@@ -1,0 +1,48 @@
+───────────────────────────────
+🔹 Diagnóstico diferencial
+- Nombre: Catarata
+- Probabilidad estimada: Alta
+- Razonamiento: La paciente tiene 55 años y presenta un diagnóstico de catarata, que es común en esta franja etaria.
+- Nivel de evidencia: Alta
+- Confianza: Alta
+
+🔹 Pruebas diagnósticas recomendadas
+- Prueba: Examen oftalmológico completo (incluyendo agudeza visual, biomicroscopía y evaluación del fondo de ojo).
+- Prioridad: Alta
+- Hallazgos esperados: Determinación del grado de opacidad del cristalino y evaluación de la salud de la retina.
+- Contraindicaciones: Ninguna específica para el examen oftalmológico.
+- Referencias: Guías de práctica clínica sobre manejo de cataratas.
+
+🔹 Opciones de tratamiento
+- Opción: Cirugía de catarata (facoemulsificación).
+- Indicación: Cuando la catarata afecta la calidad de vida o la agudeza visual.
+- Dosis/Régimen: No aplica, ya que es un procedimiento quirúrgico.
+- Contraindicaciones: Enfermedades oculares concomitantes que puedan aumentar el riesgo de complicaciones (ej. retinopatía diabética no tratada).
+- Evidencia: Se recomienda la cirugía en fases iniciales e intermedias de la catarata.
+- Confianza: Alta
+
+🔹 Señales de alarma / Red Flags
+- Pérdida rápida de visión.
+- Dolor ocular intenso.
+- Cambios en la percepción de los colores.
+- Signos de inflamación o infección ocular.
+
+🔹 Plan de seguimiento
+- Cuándo: 1-2 semanas después de la cirugía, y luego a los 1, 3 y 6 meses.
+- Qué monitorizar: Agudeza visual, signos de complicaciones postoperatorias (como edema macular o endoftalmitis).
+- Próximos pasos: Evaluar la necesidad de cirugía en el segundo ojo si es aplicable.
+
+🔹 Comunicación con el paciente
+"La cirugía de catarata es un procedimiento seguro y efectivo que puede mejorar significativamente su calidad de vida. Es importante que realice un seguimiento regular para monitorear su recuperación y detectar cualquier complicación a tiempo."
+
+🔹 Información faltante
+- Estado de salud general de la paciente (comorbilidades).
+- Grado de avance de la catarata.
+- Presencia de otras patologías oculares (ej. DMAE, retinopatía diabética).
+
+🔹 Nivel de confianza global
+- Alta
+
+🔹 Referencias
+- Guías de práctica clínica sobre manejo de cataratas.
+- Estudios recientes sobre la eficacia de la cirugía de catarata en pacientes con comorbilidades.

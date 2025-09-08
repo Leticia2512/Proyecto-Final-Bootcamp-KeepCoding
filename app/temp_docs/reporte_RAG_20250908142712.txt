@@ -1,0 +1,48 @@
+───────────────────────────────
+🔹 Diagnóstico diferencial
+- Nombre: Catarata
+- Probabilidad estimada: Alta
+- Razonamiento: La paciente tiene 55 años y presenta un diagnóstico de catarata, lo cual es común en esta franja etaria, aunque no es lo más frecuente. 
+- Nivel de evidencia: Moderado
+- Confianza: Alta
+
+🔹 Pruebas diagnósticas recomendadas
+- Prueba: Examen oftalmológico completo (incluyendo agudeza visual, biomicroscopía y evaluación del fondo de ojo).
+- Prioridad: Alta
+- Hallazgos esperados: Determinación del grado de opacidad del cristalino y evaluación de la salud de la retina.
+- Contraindicaciones: Ninguna específica para el examen oftalmológico.
+- Referencias: Guías de práctica clínica sobre manejo de cataratas.
+
+🔹 Opciones de tratamiento
+- Opción: Cirugía de catarata (facoemulsificación).
+- Indicación: Cuando la catarata afecta la calidad de vida de la paciente, dificultando actividades diarias.
+- Dosis/Régimen: No aplica, ya que se trata de un procedimiento quirúrgico.
+- Contraindicaciones: Contraindicaciones médicas que impidan la cirugía (ej. enfermedades sistémicas no controladas).
+- Evidencia: La cirugía de catarata es efectiva para mejorar la calidad de vida en pacientes con cataratas.
+- Confianza: Alta
+
+🔹 Señales de alarma / Red Flags
+- Pérdida rápida de visión.
+- Dolor ocular intenso.
+- Cambios en la percepción de los colores.
+- Signos de inflamación o infección ocular.
+
+🔹 Plan de seguimiento
+- Cuándo: Evaluación a las 1-2 semanas post-cirugía si se realiza la intervención.
+- Qué monitorizar: Agudeza visual, signos de complicaciones postoperatorias (infección, inflamación).
+- Próximos pasos: Considerar cirugía si la catarata afecta significativamente la calidad de vida.
+
+🔹 Comunicación con el paciente
+"La cirugía de catarata puede mejorar significativamente su visión y calidad de vida. Es importante evaluar el grado de opacidad del cristalino y considerar la intervención si está afectando sus actividades diarias. Haremos un examen completo para determinar el mejor enfoque."
+
+🔹 Información faltante
+- Grado de opacidad de la catarata.
+- Presencia de comorbilidades (ej. diabetes, hipertensión).
+- Evaluación del estado de la retina (DMAE, retinopatía diabética, etc.).
+
+🔹 Nivel de confianza global
+- Alta
+
+🔹 Referencias
+- Guías de práctica clínica sobre manejo de cataratas.
+- Estudios sobre la efectividad de la cirugía de catarata en la mejora de la calidad de vida.
