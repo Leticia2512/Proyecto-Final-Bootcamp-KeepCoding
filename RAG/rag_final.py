@@ -156,10 +156,10 @@ def run_rag_fusion(disease: str, edad: int, sexo: str, k: int = 6):
 
     # Caso de ojo normal
     if disease.lower() == "normal":
-        return (
-            "El análisis indica que se trata de un ojo con características normales, "
-            "sin evidencia de enfermedades o alteraciones oftalmológicas relevantes."
-        )
+        answer = ("El análisis indica que se trata de un ojo con características normales, "
+                  "sin evidencia de enfermedades o alteraciones oftalmológicas relevantes.")
+
+        return answer
 
     # 1) Selección del índice
     index_path = INDEX_PATHS.get(disease)
@@ -197,7 +197,7 @@ def run_rag_fusion(disease: str, edad: int, sexo: str, k: int = 6):
     ), temperature=OPENAI_TEMPERATURE)
     final_prompt = prompt.format(context=context, question=base_query)
     answer = llm.predict(final_prompt)
-    print(answer)
+
     return answer
 
 

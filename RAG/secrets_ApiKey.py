@@ -6,6 +6,7 @@ import os
 KEY_FILENAME = ".openai_key"
 KEY_PATH = Path(KEY_FILENAME)
 
+
 def get_openai_api_key(required: bool = True) -> str | None:
     """
     Devuelve la OpenAI API key.
@@ -13,7 +14,7 @@ def get_openai_api_key(required: bool = True) -> str | None:
     - Si no existe, lee el fichero local .openai_key (en la raíz del repo).
     - Si no encuentra y required=True lanza RuntimeError.
     """
-    # 1) variable de entorno 
+    # 1) variable de entorno
     key = os.getenv("OPENAI_API_KEY")
     if key:
         return key.strip()
@@ -32,8 +33,8 @@ def get_openai_api_key(required: bool = True) -> str | None:
         )
     return None
 
+
 if __name__ == "__main__":
-    # prueba rápida
     try:
         print("OpenAI key encontrada:", bool(get_openai_api_key()))
     except Exception as e:
