@@ -19,6 +19,7 @@
 ├── mlruns       #Datos experimentos en MlFlow
 ├── ODIR-5K      #Imágenes dataset originales
 ├── requirements.txt #Librerias necesarias para el proyecto
+├── meeting      #Reuniónes de equipo
 └── README.md    # Este archivo
 ```
 
