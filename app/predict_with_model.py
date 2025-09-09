@@ -11,6 +11,8 @@ OLD2NEW = {old: new for new, old in enumerate(KEEP_CLASSES)}
 NEW2OLD = {new: old for old, new in OLD2NEW.items()}
 
 # Definición del modelo
+
+
 class ImageClassifier(nn.Module):
     def __init__(self, meta_dim: int, num_classes: int, pretrained: bool = False, dropout: float = 0.5):
         super().__init__()
@@ -18,7 +20,7 @@ class ImageClassifier(nn.Module):
         self.backbone = efficientnet_b0(weights=weights)
         in_feats = self.backbone.classifier[1].in_features
         self.backbone.classifier = nn.Identity()
-        
+
         self.meta = nn.Sequential(
             nn.Linear(meta_dim, 32),
             nn.ReLU(inplace=True),
@@ -40,7 +42,8 @@ class ImageClassifier(nn.Module):
 
 class OcularPredictor:
     def __init__(self, model_path: Path):
-        self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+        self.device = torch.device(
+            "cuda" if torch.cuda.is_available() else "cpu")
         self.model = self._load_model(model_path)
         self.transform = self._get_transforms()
         self.gender_map = {"male": 1, "female": 0}
@@ -52,7 +55,8 @@ class OcularPredictor:
             num_classes=len(KEEP_CLASSES),
             pretrained=False
         ).to(self.device)
-        model.load_state_dict(torch.load(str(model_path), map_location=self.device))
+        model.load_state_dict(torch.load(
+            str(model_path), map_location=self.device))
         model.eval()
         return model
 
@@ -63,7 +67,6 @@ class OcularPredictor:
             T.ToTensor(),
             T.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225])
         ])
-    
 
     def preprocess(self, image_path: str, meta_data: dict):
         """
@@ -72,8 +75,9 @@ class OcularPredictor:
         # 1. Preprocesar la imagen
         image_path = Path(image_path)
         if not image_path.is_file():
-            raise FileNotFoundError(f"El archivo de imagen no existe: {image_path}")
-        
+            raise FileNotFoundError(
+                f"El archivo de imagen no existe: {image_path}")
+
         image = Image.open(image_path).convert('RGB')
         image_tensor = self.transform(image).unsqueeze(0).to(self.device)
 
@@ -82,7 +86,7 @@ class OcularPredictor:
             [meta_data["age"], self.gender_map[meta_data["gender"]]],
             dtype=torch.float32
         ).unsqueeze(0).to(self.device)
-        
+
         return image_tensor, meta_tensor
 
     def predict(self, image_path: str, meta_data: dict):
@@ -95,12 +99,12 @@ class OcularPredictor:
             Tupla con la clase original predicha y las probabilidades.
         """
         image_tensor, meta_tensor = self.preprocess(image_path, meta_data)
-        
+
         # 3. Realizar la predicción
         with torch.no_grad():
             logits = self.model(image_tensor, meta_tensor)
             probabilities = torch.nn.functional.softmax(logits, dim=1)
-            
+
         # Obtener el índice de la clase con la probabilidad más alta
         predicted_class_index = torch.argmax(probabilities, dim=1).item()
         original_class_index = NEW2OLD[predicted_class_index]
@@ -109,7 +113,7 @@ class OcularPredictor:
 
 # Crear una única instancia del predictor
 
-from pathlib import Path
+
 # Obtiene la ruta del directorio actual donde se está ejecutando el script
 BASE_DIR = Path(__file__).resolve().parent
 # Define la ruta al modelo de forma relativa
@@ -117,3 +121,19 @@ MODEL_PATH = BASE_DIR / "bestmodel" / "best_model.pt"
 
 # Crea la instancia del predictor usando la ruta correcta
 predictor = OcularPredictor(model_path=MODEL_PATH)
+
+
+if __name__ == "__main__":
+    # Asegúrate de que la ruta de la imagen sea correcta
+    # ┬Path("app\19_right.jpg")
+    image_path = r"app\19_right.jpg"
+    meta_data = {"age": 45, "gender": "male"}  # Ejemplo de datos de metadatos
+
+    # Llamar a la función de predicción
+    predicted_class, probabilities = predictor.predict(
+        str(image_path), meta_data)
+
+    print(f"La índice de la clase predicha es: {predicted_class}")
+    print("Probabilidades para cada clase remapeada:")
+    print(f"Clases: {[f'clase_{c}' for c in KEEP_CLASSES]}")
+    print(f"Probabilities: {probabilities}")

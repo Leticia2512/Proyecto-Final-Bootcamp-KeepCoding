@@ -62,7 +62,7 @@ Aplicación disponible en: [http://localhost:8501](http://localhost:8501)
 
 ---
 
-## 🛠️ Funciones para configuraciones extra
+## Funciones para configuraciones extra
 
 ### Transformar imágenes a 224×224
 ```bash
