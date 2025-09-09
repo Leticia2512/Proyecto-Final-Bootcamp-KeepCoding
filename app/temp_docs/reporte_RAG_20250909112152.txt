@@ -1,0 +1,39 @@
+───────────────────────────────
+🔹 Recomendaciones sobre nuevas pruebas diagnósticas
+- **Prueba: Tomografía de coherencia óptica (OCT)**
+  - **Justificación:** Aunque el paciente tiene 45 años y la DMRE es más prevalente en mayores de 50, la OCT puede ser útil para evaluar la estructura retiniana y detectar cambios que podrían indicar una progresión de la enfermedad.
+  - **Hallazgos esperados:** Presencia de drusas, alteraciones en el epitelio pigmentario, o signos de neovascularización.
+  - **Contraindicaciones:** No hay contraindicaciones específicas para la OCT, pero se debe considerar la cooperación del paciente.
+  - **Referencias:** Recomendaciones de la American Academy of Ophthalmology sobre el uso de OCT en la evaluación de la DMRE.
+
+🔹 Recomendaciones generales de tratamiento
+- **Opción: Antioxidantes y suplementos nutricionales**
+  - **Indicación:** Se recomienda el uso de antioxidantes como luteína y zeaxantina, así como vitaminas C y E, para ayudar a prevenir la progresión de la DMRE.
+  - **Dosis/Régimen:** Las dosis específicas deben ser determinadas por el médico, pero generalmente se sugiere una combinación de estos nutrientes en forma de suplemento.
+  - **Contraindicaciones:** Pacientes con alergias a alguno de los componentes de los suplementos deben evitarlos.
+  - **Evidencia:** Basado en estudios como el AREDS, que demuestran que estos suplementos pueden reducir el riesgo de progresión en pacientes con DMRE.
+  - **Confianza:** Moderada, dado que la evidencia se basa en poblaciones mayores, pero puede ser aplicable en pacientes más jóvenes con DMRE.
+
+🔹 Aspectos importantes a considerar para esta dolencia
+- **Factores de riesgo:** Es crucial identificar y modificar factores de riesgo como el tabaquismo, la dieta y la historia familiar.
+- **Seguimiento:** Aunque el paciente tiene 45 años, se debe establecer un plan de seguimiento regular para monitorear la progresión de la enfermedad, dado que la DMRE puede desarrollarse en etapas más tempranas en algunos individuos.
+- **Educación del paciente:** Informar al paciente sobre la importancia de la autoevaluación visual, utilizando herramientas como la rejilla de Amsler, y la necesidad de acudir a revisiones oftalmológicas periódicas.
+
+🔹 Plan de seguimiento
+- **Cuándo:** Evaluaciones cada 6 meses inicialmente, con ajustes según la progresión de la enfermedad.
+- **Qué monitorizar:** Cambios en la agudeza visual, aparición de metamorfopsias o escotomas, y resultados de la OCT.
+- **Próximos pasos:** Considerar la derivación a un especialista en retina si se observan signos de progresión o si el paciente presenta síntomas nuevos.
+
+🔹 Comunicación con el paciente
+"Es importante que realices un seguimiento regular de tu salud ocular, incluso a tu edad. Te recomendaré algunos suplementos que pueden ayudar a proteger tu visión y es fundamental que estés atento a cualquier cambio en tu visión, como distorsiones o manchas. No dudes en consultarme si notas algo inusual."
+
+🔹 Información faltante
+- **Historia clínica detallada:** Información sobre la progresión de la enfermedad, tratamientos previos y otros problemas de salud que puedan influir en el manejo de la DMRE.
+- **Resultados de pruebas diagnósticas previas:** Resultados de OCT o fondo de ojo que puedan ayudar a determinar el estado actual de la enfermedad.
+
+🔹 Nivel de confianza global
+- **Confianza:** Moderada, dado que la DMRE en un paciente de 45 años es menos común, pero las recomendaciones se basan en la evidencia disponible y la práctica clínica.
+
+🔹 Referencias
+- American Academy of Ophthalmology. Recomendaciones sobre el manejo de la degeneración macular asociada a la edad.
+- Estudios sobre el uso de antioxidantes en la prevención de la progresión de la DMRE (AREDS y AREDS2).

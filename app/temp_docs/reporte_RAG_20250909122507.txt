@@ -1,0 +1,47 @@
+───────────────────────────────
+🔹 Diagnóstico diferencial
+- Nombre: Miopía patológica (MP) y sus complicaciones.
+- Probabilidad estimada: Alta, dado el diagnóstico de miopía en un paciente de 54 años.
+- Razonamiento: La MP es una enfermedad progresiva que puede llevar a complicaciones como la neovascularización coroidea, desprendimiento de retina y maculopatía miópica.
+- Nivel de evidencia: Grado II para complicaciones asociadas a la MP.
+- Confianza: Alta.
+
+🔹 Pruebas diagnósticas recomendadas
+- Prueba: Tomografía de coherencia óptica (OCT).
+- Prioridad: Alta.
+- Hallazgos esperados: Evaluación de la estructura retiniana, detección de membranas epirretinianas, neovascularización y estado de la mácula.
+- Contraindicaciones: Ninguna específica, salvo condiciones que impidan la dilatación pupilar.
+- Referencias: Guías de práctica clínica sobre miopía patológica.
+
+🔹 Opciones de tratamiento
+- Opción: Inyecciones intravítreas de anti-VEGF (Bevacizumab o Aflibercept).
+- Indicación: Para tratar la neovascularización coroidea asociada a la miopía patológica.
+- Dosis/Régimen: Generalmente, se inician con 1-3 inyecciones, dependiendo de la respuesta clínica.
+- Contraindicaciones: Infección ocular activa, alergia a los componentes de la inyección.
+- Evidencia: Grado I para el uso de anti-VEGF en neovascularización miópica.
+- Confianza: Alta.
+
+🔹 Señales de alarma / Red Flags
+- Pérdida rápida de visión.
+- Aparición de escotomas o distorsiones visuales.
+- Síntomas de desprendimiento de retina (destellos de luz, sombras en el campo visual).
+- Requieren derivación urgente a un especialista en retina.
+
+🔹 Plan de seguimiento
+- Cuándo: Evaluación cada 6-12 meses, o antes si hay síntomas nuevos.
+- Qué monitorizar: Cambios en la agudeza visual, estado de la retina mediante OCT, y respuesta al tratamiento anti-VEGF.
+- Próximos pasos: Ajustar el tratamiento según la evolución clínica y los hallazgos diagnósticos.
+
+🔹 Comunicación con el paciente
+"Es importante que realice un seguimiento regular de su miopía, ya que puede presentar complicaciones que afecten su visión. Realizaremos pruebas como la OCT para evaluar su retina y, si es necesario, consideraremos tratamientos para prevenir problemas visuales."
+
+🔹 Información faltante
+- Grado de miopía actual (dioptrías).
+- Historia clínica previa de complicaciones o tratamientos.
+- Resultados de exámenes oculares recientes.
+
+🔹 Nivel de confianza global
+- Alta.
+
+🔹 Referencias
+- Guías de práctica clínica de la Sociedad Española de Retina y Vítreo sobre el manejo de la miopía patológica y sus complicaciones.

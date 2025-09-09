@@ -1,0 +1,49 @@
+───────────────────────────────
+🔹 Diagnóstico diferencial
+- Nombre: Miopía patológica (MP)
+- Probabilidad estimada: Alta
+- Razonamiento: La paciente tiene 54 años y un diagnóstico de miopía, lo que la coloca en un grupo de riesgo para desarrollar complicaciones asociadas a la MP, como la neovascularización coroidea y la maculopatía miópica.
+- Nivel de evidencia: Grado II
+- Confianza: Alta
+
+🔹 Pruebas diagnósticas recomendadas
+- Prueba: Tomografía de coherencia óptica (OCT)
+- Prioridad: Alta
+- Hallazgos esperados: Evaluación de la estructura retiniana, detección de membranas epirretinianas, agujeros maculares o desprendimientos de retina.
+- Contraindicaciones: Ninguna significativa en este contexto.
+- Referencias: Guías de práctica clínica sobre miopía patológica.
+
+🔹 Opciones de tratamiento
+- Opción: Inyecciones intravítreas de antiangiogénicos (Bevacizumab o Aflibercept)
+- Indicación: Tratamiento de la neovascularización coroidea asociada a la miopía patológica.
+- Dosis/Régimen: Generalmente, se inician con 1-3 inyecciones, dependiendo de la respuesta clínica.
+- Contraindicaciones: Infección ocular activa, alergia a los componentes de la inyección.
+- Evidencia: Grado I para Aflibercept, Grado III para Bevacizumab.
+- Confianza: Alta
+
+🔹 Señales de alarma / Red Flags
+- Pérdida rápida de visión.
+- Aparición de escotomas o distorsiones visuales.
+- Cambios en la percepción de colores.
+- Necesidad de derivación urgente si se presentan estos síntomas.
+
+🔹 Plan de seguimiento
+- Cuándo: Cada 3-6 meses, dependiendo de la evolución clínica y los hallazgos en OCT.
+- Qué monitorizar: Cambios en la agudeza visual, evolución de la neovascularización, y estado de la retina.
+- Próximos pasos: Reevaluar la necesidad de tratamiento adicional basado en los hallazgos.
+
+🔹 Comunicación con el paciente
+"Es importante que realice un seguimiento regular de su miopía, ya que puede desarrollar complicaciones que afecten su visión. Realizaremos pruebas como la OCT para evaluar su retina y, si es necesario, consideraremos tratamientos que pueden ayudar a prevenir la pérdida de visión."
+
+🔹 Información faltante
+- Grado de miopía actual (dioptrías).
+- Historia familiar de enfermedades oculares.
+- Síntomas visuales actuales (si los hay).
+- Resultados de exámenes previos.
+
+🔹 Nivel de confianza global
+- Alta
+
+🔹 Referencias
+- Guías de práctica clínica de la Sociedad Española de Retina y Vítreo.
+- Estudios recientes sobre el manejo de la miopía patológica y sus complicaciones.

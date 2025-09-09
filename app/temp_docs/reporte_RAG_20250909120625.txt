@@ -1,0 +1,47 @@
+───────────────────────────────
+🔹 Diagnóstico diferencial
+- Nombre: Miopía patológica (MP)
+- Probabilidad estimada: Alta
+- Razonamiento: La paciente tiene 54 años y un diagnóstico de miopía, lo que la coloca en un grupo de riesgo para desarrollar complicaciones asociadas a la MP, como la neovascularización coroidea y la maculopatía miópica.
+- Nivel de evidencia: Grado II
+- Confianza: Alta
+
+🔹 Pruebas diagnósticas recomendadas
+- Prueba: Tomografía de coherencia óptica (OCT)
+- Prioridad: Alta
+- Hallazgos esperados: Evaluación de la estructura retiniana, detección de membranas epirretinianas, agujeros maculares o desprendimientos de retina.
+- Contraindicaciones: Ninguna específica, salvo alergia a los colorantes si se utiliza en combinación con angiografía.
+- Referencias: Guías de práctica clínica sobre miopía patológica.
+
+🔹 Opciones de tratamiento
+- Opción: Inyecciones intravítreas de antiangiogénicos (Bevacizumab o Aflibercept)
+- Indicación: Tratamiento de la neovascularización coroidea asociada a la miopía patológica.
+- Dosis/Régimen: Generalmente, se inician con 1-3 inyecciones de 1,25 mg de Bevacizumab.
+- Contraindicaciones: Infección ocular activa, hipersensibilidad a los componentes del fármaco.
+- Evidencia: Grado II; fuerza de la recomendación B.
+- Confianza: Alta
+
+🔹 Señales de alarma / Red Flags
+- Pérdida súbita de visión.
+- Aparición de escotomas o distorsiones visuales.
+- Cambios en la percepción de colores.
+
+🔹 Plan de seguimiento
+- Cuándo: Cada 6-12 meses, dependiendo de la evolución clínica y los hallazgos en las pruebas diagnósticas.
+- Qué monitorizar: Cambios en la agudeza visual, evolución de la OCT, aparición de nuevas complicaciones.
+- Próximos pasos: Reevaluar la necesidad de tratamiento antiangiogénico o considerar otras intervenciones quirúrgicas si se presentan complicaciones.
+
+🔹 Comunicación con el paciente
+"Es importante que realice un seguimiento regular de su miopía, ya que puede estar en riesgo de desarrollar complicaciones que afecten su visión. Realizaremos pruebas como la OCT para evaluar su retina y, si es necesario, consideraremos tratamientos para proteger su visión."
+
+🔹 Información faltante
+- Grado de miopía actual (dioptrías).
+- Historia familiar de miopía patológica o complicaciones retinianas.
+- Síntomas visuales actuales (si los hay).
+
+🔹 Nivel de confianza global
+- Alta
+
+🔹 Referencias
+- Guías de práctica clínica de la Sociedad Española de Retina y Vítreo sobre el manejo de la miopía patológica.
+- Estudios recientes sobre el tratamiento de la neovascularización coroidea en miopía patológica.

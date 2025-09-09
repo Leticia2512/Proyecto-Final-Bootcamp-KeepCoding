@@ -1,0 +1,56 @@
+───────────────────────────────
+🔹 Diagnóstico diferencial
+- Nombre: Retinopatía diabética (RD)
+- Probabilidad estimada: Alta (60% de los pacientes diabéticos presentan algún grado de RD)
+- Razonamiento: La retinopatía diabética es una complicación común de la diabetes mellitus, especialmente en pacientes con diabetes tipo 2 y aquellos con un control metabólico deficiente.
+- Nivel de evidencia: Alto, basado en múltiples estudios epidemiológicos y clínicos.
+- Confianza: Alta.
+
+🔹 Pruebas diagnósticas recomendadas
+- Prueba: Examen de fondo de ojo (fondo de ojo dilatado)
+- Prioridad: Alta
+- Hallazgos esperados: Microaneurismas, hemorragias, exudados duros y blandos, edema macular.
+- Contraindicaciones: Ninguna significativa, salvo alergia a los midriáticos.
+- Referencias: Guías clínicas de retinopatía diabética.
+
+🔹 Opciones de tratamiento
+- Opción: Fotocoagulación con láser
+- Indicación: RD no proliferativa grave o RD proliferativa.
+- Dosis/Régimen: 1200-3000 quemaduras en 2-3 sesiones, según protocolo.
+- Contraindicaciones: Desprendimiento de retina no tratado, isquemia macular.
+- Evidencia: Alta, respaldada por estudios como el ETDRS.
+- Confianza: Alta.
+
+- Opción: Inyecciones intravítreas de anti-VEGF (Ranibizumab, Bevacizumab)
+- Indicación: Edema macular diabético.
+- Dosis/Régimen: Inyecciones mensuales, con evaluación continua.
+- Contraindicaciones: Infección ocular activa, glaucoma no controlado.
+- Evidencia: Alta, con estudios que demuestran mejoría en la agudeza visual.
+- Confianza: Alta.
+
+🔹 Señales de alarma / Red Flags
+- Pérdida rápida de visión.
+- Hemorragia vítrea.
+- Desprendimiento de retina.
+- Síntomas de isquemia macular.
+
+🔹 Plan de seguimiento
+- Cuándo: Revisión cada 6 meses si RD no proliferativa leve o moderada; cada 3-4 meses si RD proliferativa o edema macular.
+- Qué monitorizar: Agudeza visual, grosor macular (OCT), estado de la retina.
+- Próximos pasos: Ajustar tratamiento según evolución y respuesta.
+
+🔹 Comunicación con el paciente
+"Es fundamental que realice controles regulares de su retina, ya que la retinopatía diabética puede progresar sin síntomas evidentes. El tratamiento oportuno puede ayudar a preservar su visión. Mantener un buen control de su diabetes es clave para evitar complicaciones."
+
+🔹 Información faltante
+- Detalles sobre el tipo específico de retinopatía diabética (proliferativa o no proliferativa).
+- Historial de control metabólico (glucosa, HbA1c).
+- Resultados de exámenes previos de fondo de ojo.
+
+🔹 Nivel de confianza global
+- Alta, basado en la evidencia y guías clínicas actuales.
+
+🔹 Referencias
+- Guías clínicas de la Sociedad Española de Retina y Vítreo.
+- Estudio de tratamiento de la retinopatía diabética (ETDRS).
+- Recomendaciones de la Organización Mundial de la Salud sobre diabetes y retinopatía.
