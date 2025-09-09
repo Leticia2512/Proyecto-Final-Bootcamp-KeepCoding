@@ -103,7 +103,7 @@ Se generan dos archivos: uno **JSON** y otro **FAISS** (usado por el RAG).
   📧 Contacto: leticia.c.morales@gmail.com
 
 - **Miguel Ángel**  
-  📧 Contacto: *No disponible*
+  📧 Contacto: mapardo@gmail.com
 
 - **Nauzet Fernández**  
   📧 Contacto: Nauzet.fdez@gmail.com
