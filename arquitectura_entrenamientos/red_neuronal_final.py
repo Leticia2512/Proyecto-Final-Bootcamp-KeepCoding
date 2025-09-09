@@ -41,8 +41,8 @@ KEEP_CLASSES = [0, 1, 2, 5, 6]
 OLD2NEW = {old: new for new, old in enumerate(KEEP_CLASSES)}
 
 # MLflow 
-EXPERIMENT_NAME = "ExperimentoNau_singlelabel_top5_best"
-RUN_NAME = "efficientnetb0_top5_best_" + \
+EXPERIMENT_NAME = "DataAvengersSofia"
+RUN_NAME = "efficientnetb0_best_final" + \
     datetime.now().strftime("%Y%m%d_%H%M%S")
 
 OUT_DIR = BASE_DIR / "artifacts"
@@ -435,8 +435,8 @@ def main():
             "onecycle_pct_start": ONECYCLE_PCT_START,
             "ema_decay": EMA_DECAY,
         })
-        tmp_art_dir = OUT_DIR / \
-            f"mlflow_tmp_{datetime.now().strftime('%Y%m%d_%H%M%S')}"
+        #tmp_art_dir = 'OUT_DIR' / \f"mlflow_tmp_{datetime.now().strftime('%Y%m%d_%H%M%S')}"
+        tmp_art_dir = Path("OUT_DIR") / f"mlflow_tmp_{datetime.now().strftime('%Y%m%d_%H%M%S')}"
         tmp_art_dir.mkdir(parents=True, exist_ok=True)
     else:
         tmp_art_dir = OUT_DIR
@@ -446,7 +446,7 @@ def main():
     bad_epochs = 0
     patience = 6        # ↑ antes 4
 
-    ckpt_path = tmp_art_dir / "best_model_ema.pt"
+    ckpt_path = tmp_art_dir / "best_model.pt"
     torch.save(ema_model.state_dict(), ckpt_path)
 
     for epoch in range(1, EPOCHS + 1):

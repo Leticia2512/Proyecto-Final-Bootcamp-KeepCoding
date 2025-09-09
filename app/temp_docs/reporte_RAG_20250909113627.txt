@@ -1,0 +1,48 @@
+───────────────────────────────
+🔹 Diagnóstico diferencial
+- Nombre: Retinopatía Diabética (RD)
+- Probabilidad estimada: Alta
+- Razonamiento: Dado el diagnóstico de retinopatía en un paciente con diabetes mellitus, es muy probable que se trate de RD, especialmente considerando la edad del paciente y la prevalencia de esta condición en diabéticos.
+- Nivel de evidencia: Alto, basado en guías clínicas y estudios epidemiológicos.
+- Confianza: Alta.
+
+🔹 Pruebas diagnósticas recomendadas
+- Prueba: Revisión de fondo de ojo con cámara no midriática.
+- Prioridad: Alta.
+- Hallazgos esperados: Identificación de lesiones retinianas, como microaneurismas, hemorragias, exudados duros y blandos, y edema macular.
+- Contraindicaciones: No hay contraindicaciones significativas para esta prueba en pacientes diabéticos.
+- Referencias: Guías de práctica clínica sobre retinopatía diabética.
+
+🔹 Opciones de tratamiento
+- Opción: Fotocoagulación con láser.
+- Indicación: Para RD proliferativa o edema macular diabético.
+- Dosis/Régimen: Se realizan múltiples sesiones de láser, dependiendo de la extensión de la RD.
+- Contraindicaciones: Desprendimiento de retina no tratado, glaucoma neovascular.
+- Evidencia: Alta, respaldada por estudios multicéntricos.
+- Confianza: Alta.
+
+🔹 Señales de alarma / Red Flags
+- Pérdida súbita de visión.
+- Hemorragia vítrea.
+- Desprendimiento de retina.
+- Necesidad de derivación urgente a oftalmología de segundo nivel si se presentan estos síntomas.
+
+🔹 Plan de seguimiento
+- Cuándo: Revisión cada 6 meses si hay RD no proliferativa moderada; cada 3-6 meses si hay RD proliferativa o edema macular.
+- Qué monitorizar: Agudeza visual, grosor macular (OCT), y progresión de la RD.
+- Próximos pasos: Continuar con el control metabólico de la diabetes y ajustar el tratamiento según los hallazgos.
+
+🔹 Comunicación con el paciente
+"Es fundamental que realice revisiones periódicas de su retina, especialmente dado su diagnóstico de retinopatía. Esto nos permitirá monitorear cualquier cambio y aplicar tratamientos oportunos para proteger su visión."
+
+🔹 Información faltante
+- Grado específico de la retinopatía (leve, moderada, grave).
+- Control metabólico actual (niveles de glucosa, presión arterial, lípidos).
+- Historia de tratamientos previos para la retinopatía.
+
+🔹 Nivel de confianza global
+- Alta, basado en la información proporcionada y en las guías clínicas.
+
+🔹 Referencias
+- Guías de práctica clínica sobre retinopatía diabética.
+- Estudios sobre el manejo y tratamiento de la retinopatía diabética.

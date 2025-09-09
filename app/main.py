@@ -42,6 +42,7 @@ async def get_ocular_prediction(patient: PatientData):
 
     meta_data = {"age": age, "gender": gender}
 
+
     result = 5 #Normal
 
     if age < 1 or age > 120:
@@ -53,6 +54,7 @@ async def get_ocular_prediction(patient: PatientData):
         raise HTTPException(status_code=404, detail=status_url)
         
     predicted_class, probabilities = predictor.predict(str(image_path), meta_data)
+
 
     KEEP_CLASSES = [0, 1, 2, 5, 6]
 
