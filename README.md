@@ -25,7 +25,7 @@ El modelo ha sido entrenado para identificar con gran precisión una variedad de
 Con este enfoque, no solo **identificamos la afección**, sino que también **aportamos conocimiento y contexto** para una mejor toma de decisiones.  
 
 
-## Estructura del repositorio
+# Estructura del repositorio
 ```
 .
 ├── 224x224                       #Galeria Imágenes preprocesadas y formatos 224
@@ -43,14 +43,15 @@ Con este enfoque, no solo **identificamos la afección**, sino que también **ap
 ├── meeting                       #Reuniónes de equipo
 └── README.md                     #Este archivo
 ```
-## Puesta en marcha
+# Puesta en marcha
+
+Para iniciar la aplicación en tu entorno local:
 
 ### 1) Activar la API (FastAPI)
-Ejecuta el servidor de desarrollo:
 ```bash
 fastapi dev app/main.py --reload
 ```
-Documentación disponible en: [http://127.0.0.1:8000/docs](http://127.0.0.1:8000/docs)
+Documentación: [http://127.0.0.1:8000/docs](http://127.0.0.1:8000/docs)
 
 ### 2) Activar la interfaz (Streamlit)
 ```bash
@@ -58,54 +59,59 @@ streamlit run app/app.py
 ```
 Aplicación disponible en: [http://localhost:8501](http://localhost:8501)
 
-> Una vez ambos servicios estén ejecutando, puedes interactuar con la aplicación desde el navegador.
+> Una vez ambos servicios estén activos, podrás interactuar con la aplicación desde el navegador.
 
 ---
 
-## Funciones para configuraciones extra
+## Funciones adicionales
 
-### Transformar imágenes a 224×224
-```bash
-python preprocesado\imagenes\transform_img.py 224
-```
+Estas utilidades son opcionales y sirven para ampliar o personalizar el proyecto:
 
-### Crear el dataset (imágenes + metadatos)
-```bash
-python arquitectura_entrenamientos\create_split_dataset.py
-```
+- **Transformar imágenes a 224×224**  
+  ```bash
+  python preprocesado/imagenes/transform_img.py 224
+  ```
 
-### Entrenar el modelo
-```bash
-python arquitectura_entrenamientos\red_neuronal_final.py
-```
+- **Crear el dataset (imágenes + metadatos)**  
+  ```bash
+  python arquitectura_entrenamientos/create_split_dataset.py
+  ```
 
-### Transformación / limpieza de PDF a TXT (RAG)
-```bash
-python app\RAG\transform.py app\RAG\documentos\consenso_DMAE.pdf
-```
-El TXT resultante se guarda en: `app\RAG\Fixed`
+- **Entrenar el modelo**  
+  ```bash
+  python arquitectura_entrenamientos/red_neuronal_final.py
+  ```
 
-### Vectorizar (generar índices para RAG)
-```bash
-python app\RAG\chunks.py
-```
-Se generan dos archivos: uno **JSON** y otro **FAISS** (usado por el RAG).
+- **Transformar/Limpiar PDF a TXT (RAG)**  
+  ```bash
+  python app/RAG/transform.py app/RAG/documentos/consenso_DMAE.pdf
+  ```
+  El TXT resultante se guarda en: `app/RAG/Fixed`
 
-### Uso de MlFlow.
-Desde MlFlow podras ver los registros de los entrenamientos de nuestros modelos.
-```bash
-mlflow ui
-```
-### Carga directamente con nuestro Docker
-Si quieres cargar directamente nuestra configuracion y aplicaciones desde Docker, desde
-la carpeta app ejecutamos:
-```bash
-docker compose up
-```
+- **Vectorizar (generar índices para RAG)**  
+  ```bash
+  python app/RAG/chunks.py
+  ```
+  Se generan dos archivos: uno **JSON** y otro **FAISS** (usado por el RAG).
+
+---
+
+## Herramientas de soporte
+
+- **MlFlow** → Para visualizar los registros de los entrenamientos:  
+  ```bash
+  mlflow ui
+  ```
+
+- **Docker** → Para levantar toda la aplicación directamente con nuestra configuración:  
+  ```bash
+  docker compose up
+  ```
 
 ## Ejemplo de uso
 
 ![Demo de la aplicación](demo/demofinal.gif)
+[Ver demo en alta calidad (MP4)](demo/demofinal.mp4)
 
 ## Autores
 
@@ -121,4 +127,5 @@ docker compose up
 
 
 
->  ¡Gracias por pasarte por aquí! 
+>Gracias por visitar este repositorio y dedicar tu tiempo a conocer nuestro trabajo.  
+Si tienes dudas, comentarios o sugerencias, no dudes en ponerte en contacto con cualquiera de los autores. Estaremos encantados de ayudarte y recibir tu feedback para seguir mejorando. 
