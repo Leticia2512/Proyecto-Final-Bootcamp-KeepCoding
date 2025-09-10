@@ -57,16 +57,19 @@ pip install -r requirements.txt
 
 # Puesta en marcha de la aplicación
 
+Existen dos formas de iniciar la aplicación en tu entorno local:
 
-Para iniciar la aplicación en tu entorno local:
+---
 
-# 1 Opción:
-desde la carpeta raíz puedes ejecutar los siguientes comandos:
+##  Opción 1: Manual (FastAPI + Streamlit)
+
+Desde la carpeta raíz, ejecuta los siguientes comandos:
+
 ### 1) Activar la API (FastAPI)
 ```bash
 fastapi dev app/main.py --reload
 ```
-FastAPI: [http://127.0.0.1:8000](http://127.0.0.1:8000)
+FastAPi: [http://127.0.0.1:8000](http://127.0.0.1:8000)
 
 ### 2) Activar la interfaz (Streamlit)
 ```bash
@@ -74,19 +77,20 @@ streamlit run app/app.py
 ```
 Aplicación disponible en: [http://localhost:8501](http://localhost:8501)
 
-> Una vez ambos servicios estén activos, podrás interactuar con la aplicación desde el navegador.
-
-
-# 2 Opción:
-- ### Docker
-Para levantar toda la aplicación directamente con nuestra configuración puedes ejecutar el siguiente comando desde la carpeta /app :
-  
-  ```bash
-  
-  docker compose up
-  ```
+>  Una vez ambos servicios estén activos, podrás interactuar con la aplicación desde el navegador.
 
 ---
+
+##  Opción 2: Usando Docker
+
+Para levantar toda la aplicación directamente con nuestra configuración desde la carpeta /app ejecutamos:
+
+```bash
+docker compose up
+```
+
+Esto iniciará automáticamente tanto la API como la interfaz en sus respectivos puertos.
+
 
 # Funciones adicionales
 
