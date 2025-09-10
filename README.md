@@ -102,7 +102,12 @@ la carpeta app ejecutamos:
 ```bash
 docker compose up
 ```
-## 👥 Autores
+
+## Ejemplo de uso
+
+![Demo de la aplicación](demo/demofinal.gif)
+
+## Autores
 
 | Nombre            | Contacto | LinkedIn | GitHub |
 |-------------------|----------|----------|--------|
