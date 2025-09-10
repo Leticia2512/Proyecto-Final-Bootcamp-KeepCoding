@@ -91,28 +91,25 @@ python app\RAG\chunks.py
 ```
 Se generan dos archivos: uno **JSON** y otro **FAISS** (usado por el RAG).
 
-## Autores
 
-- **David**  
-  📧 Contacto: *No disponible*
+### Uso de MlFlow.
 
-- **Javier**  
-  📧 Contacto: javiluque78@gmail.com
 
-- **Leticia**  
-  📧 Contacto: leticia.c.morales@gmail.com
 
-- **Miguel Ángel**  
-  📧 Contacto: mapardo@gmail.com
+### Carga directamente con nuestro Docker
 
-- **Nauzet Fernández**  
-  📧 Contacto: Nauzet.fdez@gmail.com
+## 👥 Autores
 
-- **Sara**  
-  📧 Contacto: sara.carcamo.r@gmail.com  
+| Nombre            | Contacto | LinkedIn | GitHub |
+|-------------------|----------|----------|--------|
+| **David**         | 📧 [davidsoteloseguin@gmail.com](mailto:davidsoteloseguin@gmail.com) | [🔗 Perfil](https://www.linkedin.com/in/david-sotelo-seguin/) | [💻 DaSotSe](https://github.com/DaSotSe) |
+| **Javier**        | 📧 [javiluque78@gmail.com](mailto:javiluque78@gmail.com) | [🔗 Perfil](https://www.linkedin.com/in/javier-luque-escobosa-56a911166/) | [💻 javiluq](https://github.com/javiluq) |
+| **Leticia**       | 📧 [leticia.c.morales@gmail.com](mailto:leticia.c.morales@gmail.com) | [🔗 Perfil](https://www.linkedin.com/in/leticiacaba%C3%B1asmorales/) | [💻 Leticia2512](https://github.com/Leticia2512) |
+| **Miguel Ángel**  | 📧 [mapardo@gmail.com](mailto:mapardo@gmail.com) | [🔗 Perfil](https://www.linkedin.com/in/mapardocea/) | [💻 mapardo-lab](https://github.com/mapardo-lab) |
+| **Nauzet Fernández** | 📧 [Nauzet.fdez@gmail.com](mailto:Nauzet.fdez@gmail.com) | [🔗 Perfil](https://www.linkedin.com/in/nauzet-fernandez-lorenzo/) | [💻 NauziX](https://github.com/NauziX) |
+| **Sara**          | 📧 [sara.carcamo.r@gmail.com](mailto:sara.carcamo.r@gmail.com) | [🔗 Perfil](https://www.linkedin.com/in/saracarcamo/) | [💻 SCaRreC](https://github.com/SCaRreC) |
+| **Sofía**         | 📧 [sofiagabian80@gmail.com](mailto:sofiagabian80@gmail.com) | [🔗 Perfil](https://www.linkedin.com/in/sof%C3%ADa-gabi%C3%A1n-dom%C3%ADnguez/) | [💻 chofas80](https://github.com/chofas80) |
 
-- **Sofía**  
-  📧 Contacto: sofiagabian80@gmail.com
 
 
 >  ¡Gracias por pasarte por aquí! 
