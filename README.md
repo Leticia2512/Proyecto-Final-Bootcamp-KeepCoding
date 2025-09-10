@@ -52,10 +52,13 @@ Luego, instala todas las librerías necesarias ejecutando:
 pip install -r requirements.txt
 ```
 
-# Puesta en marcha
+# Puesta en marcha de la aplicación
+
 
 Para iniciar la aplicación en tu entorno local:
 
+# 1 Opción:
+desde la carpeta raíz puedes ejecutar los siguientes comandos:
 ### 1) Activar la API (FastAPI)
 ```bash
 fastapi dev app/main.py --reload
@@ -69,6 +72,15 @@ streamlit run app/app.py
 Aplicación disponible en: [http://localhost:8501](http://localhost:8501)
 
 > Una vez ambos servicios estén activos, podrás interactuar con la aplicación desde el navegador.
+
+
+# 2 Opción:
+- **Docker** → Para levantar toda la aplicación directamente con nuestra configuración puedes ejecutar el siguiente comando desde la carpeta /app :
+  
+  ```bash
+  
+  docker compose up
+  ```
 
 ---
 
@@ -105,17 +117,15 @@ Estas utilidades son opcionales y sirven para ampliar o personalizar el proyecto
 
 ---
 
-# Herramientas de soporte
+# Herramientas de seguimiento
 
 - **MlFlow** → Para visualizar los registros de los entrenamientos:  
   ```bash
   mlflow ui
   ```
+- **Log** → Para visualizar los registros de las predicciones realizadas en la aplicación, puedes consultarlos en app\prediction_log.csv 
 
-- **Docker** → Para levantar toda la aplicación directamente con nuestra configuración:  
-  ```bash
-  docker compose up
-  ```
+Si quieres visualizar los ejemplos(imagenes + documentos de información adicional) estan en las carpetas app\temp_docs app\temp_images
 
 # Ejemplo de uso
 
@@ -126,13 +136,13 @@ Estas utilidades son opcionales y sirven para ampliar o personalizar el proyecto
 
 | Nombre            | Contacto | LinkedIn | GitHub |
 |-------------------|----------|----------|--------|
-| **David**         | 📧 [davidsoteloseguin@gmail.com](mailto:davidsoteloseguin@gmail.com) | [🔗 Perfil](https://www.linkedin.com/in/david-sotelo-seguin/) | [💻 DaSotSe](https://github.com/DaSotSe) |
-| **Javier**        | 📧 [javiluque78@gmail.com](mailto:javiluque78@gmail.com) | [🔗 Perfil](https://www.linkedin.com/in/javier-luque-escobosa-56a911166/) | [💻 javiluq](https://github.com/javiluq) |
-| **Leticia**       | 📧 [leticia.c.morales@gmail.com](mailto:leticia.c.morales@gmail.com) | [🔗 Perfil](https://www.linkedin.com/in/leticiacaba%C3%B1asmorales/) | [💻 Leticia2512](https://github.com/Leticia2512) |
-| **Miguel Ángel**  | 📧 [mapardo@gmail.com](mailto:mapardo@gmail.com) | [🔗 Perfil](https://www.linkedin.com/in/mapardocea/) | [💻 mapardo-lab](https://github.com/mapardo-lab) |
+| **David Sotelo**         | 📧 [davidsoteloseguin@gmail.com](mailto:davidsoteloseguin@gmail.com) | [🔗 Perfil](https://www.linkedin.com/in/david-sotelo-seguin/) | [💻 DaSotSe](https://github.com/DaSotSe) |
+| **Javier Luque**        | 📧 [javiluque78@gmail.com](mailto:javiluque78@gmail.com) | [🔗 Perfil](https://www.linkedin.com/in/javier-luque-escobosa-56a911166/) | [💻 javiluq](https://github.com/javiluq) |
+| **Leticia Cabañas**       | 📧 [leticia.c.morales@gmail.com](mailto:leticia.c.morales@gmail.com) | [🔗 Perfil](https://www.linkedin.com/in/leticiacaba%C3%B1asmorales/) | [💻 Leticia2512](https://github.com/Leticia2512) |
+| **Miguel Ángel Pardo**  | 📧 [mapardo@gmail.com](mailto:mapardo@gmail.com) | [🔗 Perfil](https://www.linkedin.com/in/mapardocea/) | [💻 mapardo-lab](https://github.com/mapardo-lab) |
 | **Nauzet Fernández** | 📧 [Nauzet.fdez@gmail.com](mailto:Nauzet.fdez@gmail.com) | [🔗 Perfil](https://www.linkedin.com/in/nauzet-fernandez-lorenzo/) | [💻 NauziX](https://github.com/NauziX) |
-| **Sara**          | 📧 [sara.carcamo.r@gmail.com](mailto:sara.carcamo.r@gmail.com) | [🔗 Perfil](https://www.linkedin.com/in/saracarcamo/) | [💻 SCaRreC](https://github.com/SCaRreC) |
-| **Sofía**         | 📧 [sofiagabian80@gmail.com](mailto:sofiagabian80@gmail.com) | [🔗 Perfil](https://www.linkedin.com/in/sof%C3%ADa-gabi%C3%A1n-dom%C3%ADnguez/) | [💻 chofas80](https://github.com/chofas80) |
+| **Sara Cárcamo**          | 📧 [sara.carcamo.r@gmail.com](mailto:sara.carcamo.r@gmail.com) | [🔗 Perfil](https://www.linkedin.com/in/saracarcamo/) | [💻 SCaRreC](https://github.com/SCaRreC) |
+| **Sofía Gabián**         | 📧 [sofiagabian80@gmail.com](mailto:sofiagabian80@gmail.com) | [🔗 Perfil](https://www.linkedin.com/in/sof%C3%ADa-gabi%C3%A1n-dom%C3%ADnguez/) | [💻 chofas80](https://github.com/chofas80) |
 
 
 
