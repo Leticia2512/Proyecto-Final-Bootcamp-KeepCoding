@@ -19,8 +19,8 @@ from rag_final import run_rag_fusion
 
 
 # FastAPI backend URL
-FASTAPI_URL = "http://localhost:8000/prediction"
-#FASTAPI_URL = "http://fastapi:8080/prediction"
+#FASTAPI_URL = "http://localhost:8000/prediction"
+FASTAPI_URL = "http://fastapi:8080/prediction"
 
 # Rutas a las carpetas y archivos
 BASE_DIR = os.path.join(os.getcwd(), 'app')
