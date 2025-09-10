@@ -75,7 +75,8 @@ Aplicación disponible en: [http://localhost:8501](http://localhost:8501)
 
 
 # 2 Opción:
-- **Docker** → Para levantar toda la aplicación directamente con nuestra configuración puedes ejecutar el siguiente comando desde la carpeta /app :
+- ### Docker
+Para levantar toda la aplicación directamente con nuestra configuración puedes ejecutar el siguiente comando desde la carpeta /app :
   
   ```bash
   
