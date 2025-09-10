@@ -124,9 +124,9 @@ Estas utilidades son opcionales y sirven para ampliar o personalizar el proyecto
   ```bash
   mlflow ui
   ```
-- **Log** → Para visualizar los registros de las predicciones realizadas en la aplicación, puedes consultarlos en app\prediction_log.csv 
+- **Log** → Para visualizar los registros de las predicciones realizadas en la aplicación, puedes consultarlos en  -app\prediction_log.csv 
 
-Si quieres visualizar los ejemplos(imagenes + documentos de información adicional) estan en las carpetas app\temp_docs app\temp_images
+Si quieres visualizar los ejemplos(imagenes + documentos de información adicional) estan en las carpetas -app\temp_docs    -app\temp_images
 
 # Ejemplo de uso
 
