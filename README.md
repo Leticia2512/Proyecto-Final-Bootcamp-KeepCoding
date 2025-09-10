@@ -55,6 +55,23 @@ Luego, instala todas las librerías necesarias ejecutando:
 pip install -r requirements.txt
 ```
 
+# Configuración del RAG (Requerido)
+
+Para poder ejecutar correctamente el módulo de **RAG (Retrieval-Augmented Generation)**, necesitas configurar tu clave de OpenAI:
+
+1. En la carpeta raíz del proyecto, crea un fichero llamado **`.openai_key`**  
+2. Dentro de este fichero pega tu **API Key de OpenAI**, por ejemplo:
+
+   ```
+   sk-XXXXXXXXXXXXXXXXXXXXXXXXXXXX
+   ```
+
+3. Guarda el archivo. El sistema leerá automáticamente esta clave al ejecutar los scripts del RAG.
+
+> **Importante:**  
+> - No compartas tu API Key en repositorios públicos.  
+> - Añade `.openai_key` a tu `.gitignore` para evitar subirlo por accidente a GitHub
+
 # Puesta en marcha de la aplicación
 
 Existen dos formas de iniciar la aplicación en tu entorno local:
