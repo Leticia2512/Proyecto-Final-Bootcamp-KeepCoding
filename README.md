@@ -43,6 +43,15 @@ Con este enfoque, no solo **identificamos la afección**, sino que también **ap
 ├── meeting                       #Reuniónes de equipo
 └── README.md                     #Este archivo
 ```
+# Instalación de dependencias
+
+Antes de ejecutar la aplicación, asegúrate de tener **Python 3.8+** instalado.  
+Luego, instala todas las librerías necesarias ejecutando:
+
+```bash
+pip install -r requirements.txt
+```
+
 # Puesta en marcha
 
 Para iniciar la aplicación en tu entorno local:
@@ -51,7 +60,7 @@ Para iniciar la aplicación en tu entorno local:
 ```bash
 fastapi dev app/main.py --reload
 ```
-Documentación: [http://127.0.0.1:8000/docs](http://127.0.0.1:8000/docs)
+FastAPI: [http://127.0.0.1:8000](http://127.0.0.1:8000)
 
 ### 2) Activar la interfaz (Streamlit)
 ```bash
@@ -63,7 +72,7 @@ Aplicación disponible en: [http://localhost:8501](http://localhost:8501)
 
 ---
 
-## Funciones adicionales
+# Funciones adicionales
 
 Estas utilidades son opcionales y sirven para ampliar o personalizar el proyecto:
 
@@ -96,7 +105,7 @@ Estas utilidades son opcionales y sirven para ampliar o personalizar el proyecto
 
 ---
 
-## Herramientas de soporte
+# Herramientas de soporte
 
 - **MlFlow** → Para visualizar los registros de los entrenamientos:  
   ```bash
@@ -108,12 +117,12 @@ Estas utilidades son opcionales y sirven para ampliar o personalizar el proyecto
   docker compose up
   ```
 
-## Ejemplo de uso
+# Ejemplo de uso
 
 ![Demo de la aplicación](demo/demofinal.gif)
 [Ver demo en alta calidad (MP4)](demo/demofinal.mp4)
 
-## Autores
+# Autores
 
 | Nombre            | Contacto | LinkedIn | GitHub |
 |-------------------|----------|----------|--------|
