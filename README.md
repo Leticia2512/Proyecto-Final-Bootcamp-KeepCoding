@@ -41,6 +41,8 @@ Con este enfoque, no solo **identificamos la afección**, sino que también **ap
 ├── MLFLow                        #Inicialización MlFlow
 ├── mlruns                        #Datos experimentos en MlFlow
 ├── ODIR-5K                       #Imágenes dataset originales
+├── preprocesado                  #Preparacion/transformación de los datos
+├── presentacion                  #Presentación del proyecto
 ├── requirements.txt              #Librerias necesarias para el proyecto
 └── README.md                     #Este archivo
 ```
