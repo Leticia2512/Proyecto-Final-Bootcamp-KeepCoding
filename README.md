@@ -58,7 +58,7 @@ streamlit run app/app.py
 ```
 Aplicación disponible en: [http://localhost:8501](http://localhost:8501)
 
-> Una vez ambos servicios estén corriendo, puedes interactuar con la aplicación desde el navegador.
+> Una vez ambos servicios estén ejecutando, puedes interactuar con la aplicación desde el navegador.
 
 ---
 
@@ -91,13 +91,17 @@ python app\RAG\chunks.py
 ```
 Se generan dos archivos: uno **JSON** y otro **FAISS** (usado por el RAG).
 
-
 ### Uso de MlFlow.
-
-
-
+Desde MlFlow podras ver los registros de los entrenamientos de nuestros modelos.
+```bash
+mlflow ui
+```
 ### Carga directamente con nuestro Docker
-
+Si quieres cargar directamente nuestra configuracion y aplicaciones desde Docker, desde
+la carpeta app ejecutamos:
+```bash
+docker compose up
+```
 ## 👥 Autores
 
 | Nombre            | Contacto | LinkedIn | GitHub |
